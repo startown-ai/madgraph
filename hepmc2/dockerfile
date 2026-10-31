@@ -5,13 +5,16 @@ RUN apt-get update && \
       cmake=3.31.6-2 \
       g++=4:14.2.0-1+dhi0 \
       make=4.4.1-2+deb13u0+dhi1 \
-      ninja-build=1.12.1-1+b1 && \
+      ninja-build=1.12.1-1+b1 \
+      patch=2.8-2+deb13u0+dhi3 && \
     rm -rf /var/lib/apt/lists/*
 
 ADD https://hepmc.web.cern.ch/hepmc/releases/hepmc2.06.11.tgz /tmp/hepmc2.tgz
+COPY named-weights.patch /tmp/named-weights.patch
 
 RUN mkdir /src && \
     tar -xzf /tmp/hepmc2.tgz -C /src --strip-components=1 && \
+    patch -d /src -p1 < /tmp/named-weights.patch && \
     cmake -S /src -B /build -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/opt/hepmc2 \
