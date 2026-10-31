@@ -1,0 +1,65 @@
+FROM dhi.io/debian-base:trixie-dev@sha256:790849b1e32beaecb770d8f4db4b461aaa46cbb936924eb42f45c791132384cf AS build
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      g++=4:14.2.0-1+dhi0 \
+      make=4.4.1-2+deb13u0+dhi1 \
+      rsync=3.5.0+ds1-0+deb13u1+dhi0 \
+      zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=startown/hepmc2:2.06.11 /opt/hepmc2 /opt/hepmc2
+COPY --from=startown/lhapdf:6.5.6 /opt/lhapdf /opt/lhapdf
+RUN echo /opt/hepmc2/lib > /etc/ld.so.conf.d/hepmc2.conf && \
+    echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
+    ldconfig
+
+ADD https://www.pythia.org/releases/pythia83/pythia8318.tgz /tmp/pythia8.tgz
+
+RUN mkdir /src && \
+    tar -xzf /tmp/pythia8.tgz -C /src --strip-components=1 && \
+    cd /src && \
+    ./configure --prefix=/opt/pythia8 \
+      --with-hepmc2=/opt/hepmc2 \
+      --with-lhapdf6=/opt/lhapdf \
+      --with-gzip && \
+    make -j"$(nproc)" && \
+    make install
+
+FROM build AS test
+
+ADD https://lhapdfsets.web.cern.ch/current/NNPDF31_nnlo_as_0118_luxqed.tar.gz /tmp/pdfset.tar.gz
+
+RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
+    cd /src/examples && \
+    make -j"$(nproc)" main101 main121 main131 main164 main201 && \
+    ./main101 && \
+    ./main121 | grep 'useGzip = 1' && \
+    ./main131 && \
+    grep -q '^HepMC::Version 2.06.11' main131.hepmc && \
+    ./main164 -c main164mlm.cmnd && \
+    ./main201
+
+FROM dhi.io/debian-base:trixie-dev@sha256:790849b1e32beaecb770d8f4db4b461aaa46cbb936924eb42f45c791132384cf
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      g++=4:14.2.0-1+dhi0 \
+      libpython3.13=3.13.5-2+deb13u5 \
+      make=4.4.1-2+deb13u0+dhi1 \
+      python3=3.13.5-1 \
+      zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /opt/hepmc2 /opt/hepmc2
+COPY --from=build /opt/lhapdf /opt/lhapdf
+COPY --from=build /opt/pythia8 /opt/pythia8
+ENV PATH=/opt/pythia8/bin:/opt/lhapdf/bin:${PATH}
+RUN echo /opt/hepmc2/lib > /etc/ld.so.conf.d/hepmc2.conf && \
+    echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
+    echo /opt/pythia8/lib > /etc/ld.so.conf.d/pythia8.conf && \
+    ldconfig && \
+    echo /opt/lhapdf/lib/python3.13/dist-packages > /usr/lib/python3/dist-packages/lhapdf.pth
+
+WORKDIR /root
+CMD ["bash"]
