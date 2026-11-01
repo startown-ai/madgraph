@@ -5,7 +5,7 @@ RUN apt-get update && \
       cmake=3.31.6-2 \
       g++=4:14.2.0-1+deb13u0+dhi0 \
       make=4.4.1-2+deb13u0+dhi1 \
-      ninja-build=1.12.1-1+b1 && \
+      'ninja-build=1.12.1-1*' && \
     rm -rf /var/lib/apt/lists/*
 
 ADD https://assets.startown.ai/packages/fastjet/3.5.3.tar.gz /tmp/fastjet.tar.gz

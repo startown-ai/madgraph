@@ -50,7 +50,7 @@ RUN apt-get update && \
       libvdt-dev=0.4.4-4 \
       libxml2=2.12.7+dfsg+really2.9.14-2.1+deb13u3+dhi3 \
       make=4.4.1-2+deb13u0+dhi1 \
-      pigz=2.8-1+b1 \
+      'pigz=2.8-1*' \
       procps=2:4.0.4-9+deb13u0+dhi0 \
       python3=3.13.5-1 \
       python3-numpy=1:2.2.4+ds-1 \
