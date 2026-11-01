@@ -8,8 +8,8 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=startown/pythia8:8317 /opt/hepmc2 /opt/hepmc2
-COPY --from=startown/pythia8:8317 /opt/pythia8 /opt/pythia8
+COPY --from=startown/pythia8:8317@sha256:4326d4dd0b99f9e429b2ecd2e4ec99435b7db96fc8343f244c9fd48723bb133a /opt/hepmc2 /opt/hepmc2
+COPY --from=startown/pythia8:8317@sha256:4326d4dd0b99f9e429b2ecd2e4ec99435b7db96fc8343f244c9fd48723bb133a /opt/pythia8 /opt/pythia8
 
 ADD https://assets.startown.ai/packages/madgraph/3.5.17.tar.gz /tmp/madgraph.tar.gz
 ADD https://assets.startown.ai/packages/mg5amc-py8-interface/1.3.tar.gz /tmp/mg5amc-py8-interface.tar.gz
@@ -58,11 +58,11 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=startown/emela:1.0.1 /opt/emela /opt/emela
-COPY --from=startown/fastjet:3.5.3 /opt/fastjet /opt/fastjet
-COPY --from=startown/delphes:3.5.1 /opt/root /opt/root
-COPY --from=startown/delphes:3.5.1 /opt/delphes /opt/delphes
-COPY --from=startown/pythia8:8317 /opt/lhapdf /opt/lhapdf
+COPY --from=startown/emela:1.0.1@sha256:05900d7a5a03fd4ff39467e73a2af8f3fb2c7fc39a0e98be4fa4a2e636433069 /opt/emela /opt/emela
+COPY --from=startown/fastjet:3.5.3@sha256:2a0a83d7bdc02aa394bbac62a2e13dd32fa6d0edf3d3542a80a206a28da45d92 /opt/fastjet /opt/fastjet
+COPY --from=startown/delphes:3.5.1@sha256:5ef60db63a322c6ffb38ffdf87e613c5531ea276232d5524711b0635ffb66259 /opt/root /opt/root
+COPY --from=startown/delphes:3.5.1@sha256:5ef60db63a322c6ffb38ffdf87e613c5531ea276232d5524711b0635ffb66259 /opt/delphes /opt/delphes
+COPY --from=startown/pythia8:8317@sha256:4326d4dd0b99f9e429b2ecd2e4ec99435b7db96fc8343f244c9fd48723bb133a /opt/lhapdf /opt/lhapdf
 COPY --from=build /opt/hepmc2 /opt/hepmc2
 COPY --from=build /opt/pythia8 /opt/pythia8
 COPY --from=build /opt/madgraph /opt/madgraph
