@@ -14,7 +14,7 @@ RUN echo /opt/hepmc2/lib > /etc/ld.so.conf.d/hepmc2.conf && \
     echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
 
-ADD https://assets.startown.ai/packages/pythia8/8318.tar.gz /tmp/pythia8.tgz
+ADD https://assets.startown.ai/packages/pythia8/8317.tar.gz /tmp/pythia8.tgz
 
 RUN mkdir /src && \
     tar -xzf /tmp/pythia8.tgz -C /src --strip-components=1 && \
