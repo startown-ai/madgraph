@@ -1,9 +1,9 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:790849b1e32beaecb770d8f4db4b461aaa46cbb936924eb42f45c791132384cf AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       cmake=3.31.6-2 \
-      g++=4:14.2.0-1+dhi0 \
+      g++=4:14.2.0-1+deb13u0+dhi0 \
       make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1+b1 \
       patch=2.8-2+deb13u0+dhi3 && \
@@ -27,12 +27,12 @@ FROM build AS test
 
 RUN ctest --test-dir /build --output-on-failure
 
-FROM dhi.io/debian-base:trixie-dev@sha256:790849b1e32beaecb770d8f4db4b461aaa46cbb936924eb42f45c791132384cf
+FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       cmake=3.31.6-2 \
-      g++=4:14.2.0-1+dhi0 \
+      g++=4:14.2.0-1+deb13u0+dhi0 \
       make=4.4.1-2+deb13u0+dhi1 && \
     rm -rf /var/lib/apt/lists/*
 
