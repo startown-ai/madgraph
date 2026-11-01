@@ -21,7 +21,8 @@ RUN mkdir /src && \
       -Dmomentum:STRING=GEV \
       -Dlength:STRING=MM && \
     cmake --build /build && \
-    cmake --install /build
+    cmake --install /build && \
+    install -D -m 644 -t /opt/hepmc2/share/licenses/hepmc2 /src/COPYING /src/README
 
 FROM build AS test
 

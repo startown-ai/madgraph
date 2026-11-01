@@ -23,7 +23,8 @@ RUN mkdir /src && \
       -DCMAKE_INSTALL_PREFIX=/opt/emela \
       -DWITH_LHAPDF=ON && \
     cmake --build /build && \
-    cmake --install /build
+    cmake --install /build && \
+    install -D -m 644 -t /opt/emela/share/licenses/emela /src/LICENSE
 
 FROM build AS test
 

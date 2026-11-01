@@ -34,7 +34,8 @@ RUN mkdir /src && \
     cmake --install /build && \
     ln -s . /opt/delphes/include/external && \
     find /build -name '*.rootmap' -exec cat {} + | \
-      sed 's/^\[ lib.*Dict\.so \]$/[ libDelphes.so ]/' > /opt/delphes/lib/libDelphes.rootmap
+      sed 's/^\[ lib.*Dict\.so \]$/[ libDelphes.so ]/' > /opt/delphes/lib/libDelphes.rootmap && \
+    install -D -m 644 -t /opt/delphes/share/licenses/delphes /src/COPYING /src/LICENSE
 
 FROM build AS test
 

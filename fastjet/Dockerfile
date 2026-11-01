@@ -18,7 +18,8 @@ RUN mkdir -p /src/fastjet && \
       -DCMAKE_INSTALL_PREFIX=/opt/fastjet \
       -DFASTJET_ENABLE_ALLCXXPLUGINS=ON && \
     cmake --build /build/fastjet && \
-    cmake --install /build/fastjet
+    cmake --install /build/fastjet && \
+    install -D -m 644 -t /opt/fastjet/share/licenses/fastjet /src/fastjet/COPYING
 
 RUN mkdir -p /src/fjcontrib && \
     tar -xzf /tmp/fjcontrib.tar.gz -C /src/fjcontrib --strip-components=1 && \
@@ -27,7 +28,9 @@ RUN mkdir -p /src/fjcontrib && \
     make -j"$(nproc)" && \
     make install && \
     make fragile-shared && \
-    make fragile-shared-install
+    make fragile-shared-install && \
+    find . -name COPYING -not -path './scripts/*' \
+      -exec install -D -m 644 {} /opt/fastjet/share/licenses/fjcontrib/{} \;
 
 FROM build AS test
 

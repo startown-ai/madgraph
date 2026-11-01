@@ -14,7 +14,8 @@ RUN mkdir /src && \
     cd /src && \
     PYTHON=python3 ./configure --prefix=/opt/lhapdf --disable-doxygen && \
     make -j"$(nproc)" && \
-    make install
+    make install && \
+    install -D -m 644 -t /opt/lhapdf/share/licenses/lhapdf /src/COPYING
 
 FROM build AS test
 
