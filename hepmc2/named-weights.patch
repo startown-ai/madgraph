@@ -1,11 +1,64 @@
+Add WeightContainer::push_back(value, name) so HepMC 2 can store named weights.
+
+The added code is MadGraph5_aMC@NLO's HepMC 2 hack (HEPMC2HACK), which its
+installer applies to HepMC 2 so that Pythia 8 writes every event weight as a
+named weight into one .hepmc file. Applied to HepMC 2.06.11 on 2026-11-01 for
+https://github.com/startown-ai/madgraph.
+
+The modified files remain under HepMC's license (GNU GPL). The added code is
+distributed under the MadGraph5_aMC@NLO license:
+
+  The MadGraph5_aMC@NLO software comes with the following Open Source License,
+  adapted from the University of Illinois/NCSA license.
+
+  Copyright (c) 2009, 2013, the MadTeam.  All rights reserved.
+
+  Developed by the "MadTeam", i.e.
+
+  Johan ALWALL
+  Rikkert FREDERIX
+  Stefano FRIXIONE
+  Michel HERQUET
+  Valentin HIRSCHI
+  Fabio MALTONI
+  Olivier MATTELAER
+  Tim STELZER
+  Paolo TORRIELLI
+  Marco ZARO
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal with the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+    1. Redistributions of source code must retain the above copyright notice,
+       this list of conditions and the following disclaimers.
+    2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimers in the
+       documentation and/or other materials provided with the distribution.
+    3. Neither the name "MadTeam", the names of the authors, their institution,
+       nor the names of its contributors may be used to endorse or promote
+       products derived from this Software without specific prior written
+       permission.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+  CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  WITH THE SOFTWARE.
+
 diff --git a/HepMC/WeightContainer.h b/HepMC/WeightContainer.h
 --- a/HepMC/WeightContainer.h
 +++ b/HepMC/WeightContainer.h
-@@ -69,6 +69,9 @@ namespace HepMC {
+@@ -69,6 +69,10 @@ namespace HepMC {
  	/// clear the weight container
  	void          clear();
- 
+
 +        // NEW PUSH-BACK FUNCTION TO ALLOW WEIGHT NAMES.
++        // Added on 2026-11-01 from MadGraph5_aMC@NLO's HepMC 2 hack (c) the MadTeam.
 +	void          push_back( const double&, std::string );
 +
      /// the list of weight values
@@ -14,11 +67,12 @@ diff --git a/HepMC/WeightContainer.h b/HepMC/WeightContainer.h
 diff --git a/src/WeightContainer.cc b/src/WeightContainer.cc
 --- a/src/WeightContainer.cc
 +++ b/src/WeightContainer.cc
-@@ -48,6 +48,14 @@ void WeightContainer::push_back( const double& value)
+@@ -48,6 +48,15 @@ void WeightContainer::push_back( const double& value)
      m_names[name.str()] = count;
  }
- 
+
 +// NEW PUSH-BACK FUNCTION TO ALLOW WEIGHT NAMES.
++// Added on 2026-11-01 from MadGraph5_aMC@NLO's HepMC 2 hack (c) the MadTeam.
 +void WeightContainer::push_back( const double& value, std::string name)
 +{
 +    size_type count = m_weights.size();
