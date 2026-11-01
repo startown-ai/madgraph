@@ -7,7 +7,7 @@ RUN apt-get update && \
       python3-dev=3.13.5-1 && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://lhapdf.hepforge.org/downloads/?f=LHAPDF-6.5.6.tar.gz /tmp/lhapdf.tar.gz
+ADD https://assets.startown.ai/packages/lhapdf/6.5.6.tar.gz /tmp/lhapdf.tar.gz
 
 RUN mkdir /src && \
     tar -xzf /tmp/lhapdf.tar.gz -C /src --strip-components=1 && \

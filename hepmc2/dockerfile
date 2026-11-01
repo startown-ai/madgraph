@@ -9,7 +9,7 @@ RUN apt-get update && \
       patch=2.8-2+deb13u0+dhi3 && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://hepmc.web.cern.ch/hepmc/releases/hepmc2.06.11.tgz /tmp/hepmc2.tgz
+ADD https://assets.startown.ai/packages/hepmc2/2.06.11.tar.gz /tmp/hepmc2.tgz
 COPY named-weights.patch /tmp/named-weights.patch
 
 RUN mkdir /src && \

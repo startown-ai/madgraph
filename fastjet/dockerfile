@@ -8,8 +8,8 @@ RUN apt-get update && \
       ninja-build=1.12.1-1+b1 && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://fastjet.fr/repo/fastjet-3.5.3.tar.gz /tmp/fastjet.tar.gz
-ADD https://fastjet.hepforge.org/contrib/downloads/fjcontrib-1.105.tar.gz /tmp/fjcontrib.tar.gz
+ADD https://assets.startown.ai/packages/fastjet/3.5.3.tar.gz /tmp/fastjet.tar.gz
+ADD https://assets.startown.ai/packages/fjcontrib/1.105.tar.gz /tmp/fjcontrib.tar.gz
 
 RUN mkdir -p /src/fastjet && \
     tar -xzf /tmp/fastjet.tar.gz -C /src/fastjet --strip-components=1 && \
