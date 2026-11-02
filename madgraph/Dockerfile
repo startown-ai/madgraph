@@ -33,6 +33,7 @@ RUN apt-get update && \
       libvdt-dev=0.4.4-4 \
       libxml2=2.12.7+dfsg+really2.9.14-2.1+deb13u3+dhi3 \
       make=4.4.1-2+deb13u0+dhi1 \
+      perl=5.40.1-6+deb13u1+dhi3 \
       'pigz=2.8-1*' \
       procps=2:4.0.4-9+deb13u0+dhi0 \
       python3=3.13.5-1 \
