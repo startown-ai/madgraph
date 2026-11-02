@@ -8,24 +8,24 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=startown/hepmc:3.3.1@sha256:4ea2c370d33d6b44c8375ea06832a1fe051cc32e8dc4995433b13a3631f4d8da /opt/hepmc3 /opt/hepmc3
+COPY --from=startown/hepmc:3.3.1@sha256:37d0f793acfa9b569644dca0b74b91c1a98cb256e648e208f43807ebdfb7b01c /opt/hepmc /opt/hepmc
 COPY --from=startown/lhapdf:6.5.6@sha256:e438106716cff60ed3495c2ebec16059b1e403db10cefd268c76582b43a7d161 /opt/lhapdf /opt/lhapdf
-RUN echo /opt/hepmc3/lib > /etc/ld.so.conf.d/hepmc3.conf && \
+RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
 
-ADD https://assets.startown.ai/packages/pythia/8.317.tar.gz /tmp/pythia8.tgz
+ADD https://assets.startown.ai/packages/pythia/8.317.tar.gz /tmp/pythia.tgz
 
 RUN mkdir /src && \
-    tar -xzf /tmp/pythia8.tgz -C /src --strip-components=1 && \
+    tar -xzf /tmp/pythia.tgz -C /src --strip-components=1 && \
     cd /src && \
-    ./configure --prefix=/opt/pythia8 \
-      --with-hepmc3=/opt/hepmc3 \
+    ./configure --prefix=/opt/pythia \
+      --with-hepmc3=/opt/hepmc \
       --with-lhapdf6=/opt/lhapdf \
       --with-gzip && \
     make -j"$(nproc)" && \
     make install && \
-    make -C /opt/pythia8/share/Pythia8/examples main164
+    make -C /opt/pythia/share/Pythia8/examples main164
 
 FROM build AS test
 
@@ -38,7 +38,7 @@ RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
     ./main121 | grep 'useGzip = 1' && \
     ./main131 && \
     grep -q '^HepMC::Version 3.03.01' main131.hepmc && \
-    ldd /opt/pythia8/share/Pythia8/examples/main164 | grep -q libHepMC3 && \
+    ldd /opt/pythia/share/Pythia8/examples/main164 | grep -q libHepMC3 && \
     ./main164 -c main164mlm.cmnd && \
     ./main201
 
@@ -53,13 +53,13 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /opt/hepmc3 /opt/hepmc3
+COPY --from=build /opt/hepmc /opt/hepmc
 COPY --from=build /opt/lhapdf /opt/lhapdf
-COPY --from=build /opt/pythia8 /opt/pythia8
-ENV PATH=/opt/pythia8/bin:/opt/hepmc3/bin:/opt/lhapdf/bin:${PATH}
-RUN echo /opt/hepmc3/lib > /etc/ld.so.conf.d/hepmc3.conf && \
+COPY --from=build /opt/pythia /opt/pythia
+ENV PATH=/opt/pythia/bin:/opt/hepmc/bin:/opt/lhapdf/bin:${PATH}
+RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
-    echo /opt/pythia8/lib > /etc/ld.so.conf.d/pythia8.conf && \
+    echo /opt/pythia/lib > /etc/ld.so.conf.d/pythia.conf && \
     ldconfig && \
     echo /opt/lhapdf/lib/python3.13/dist-packages > /usr/lib/python3/dist-packages/lhapdf.pth
 

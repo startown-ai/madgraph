@@ -8,19 +8,19 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=startown/hepmc:2.06.11@sha256:bf50cafc07a49b357f0a115e14078009692dc6c0d87bdd3ce712b949be12b213 /opt/hepmc2 /opt/hepmc2
+COPY --from=startown/hepmc:2.06.11@sha256:550a0217e96aa220f43e66a5c3a841dca42e7a6454e8fea8f5e12271a517672e /opt/hepmc /opt/hepmc
 COPY --from=startown/lhapdf:6.5.6@sha256:e438106716cff60ed3495c2ebec16059b1e403db10cefd268c76582b43a7d161 /opt/lhapdf /opt/lhapdf
-RUN echo /opt/hepmc2/lib > /etc/ld.so.conf.d/hepmc2.conf && \
+RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
 
-ADD https://assets.startown.ai/packages/pythia/8.317.tar.gz /tmp/pythia8.tgz
+ADD https://assets.startown.ai/packages/pythia/8.317.tar.gz /tmp/pythia.tgz
 
 RUN mkdir /src && \
-    tar -xzf /tmp/pythia8.tgz -C /src --strip-components=1 && \
+    tar -xzf /tmp/pythia.tgz -C /src --strip-components=1 && \
     cd /src && \
-    ./configure --prefix=/opt/pythia8 \
-      --with-hepmc2=/opt/hepmc2 \
+    ./configure --prefix=/opt/pythia \
+      --with-hepmc2=/opt/hepmc \
       --with-lhapdf6=/opt/lhapdf \
       --with-gzip && \
     make -j"$(nproc)" && \
@@ -51,13 +51,13 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /opt/hepmc2 /opt/hepmc2
+COPY --from=build /opt/hepmc /opt/hepmc
 COPY --from=build /opt/lhapdf /opt/lhapdf
-COPY --from=build /opt/pythia8 /opt/pythia8
-ENV PATH=/opt/pythia8/bin:/opt/lhapdf/bin:${PATH}
-RUN echo /opt/hepmc2/lib > /etc/ld.so.conf.d/hepmc2.conf && \
+COPY --from=build /opt/pythia /opt/pythia
+ENV PATH=/opt/pythia/bin:/opt/lhapdf/bin:${PATH}
+RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
-    echo /opt/pythia8/lib > /etc/ld.so.conf.d/pythia8.conf && \
+    echo /opt/pythia/lib > /etc/ld.so.conf.d/pythia.conf && \
     ldconfig && \
     echo /opt/lhapdf/lib/python3.13/dist-packages > /usr/lib/python3/dist-packages/lhapdf.pth
 
