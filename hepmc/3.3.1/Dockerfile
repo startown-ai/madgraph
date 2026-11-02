@@ -8,19 +8,19 @@ RUN apt-get update && \
       'ninja-build=1.12.1-1*' && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://assets.startown.ai/packages/hepmc/3.3.1.tar.gz /tmp/hepmc3.tgz
+ADD https://assets.startown.ai/packages/hepmc/3.3.1.tar.gz /tmp/hepmc.tgz
 
 RUN mkdir /src && \
-    tar -xzf /tmp/hepmc3.tgz -C /src --strip-components=1 && \
+    tar -xzf /tmp/hepmc.tgz -C /src --strip-components=1 && \
     cmake -S /src -B /build -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_INSTALL_PREFIX=/opt/hepmc3 \
+      -DCMAKE_INSTALL_PREFIX=/opt/hepmc \
       -DCMAKE_INSTALL_LIBDIR=lib \
       -DHEPMC3_ENABLE_ROOTIO=OFF \
       -DHEPMC3_ENABLE_PYTHON=OFF && \
     cmake --build /build && \
     cmake --install /build && \
-    install -D -m 644 -t /opt/hepmc3/share/licenses/hepmc3 /src/COPYING /src/LICENCE
+    install -D -m 644 -t /opt/hepmc/share/licenses/hepmc /src/COPYING /src/LICENCE
 
 FROM build AS test
 
@@ -37,9 +37,9 @@ RUN apt-get update && \
       make=4.4.1-2+deb13u0+dhi1 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /opt/hepmc3 /opt/hepmc3
-ENV PATH=/opt/hepmc3/bin:${PATH}
-RUN echo /opt/hepmc3/lib > /etc/ld.so.conf.d/hepmc3.conf && \
+COPY --from=build /opt/hepmc /opt/hepmc
+ENV PATH=/opt/hepmc/bin:${PATH}
+RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     ldconfig
 
 WORKDIR /root

@@ -9,20 +9,20 @@ RUN apt-get update && \
       patch=2.8-2+deb13u0+dhi3 && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://assets.startown.ai/packages/hepmc/2.06.11.tar.gz /tmp/hepmc2.tgz
+ADD https://assets.startown.ai/packages/hepmc/2.06.11.tar.gz /tmp/hepmc.tgz
 COPY named-weights.patch /tmp/named-weights.patch
 
 RUN mkdir /src && \
-    tar -xzf /tmp/hepmc2.tgz -C /src --strip-components=1 && \
+    tar -xzf /tmp/hepmc.tgz -C /src --strip-components=1 && \
     patch -d /src -p1 < /tmp/named-weights.patch && \
     cmake -S /src -B /build -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_INSTALL_PREFIX=/opt/hepmc2 \
+      -DCMAKE_INSTALL_PREFIX=/opt/hepmc \
       -Dmomentum:STRING=GEV \
       -Dlength:STRING=MM && \
     cmake --build /build && \
     cmake --install /build && \
-    install -D -m 644 -t /opt/hepmc2/share/licenses/hepmc2 /src/COPYING /src/README
+    install -D -m 644 -t /opt/hepmc/share/licenses/hepmc /src/COPYING /src/README
 
 FROM build AS test
 
@@ -37,8 +37,8 @@ RUN apt-get update && \
       make=4.4.1-2+deb13u0+dhi1 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /opt/hepmc2 /opt/hepmc2
-RUN echo /opt/hepmc2/lib > /etc/ld.so.conf.d/hepmc2.conf && \
+COPY --from=build /opt/hepmc /opt/hepmc
+RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     ldconfig
 
 WORKDIR /root
