@@ -10,7 +10,7 @@ RUN mkdir -p /opt/madgraph && \
     grep -q DelphesHepMC3 /opt/madgraph/madgraph/interface/madevent_interface.py && \
     grep -q DelphesHepMC3 /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
     printf '%s\n' \
-      'pythia8_path = /opt/pythia8' \
+      'pythia8_path = /opt/pythia' \
       'delphes_path = /opt/delphes/bin' \
       'lhapdf_py3 = /opt/lhapdf/bin/lhapdf-config' \
       'fastjet = /opt/fastjet/bin/fastjet-config' \
@@ -45,14 +45,14 @@ COPY --from=startown/emela:1.0.1@sha256:05900d7a5a03fd4ff39467e73a2af8f3fb2c7fc3
 COPY --from=startown/fastjet:3.5.3@sha256:2a0a83d7bdc02aa394bbac62a2e13dd32fa6d0edf3d3542a80a206a28da45d92 /opt/fastjet /opt/fastjet
 COPY --from=startown/delphes:3.5.1@sha256:5ef60db63a322c6ffb38ffdf87e613c5531ea276232d5524711b0635ffb66259 /opt/root /opt/root
 COPY --from=startown/delphes:3.5.1@sha256:5ef60db63a322c6ffb38ffdf87e613c5531ea276232d5524711b0635ffb66259 /opt/delphes /opt/delphes
-COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:735147963ac14464059a38ac24507c2f5f7640e1901e9f269bfa4fc9aacf45ec /opt/hepmc3 /opt/hepmc3
-COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:735147963ac14464059a38ac24507c2f5f7640e1901e9f269bfa4fc9aacf45ec /opt/lhapdf /opt/lhapdf
-COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:735147963ac14464059a38ac24507c2f5f7640e1901e9f269bfa4fc9aacf45ec /opt/pythia8 /opt/pythia8
+COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:664f3be0a4fb8e9029ba9730c0214cdb76ae390d82eb2f68dcbf8e71540dff6f /opt/hepmc /opt/hepmc
+COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:664f3be0a4fb8e9029ba9730c0214cdb76ae390d82eb2f68dcbf8e71540dff6f /opt/lhapdf /opt/lhapdf
+COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:664f3be0a4fb8e9029ba9730c0214cdb76ae390d82eb2f68dcbf8e71540dff6f /opt/pythia /opt/pythia
 COPY --from=build /opt/madgraph /opt/madgraph
 
 ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
 
-ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia8/bin:/opt/hepmc3/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:${PATH} \
+ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:${PATH} \
     DELPHES_HOME=/opt/delphes \
     LD_LIBRARY_PATH=/opt/delphes/lib \
     LIBRARY_PATH=/opt/delphes/lib \
@@ -61,7 +61,7 @@ RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
     rm /tmp/pdfset.tar.gz && \
     mkdir -p /usr/local/bin && \
     ln -s /usr/bin/pigz /usr/local/bin/gzip && \
-    for p in hepmc3 lhapdf fastjet emela pythia8 root delphes; do \
+    for p in hepmc lhapdf fastjet emela pythia root delphes; do \
       echo /opt/$p/lib > /etc/ld.so.conf.d/$p.conf; \
     done && \
     ldconfig && \
