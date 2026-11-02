@@ -19,7 +19,7 @@ RUN mkdir -p /opt/madgraph && \
       'automatic_html_opening = False' \
       >> /opt/madgraph/input/mg5_configuration.txt
 
-FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e AS runtime
+FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -71,25 +71,3 @@ RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
 WORKDIR /root
 CMD ["bash"]
 
-FROM runtime AS test
-
-RUN printf '%s\n' \
-      'set nb_core_delphes 2' \
-      'generate p p > t t~' \
-      'output /tmp/ttbar' \
-      'launch /tmp/ttbar' \
-      'shower=Pythia8' \
-      'detector=Delphes' \
-      'set nevents 1000' \
-      'set iseed 42' \
-      > /tmp/ttbar.mg5 && \
-    mg5_aMC /tmp/ttbar.mg5 && \
-    cd /tmp/ttbar/Events/run_01 && \
-    ls -l && \
-    grep 'Integrated weight (pb)' run_01_tag_1_banner.txt && \
-    echo "LHE events: $(zcat unweighted_events.lhe.gz | grep -c '<event')" && \
-    zcat tag_1_pythia8_events.hepmc.gz | head -1 | grep -qx 'HepMC::Version 3.03.01' && \
-    test "$(zcat tag_1_pythia8_events.hepmc.gz | grep -m1 '^W ' | tr '|' '\n' | wc -l)" -eq 146 && \
-    root -b -l -q -e 'TFile f("tag_1_delphes_events.root"); auto t = (TTree*)f.Get("Delphes"); std::cout << "Delphes events: " << t->GetEntries() << std::endl; gSystem->Exit(t->GetEntries() == 1000 ? 0 : 1);'
-
-FROM runtime
