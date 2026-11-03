@@ -1,4 +1,4 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04 AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -17,7 +17,7 @@ RUN apt-get update && \
       libvdt-dev=0.4.4-4 \
       libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u3+dhi3 \
       libxxhash-dev=0.8.3-2+deb13u0+dhi1 \
-      libzstd-dev=1.5.7+dfsg-1+deb13u0+dhi2 \
+      libzstd-dev=1.5.7+dfsg-1+deb13u0+dhi3 \
       make=4.4.1-2+deb13u0+dhi1 \
       'ninja-build=1.12.1-1*' \
       nlohmann-json3-dev=3.11.3-2.1 \
@@ -58,7 +58,7 @@ RUN apt-get update && \
 RUN ctest --test-dir /build -j"$(nproc)" --output-on-failure \
       -E 'stressgeometry|df014_CSVDataSource|df015_LazyDataSource|tmva100_DataPreparation|exampleFunction'
 
-FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e
+FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \

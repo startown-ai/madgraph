@@ -1,4 +1,4 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04 AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -48,7 +48,7 @@ RUN gunzip -c /tmp/z_ee.hep.gz > /tmp/z_ee.hep && \
     /opt/delphes/bin/DelphesSTDHEP /opt/delphes/cards/delphes_card_CMS.tcl /tmp/delphes_output.root /tmp/z_ee.hep && \
     root -b -l -q /opt/delphes/examples/Example1.C'("/tmp/delphes_output.root")'
 
-FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e
+FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \

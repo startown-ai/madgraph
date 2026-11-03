@@ -1,4 +1,4 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04 AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -35,12 +35,12 @@ RUN mkdir /tmp/grids && \
     LD_LIBRARY_PATH=/opt/emela/lib /build/example/GetPdf && \
     LD_LIBRARY_PATH=/opt/emela/lib LHAPDF_DATA_PATH=$(find /tmp/grids -name pdfsets.index -printf '%h') /build/example/GetPdfGrid
 
-FROM dhi.io/debian-base:trixie-dev@sha256:9e479c64f8d27f8fa368ef62804c2ddb9b3e43a68c13a200b2f668b4771b049e
+FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       g++=4:14.2.0-1+deb13u0+dhi0 \
-      libgfortran5=14.2.0-19+deb13u0+dhi5 \
+      libgfortran5=14.2.0-19+deb13u0+dhi6 \
       libpython3.13=3.13.5-2+deb13u5 \
       make=4.4.1-2+deb13u0+dhi1 \
       python3=3.13.5-1 && \
