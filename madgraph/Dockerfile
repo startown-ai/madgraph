@@ -75,4 +75,3 @@ RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
 
 WORKDIR /root
 CMD ["bash"]
-
