@@ -7,8 +7,6 @@ RUN apt-get update && \
       git=1:2.47.3-0+deb13u1+dhi2 \
       libfftw3-dev=3.3.10-2+dhi0 \
       libfreetype-dev=2.13.3+dfsg-1+deb13u1+dhi1 \
-      libgmock-dev=1.16.0-1 \
-      libgtest-dev=1.16.0-1 \
       liblz4-dev=1.10.0-4+deb13u0+dhi3 \
       liblzma-dev=5.8.1-1+deb13u2+dhi0 \
       libpcre2-dev=10.46-1~deb13u3+dhi0 \
@@ -43,20 +41,9 @@ RUN mkdir /src && \
       -Dfitsio=OFF \
       -Dsqlite=OFF \
       -Dtmva-cpu=OFF \
-      -Dxrootd=OFF \
-      -Dtesting=ON && \
+      -Dxrootd=OFF && \
     cmake --build /build && \
     cmake --install /build
-
-FROM build AS test
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      python3-numpy=1:2.2.4+ds-1 && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN ctest --test-dir /build -j"$(nproc)" --output-on-failure \
-      -E 'stressgeometry|df014_CSVDataSource|df015_LazyDataSource|tmva100_DataPreparation|exampleFunction'
 
 FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 

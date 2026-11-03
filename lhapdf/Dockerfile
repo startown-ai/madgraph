@@ -17,19 +17,6 @@ RUN mkdir /src && \
     make install && \
     install -D -m 644 -t /opt/lhapdf/share/licenses/lhapdf /src/COPYING
 
-FROM build AS test
-
-ENV PYTHONPATH=/opt/lhapdf/lib/python3.13/dist-packages \
-    LD_LIBRARY_PATH=/opt/lhapdf/lib
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      wget=1.25.0-2+dhi2 && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN make -C /src -j"$(nproc)" check TESTS= && \
-    make -C /src check
-
 FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \

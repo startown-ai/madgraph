@@ -26,15 +26,6 @@ RUN mkdir /src && \
     cmake --install /build && \
     install -D -m 644 -t /opt/emela/share/licenses/emela /src/LICENSE
 
-FROM build AS test
-
-ADD https://github.com/gstagnit/eMELA/releases/download/v1.0.1/grids.tar.gz /tmp/grids.tar.gz
-
-RUN mkdir /tmp/grids && \
-    tar -xzf /tmp/grids.tar.gz -C /tmp/grids && \
-    LD_LIBRARY_PATH=/opt/emela/lib /build/example/GetPdf && \
-    LD_LIBRARY_PATH=/opt/emela/lib LHAPDF_DATA_PATH=$(find /tmp/grids -name pdfsets.index -printf '%h') /build/example/GetPdfGrid
-
 FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \

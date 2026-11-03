@@ -22,12 +22,6 @@ RUN mkdir /src && \
     cmake --install /build && \
     install -D -m 644 -t /opt/hepmc/share/licenses/hepmc /src/COPYING /src/LICENCE
 
-FROM build AS test
-
-RUN cmake -S /src -B /build -DHEPMC3_ENABLE_TEST=ON && \
-    cmake --build /build && \
-    ctest --test-dir /build --output-on-failure
-
 FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \

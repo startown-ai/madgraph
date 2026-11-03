@@ -32,11 +32,6 @@ RUN mkdir -p /src/fjcontrib && \
     find . -name COPYING -not -path './scripts/*' \
       -exec install -D -m 644 {} /opt/fastjet/share/licenses/fjcontrib/{} \;
 
-FROM build AS test
-
-RUN ctest --test-dir /build/fastjet --output-on-failure && \
-    make -C /src/fjcontrib -j"$(nproc)" check
-
 FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \

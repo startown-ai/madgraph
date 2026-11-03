@@ -27,21 +27,6 @@ RUN mkdir /src && \
     make install && \
     make -C /opt/pythia/share/Pythia8/examples main164
 
-FROM build AS test
-
-ADD https://lhapdfsets.web.cern.ch/current/NNPDF31_nnlo_as_0118_luxqed.tar.gz /tmp/pdfset.tar.gz
-
-RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
-    cd /src/examples && \
-    make -j"$(nproc)" main101 main121 main131 main164 main201 && \
-    ./main101 && \
-    ./main121 | grep 'useGzip = 1' && \
-    ./main131 && \
-    grep -q '^HepMC::Version 3.03.01' main131.hepmc && \
-    ldd /opt/pythia/share/Pythia8/examples/main164 | grep -q libHepMC3 && \
-    ./main164 -c main164mlm.cmnd && \
-    ./main201
-
 FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \

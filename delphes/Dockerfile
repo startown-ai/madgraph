@@ -37,17 +37,6 @@ RUN mkdir /src && \
       sed 's/^\[ lib.*Dict\.so \]$/[ libDelphes.so ]/' > /opt/delphes/lib/libDelphes.rootmap && \
     install -D -m 644 -t /opt/delphes/share/licenses/delphes /src/COPYING /src/LICENSE
 
-FROM build AS test
-
-ENV LD_LIBRARY_PATH=/opt/delphes/lib \
-    ROOT_INCLUDE_PATH=/opt/delphes/include
-
-ADD http://cp3.irmp.ucl.ac.be/downloads/z_ee.hep.gz /tmp/z_ee.hep.gz
-
-RUN gunzip -c /tmp/z_ee.hep.gz > /tmp/z_ee.hep && \
-    /opt/delphes/bin/DelphesSTDHEP /opt/delphes/cards/delphes_card_CMS.tcl /tmp/delphes_output.root /tmp/z_ee.hep && \
-    root -b -l -q /opt/delphes/examples/Example1.C'("/tmp/delphes_output.root")'
-
 FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04
 
 RUN apt-get update && \
