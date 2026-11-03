@@ -56,6 +56,7 @@ ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/
     DELPHES_HOME=/opt/delphes \
     LD_LIBRARY_PATH=/opt/delphes/lib \
     LIBRARY_PATH=/opt/delphes/lib \
+    PIGZ=-1 \
     ROOT_INCLUDE_PATH=/opt/delphes/include
 RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
     rm /tmp/pdfset.tar.gz && \
