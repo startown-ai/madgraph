@@ -9,6 +9,12 @@ RUN mkdir -p /opt/madgraph && \
       /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
     grep -q DelphesHepMC3 /opt/madgraph/madgraph/interface/madevent_interface.py && \
     grep -q DelphesHepMC3 /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
+    sed -i 's/^HEPMCoutput:file *= hepmc\.gz$/HEPMCoutput:file         = hepmcremove/' \
+      /opt/madgraph/Template/LO/Cards/pythia8_card_default.dat && \
+    sed -i "s/add_param(\"HEPMCoutput:file\", 'hepmc\.gz')/add_param(\"HEPMCoutput:file\", 'hepmcremove')/" \
+      /opt/madgraph/madgraph/various/banner.py && \
+    grep -q '^HEPMCoutput:file *= hepmcremove$' /opt/madgraph/Template/LO/Cards/pythia8_card_default.dat && \
+    grep -q "add_param(\"HEPMCoutput:file\", 'hepmcremove')" /opt/madgraph/madgraph/various/banner.py && \
     printf '%s\n' \
       'pythia8_path = /opt/pythia' \
       'delphes_path = /opt/delphes/bin' \
