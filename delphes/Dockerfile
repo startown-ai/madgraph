@@ -16,8 +16,8 @@ RUN apt-get update && \
       python3=3.13.5-1 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=startown/root:6.40.04@sha256:60ba33134652924969b30474fba161f817e0ffaff236b599897b60032daa7785 /opt/root /opt/root
-COPY --from=startown/root:6.40.04@sha256:60ba33134652924969b30474fba161f817e0ffaff236b599897b60032daa7785 /etc/ld.so.conf.d/root.conf /etc/ld.so.conf.d/root.conf
+COPY --from=startown/root:6.40.04@sha256:738dd66d3128b56c89a2c6bb9ab085da890a6b842b26d0a28b412a302109d0a2 /opt/root /opt/root
+COPY --from=startown/root:6.40.04@sha256:738dd66d3128b56c89a2c6bb9ab085da890a6b842b26d0a28b412a302109d0a2 /etc/ld.so.conf.d/root.conf /etc/ld.so.conf.d/root.conf
 ENV PATH=/opt/root/bin:${PATH}
 RUN ldconfig
 

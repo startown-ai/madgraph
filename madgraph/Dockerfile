@@ -47,13 +47,13 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=startown/emela:1.0.1@sha256:05900d7a5a03fd4ff39467e73a2af8f3fb2c7fc39a0e98be4fa4a2e636433069 /opt/emela /opt/emela
-COPY --from=startown/fastjet:3.5.3@sha256:2a0a83d7bdc02aa394bbac62a2e13dd32fa6d0edf3d3542a80a206a28da45d92 /opt/fastjet /opt/fastjet
-COPY --from=startown/delphes:3.5.1@sha256:5ef60db63a322c6ffb38ffdf87e613c5531ea276232d5524711b0635ffb66259 /opt/root /opt/root
-COPY --from=startown/delphes:3.5.1@sha256:5ef60db63a322c6ffb38ffdf87e613c5531ea276232d5524711b0635ffb66259 /opt/delphes /opt/delphes
-COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:664f3be0a4fb8e9029ba9730c0214cdb76ae390d82eb2f68dcbf8e71540dff6f /opt/hepmc /opt/hepmc
-COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:664f3be0a4fb8e9029ba9730c0214cdb76ae390d82eb2f68dcbf8e71540dff6f /opt/lhapdf /opt/lhapdf
-COPY --from=startown/pythia:8.317-hepmc3.3.1@sha256:664f3be0a4fb8e9029ba9730c0214cdb76ae390d82eb2f68dcbf8e71540dff6f /opt/pythia /opt/pythia
+COPY --from=startown/emela:1.0.1@sha256:7c7012ce5bb3e30d4e9e6b662de0998956199e65461ff8a64750a186b92c56e0 /opt/emela /opt/emela
+COPY --from=startown/fastjet:3.5.3@sha256:95f505458b9d80774cce886a0b7b9abee8becc82600bd0edf217d005b571676f /opt/fastjet /opt/fastjet
+COPY --from=startown/delphes:3.5.1@sha256:c1f4c5b1ca8fe92f29175261aa9ad982f1c54b867e5476aee4f0bfa2e7bdc122 /opt/root /opt/root
+COPY --from=startown/delphes:3.5.1@sha256:c1f4c5b1ca8fe92f29175261aa9ad982f1c54b867e5476aee4f0bfa2e7bdc122 /opt/delphes /opt/delphes
+COPY --from=startown/pythia:8.317@sha256:0973d38d363224860a6bbf47f32cd9b5dbd5e391534af1160efc4e87b4f09201 /opt/hepmc /opt/hepmc
+COPY --from=startown/pythia:8.317@sha256:0973d38d363224860a6bbf47f32cd9b5dbd5e391534af1160efc4e87b4f09201 /opt/lhapdf /opt/lhapdf
+COPY --from=startown/pythia:8.317@sha256:0973d38d363224860a6bbf47f32cd9b5dbd5e391534af1160efc4e87b4f09201 /opt/pythia /opt/pythia
 COPY --from=build /opt/madgraph /opt/madgraph
 
 ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz

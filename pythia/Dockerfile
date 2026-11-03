@@ -8,8 +8,8 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=startown/hepmc:3.3.1@sha256:37d0f793acfa9b569644dca0b74b91c1a98cb256e648e208f43807ebdfb7b01c /opt/hepmc /opt/hepmc
-COPY --from=startown/lhapdf:6.5.6@sha256:e438106716cff60ed3495c2ebec16059b1e403db10cefd268c76582b43a7d161 /opt/lhapdf /opt/lhapdf
+COPY --from=startown/hepmc:3.3.1@sha256:6de97b540451cf4683f54c3fee4e0bbdeabb631670593dd83e28b1d3e6d51c58 /opt/hepmc /opt/hepmc
+COPY --from=startown/lhapdf:6.5.6@sha256:d4017b0b918a2107d10331933b13096664e9ce5f6b4b039bb43e96f71ef7272f /opt/lhapdf /opt/lhapdf
 RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
