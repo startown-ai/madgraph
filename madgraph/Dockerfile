@@ -66,8 +66,6 @@ ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/
     ROOT_INCLUDE_PATH=/opt/delphes/include
 RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
     rm /tmp/pdfset.tar.gz && \
-    mkdir -p /usr/local/bin && \
-    ln -s /usr/bin/pigz /usr/local/bin/gzip && \
     for p in hepmc lhapdf fastjet emela pythia root delphes; do \
       echo /opt/$p/lib > /etc/ld.so.conf.d/$p.conf; \
     done && \
