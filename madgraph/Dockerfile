@@ -47,13 +47,13 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
+COPY --from=startown/delphes:3.5.1@sha256:c1f4c5b1ca8fe92f29175261aa9ad982f1c54b867e5476aee4f0bfa2e7bdc122 /opt/delphes /opt/delphes
 COPY --from=startown/emela:1.0.1@sha256:7c7012ce5bb3e30d4e9e6b662de0998956199e65461ff8a64750a186b92c56e0 /opt/emela /opt/emela
 COPY --from=startown/fastjet:3.5.3@sha256:95f505458b9d80774cce886a0b7b9abee8becc82600bd0edf217d005b571676f /opt/fastjet /opt/fastjet
-COPY --from=startown/delphes:3.5.1@sha256:c1f4c5b1ca8fe92f29175261aa9ad982f1c54b867e5476aee4f0bfa2e7bdc122 /opt/root /opt/root
-COPY --from=startown/delphes:3.5.1@sha256:c1f4c5b1ca8fe92f29175261aa9ad982f1c54b867e5476aee4f0bfa2e7bdc122 /opt/delphes /opt/delphes
-COPY --from=startown/pythia:8.317@sha256:0973d38d363224860a6bbf47f32cd9b5dbd5e391534af1160efc4e87b4f09201 /opt/hepmc /opt/hepmc
-COPY --from=startown/pythia:8.317@sha256:0973d38d363224860a6bbf47f32cd9b5dbd5e391534af1160efc4e87b4f09201 /opt/lhapdf /opt/lhapdf
+COPY --from=startown/hepmc:3.3.1@sha256:6de97b540451cf4683f54c3fee4e0bbdeabb631670593dd83e28b1d3e6d51c58 /opt/hepmc /opt/hepmc
+COPY --from=startown/lhapdf:6.5.6@sha256:d4017b0b918a2107d10331933b13096664e9ce5f6b4b039bb43e96f71ef7272f /opt/lhapdf /opt/lhapdf
 COPY --from=startown/pythia:8.317@sha256:0973d38d363224860a6bbf47f32cd9b5dbd5e391534af1160efc4e87b4f09201 /opt/pythia /opt/pythia
+COPY --from=startown/root:6.40.04@sha256:738dd66d3128b56c89a2c6bb9ab085da890a6b842b26d0a28b412a302109d0a2 /opt/root /opt/root
 COPY --from=build /opt/madgraph /opt/madgraph
 
 ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
