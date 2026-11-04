@@ -1,0 +1,170 @@
+--- a/madgraph/interface/common_run_interface.py
++++ b/madgraph/interface/common_run_interface.py
+@@ -36,6 +36,7 @@
+ import traceback
+ import urllib.request, urllib.parse, urllib.error
+ import glob
++import hashlib
+ import io
+ try:
+     import readline
+@@ -3656,15 +3657,25 @@
+ 
+         cross = self.results[self.run_name].get_current_info()['cross']
+ 
++        # Seed Delphes from the run seed (a RandomSeed in the card still wins).
++        delphes_card = pjoin(self.me_dir, 'Cards', 'delphes_card.dat')
++        run_seed = self.get_run_seed()
++        if run_seed:
++            delphes_card = self.write_seeded_delphes_card(
++                pjoin(self.me_dir, 'Events', self.run_name, '%s_delphes_card.dat' % tag),
++                self.derive_seed(run_seed, 'delphes'))
++
+         delphes_log = pjoin(self.me_dir, 'Events', self.run_name, "%s_delphes.log" % tag)
+         if not self.cluster:
+             clus = cluster.onecore
+         else:
+             clus = self.cluster
+         clus.launch_and_wait(prog,
+-                        argument= [delphes_dir, self.run_name, tag, str(cross), filepath],
++                        argument= [delphes_dir, self.run_name, tag, str(cross), filepath, delphes_card],
+                         stdout=delphes_log, stderr=subprocess.STDOUT,
+                         cwd=pjoin(self.me_dir,'Events'))
++        if run_seed:
++            os.remove(delphes_card)
+ 
+         if not os.path.exists(pjoin(self.me_dir, 'Events',
+                                 self.run_name, '%s_delphes_events.lhco.gz' % tag))\
+@@ -3908,6 +3919,36 @@
+         except self.InvalidCmd:
+             return stop
+ 
++    def get_run_seed(self):
++        """Return the seed MadEvent used for the current run, as recorded in its
++        banner (also when iseed = 0 let MadGraph pick it), or None."""
++
++        if self.banner and 'mgruncard' in self.banner:
++            found = re.search(r'^\s*(-?\d+)\s*=\s*iseed', self.banner['mgruncard'], re.M)
++            if found and int(found.group(1)) != 0:
++                return abs(int(found.group(1)))
++        return None
++
++    @staticmethod
++    def derive_seed(run_seed, tool, index=0):
++        """Return the seed of one job of a tool (e.g. split 'index' of 'pythia8'),
++        derived from the run seed. Tools and splits get independent streams, and
++        runs with neighbouring seeds share none. The range 1-900000000 suits both
++        Pythia8 (Random:seed) and Delphes (RandomSeed)."""
++
++        text = '%s:%s:%s' % (run_seed, tool, index)
++        return int(hashlib.sha256(text.encode()).hexdigest(), 16) % 900000000 + 1
++
++    def write_seeded_delphes_card(self, path, seed):
++        """Write the Delphes card to path with 'set RandomSeed <seed>' on top.
++        A RandomSeed set in the card itself comes later and still wins."""
++
++        card = open(pjoin(self.me_dir, 'Cards', 'delphes_card.dat')).read()
++        with open(path, 'w') as fsock:
++            fsock.write('set RandomSeed %d\n' % seed)
++            fsock.write(card)
++        return path
++
+     def get_nb_core_override(self, step):
+         """Return the user-specified number of cores/jobs for a given step
+         (e.g. 'pythia8' or 'delphes') through the nb_core_<step> option, or
+--- a/madgraph/interface/madevent_interface.py
++++ b/madgraph/interface/madevent_interface.py
+@@ -4806,6 +4806,16 @@
+                                                     'pythia8_card_default.dat'))
+         PY8_Card.read(pjoin(self.me_dir, 'Cards', 'pythia8_card.dat'),
+                                                                   setter='user')
++
++        # Seed Pythia8 from the run seed, unless the card sets its own seed.
++        # Each parallel split gets its own seed (see the splitting below).
++        self._py8_run_seed = None
++        if not set(['random:seed', 'random:setseed']) & PY8_Card.user_set:
++            self._py8_run_seed = self.get_run_seed()
++            if self._py8_run_seed:
++                PY8_Card.systemSet('Random:setSeed', 'on')
++                PY8_Card.systemSet('Random:seed',
++                                   self.derive_seed(self._py8_run_seed, 'pythia8'))
+         
+         run_type = 'default'
+         merged_run_types = ['MLM','CKKW']
+@@ -5091,6 +5101,10 @@
+                         assert split_PY8_Card['Main:numberOfEvents'] == partition_for_PY8[i]
+                         split_PY8_Card.systemSet('HEPMCoutput:scaling',split_PY8_Card['HEPMCoutput:scaling']*
+                                                                  (float(partition_for_PY8[i])), force=True)
++                        if self._py8_run_seed:
++                            # str: the split card reads Random:seed back untyped
++                            split_PY8_Card.systemSet('Random:seed', str(self.derive_seed(
++                                          self._py8_run_seed, 'pythia8', i)), force=True)
+                         # Add_missing set to False so as to be sure not to add any additional parameter w.r.t
+                         # the ones in the original PY8 param_card copied.
+                         split_PY8_Card.write(pjoin(parallelization_dir,'PY8Card_%d.dat'%i),
+@@ -5522,12 +5536,16 @@
+                                     '%s_%s_banner.txt' % (self.run_name, tag)))
+ 
+         # Wrapper setting up the ROOT environment before invoking Delphes.
+-        # Arguments: $1 = output ROOT file, $2 = input HepMC file, $3 = log file.
++        # Arguments: $1 = output ROOT file, $2 = input HepMC file, $3 = log file,
++        # $4 = Delphes card.
+         wrapper_path = pjoin(parallelization_dir, 'run_delphes_split.sh')
+         with open(wrapper_path, 'w') as wrapper:
+             wrapper.write('#!/bin/bash\n')
+             wrapper.write('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTSYS/lib\n')
+-            wrapper.write('"%s" "%s" "$1" "$2" > "$3" 2>&1\n' % (delphes_exe, card))
++            wrapper.write('"%s" "$4" "$1" "$2" > "$3" 2>&1\n' % delphes_exe)
++        # Seed each split's Delphes from the run seed (a RandomSeed in the card
++        # still wins).
++        run_seed = self.get_run_seed()
+         st = os.stat(wrapper_path)
+         os.chmod(wrapper_path, st.st_mode | stat.S_IEXEC)
+ 
+@@ -5548,9 +5566,14 @@
+             for i, (split_dir, hepmc_file) in enumerate(split_hepmc):
+                 out_root = pjoin(split_dir, 'delphes_events.root')
+                 log = pjoin(split_dir, 'delphes.log')
++                split_card = card
++                if run_seed:
++                    split_card = self.write_seeded_delphes_card(
++                        pjoin(split_dir, 'delphes_card.dat'),
++                        self.derive_seed(run_seed, 'delphes', i))
+                 split_roots.append(out_root)
+                 self.cluster.submit2(wrapper_path,
+-                                     argument=[out_root, hepmc_file, log],
++                                     argument=[out_root, hepmc_file, log, split_card],
+                                      cwd=split_dir, required_output=[out_root])
+             self.cluster.wait(parallelization_dir, wait_monitoring)
+ 
+--- a/Template/LO/bin/internal/run_delphes3
++++ b/Template/LO/bin/internal/run_delphes3
+@@ -10,6 +10,7 @@
+ tag=$3
+ cross=$4 
+ file=$5
++card=${6:-../Cards/delphes_card.dat}
+ 
+ main=`pwd`
+ 
+@@ -28,16 +29,16 @@
+ then
+   if [ ${file: -7} == ".hep.gz" ]
+   then
+-      gunzip --stdout $file | $delphesdir/DelphesSTDHEP ../Cards/delphes_card.dat  ${run}/${tag}_delphes_events.root      
++      gunzip --stdout $file | $delphesdir/DelphesSTDHEP "$card"  ${run}/${tag}_delphes_events.root      
+   else
+-      gunzip --stdout $file | $delphesdir/DelphesHepMC2 ../Cards/delphes_card.dat  ${run}/${tag}_delphes_events.root      
++      gunzip --stdout $file | $delphesdir/DelphesHepMC2 "$card"  ${run}/${tag}_delphes_events.root      
+   fi
+ else
+   if [ ${file: -4} == ".hep" ]
+   then
+-      $delphesdir/DelphesSTDHEP ../Cards/delphes_card.dat  ${run}/${tag}_delphes_events.root $file
++      $delphesdir/DelphesSTDHEP "$card"  ${run}/${tag}_delphes_events.root $file
+   else
+-      $delphesdir/DelphesHepMC2 ../Cards/delphes_card.dat  ${run}/${tag}_delphes_events.root $file      
++      $delphesdir/DelphesHepMC2 "$card"  ${run}/${tag}_delphes_events.root $file      
+   fi
+ fi
+ 
