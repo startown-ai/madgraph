@@ -21,6 +21,7 @@ RUN mkdir -p /opt/madgraph && \
       'lhapdf_py3 = /opt/lhapdf/bin/lhapdf-config' \
       'fastjet = /opt/fastjet/bin/fastjet-config' \
       'eMELA = /opt/emela/bin/eMELA-config' \
+      'nb_core_delphes = 1' \
       'auto_update = 0' \
       'automatic_html_opening = False' \
       >> /opt/madgraph/input/mg5_configuration.txt
