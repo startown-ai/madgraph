@@ -61,14 +61,14 @@ The results land in `pp2tt/Events/run_01/`:
 
 This repository is licensed under the [Apache License 2.0](LICENSE), while the packages it builds keep their own licenses:
 
-| Package                                                                  | Version | License            |
-| ------------------------------------------------------------------------ | ------- | ------------------ |
-| MadGraph5_aMC@NLO + `seeds.patch`, `cores.patch`, `quiet-warnings.patch` | 3.8.1   | NCSA-style license |
-| Pythia                                                                   | 8.317   | GPL-2.0-or-later   |
-| HepMC                                                                    | 3.3.1   | LGPL-3.0-or-later  |
-| LHAPDF                                                                   | 6.5.6   | GPL-3.0            |
-| FastJet                                                                  | 3.5.3   | GPL-2.0-or-later   |
-| fjcontrib                                                                | 1.105   | GPL-2.0-or-later   |
-| eMELA                                                                    | 1.0.1   | MIT                |
-| ROOT                                                                     | 6.40.04 | LGPL-2.1-or-later  |
-| Delphes + `no-display.patch`                                             | 3.5.1   | GPL-3.0-or-later   |
+| Package                                                                             | Version | License            |
+| ----------------------------------------------------------------------------------- | ------- | ------------------ |
+| MadGraph5_aMC@NLO<br>+ `seeds.patch`<br>+ `cores.patch`<br>+ `quiet-warnings.patch` | 3.8.1   | NCSA-style license |
+| Pythia                                                                              | 8.317   | GPL-2.0-or-later   |
+| HepMC                                                                               | 3.3.1   | LGPL-3.0-or-later  |
+| LHAPDF                                                                              | 6.5.6   | GPL-3.0            |
+| FastJet                                                                             | 3.5.3   | GPL-2.0-or-later   |
+| fjcontrib                                                                           | 1.105   | GPL-2.0-or-later   |
+| eMELA                                                                               | 1.0.1   | MIT                |
+| ROOT                                                                                | 6.40.04 | LGPL-2.1-or-later  |
+| Delphes<br>+ `no-display.patch`                                                     | 3.5.1   | GPL-3.0-or-later   |
