@@ -32,12 +32,8 @@ RUN apt-get update && \
       bc=1.07.1-4+deb13u0+dhi0 \
       g++=4:14.2.0-1+deb13u0+dhi0 \
       gfortran=4:14.2.0-1+deb13u0+dhi0 \
-      libfftw3-double3=3.3.10-2+dhi0 \
       libfreetype6=2.13.3+dfsg-1+deb13u1+dhi1 \
       libpython3.13=3.13.5-2+deb13u5 \
-      libtbb12=2022.1.0-1+deb13u1 \
-      libvdt-dev=0.4.4-4 \
-      libxml2=2.12.7+dfsg+really2.9.14-2.1+deb13u3+dhi3 \
       make=4.4.1-2+deb13u0+dhi1 \
       perl=5.40.1-6+deb13u1+dhi3 \
       'pigz=2.8-1*' \
@@ -70,8 +66,7 @@ RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
       echo /opt/$p/lib > /etc/ld.so.conf.d/$p.conf; \
     done && \
     ldconfig && \
-    echo /opt/lhapdf/lib/python3.13/dist-packages > /usr/lib/python3/dist-packages/lhapdf.pth && \
-    echo /opt/root/lib > /usr/lib/python3/dist-packages/root.pth
+    echo /opt/lhapdf/lib/python3.13/dist-packages > /usr/lib/python3/dist-packages/lhapdf.pth
 
 WORKDIR /root
 CMD ["bash"]
