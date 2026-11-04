@@ -68,5 +68,5 @@ RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
     ldconfig && \
     echo /opt/lhapdf/lib/python3.13/dist-packages > /usr/lib/python3/dist-packages/lhapdf.pth
 
-WORKDIR /root
+WORKDIR /data
 CMD ["bash"]
