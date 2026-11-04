@@ -6,11 +6,12 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ADD https://assets.startown.ai/packages/madgraph/3.8.1.tar.gz /tmp/madgraph.tar.gz
-COPY seeds.patch /tmp/
+COPY seeds.patch cores.patch /tmp/
 
 RUN mkdir -p /opt/madgraph && \
     tar -xzf /tmp/madgraph.tar.gz -C /opt/madgraph --strip-components=1 --exclude='._*' --warning=no-unknown-keyword && \
     patch -d /opt/madgraph -p1 < /tmp/seeds.patch && \
+    patch -d /opt/madgraph -p1 < /tmp/cores.patch && \
     sed -i 's/DelphesHepMC2/DelphesHepMC3/g' \
       /opt/madgraph/madgraph/interface/madevent_interface.py \
       /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
@@ -28,7 +29,6 @@ RUN mkdir -p /opt/madgraph && \
       'lhapdf_py3 = /opt/lhapdf/bin/lhapdf-config' \
       'fastjet = /opt/fastjet/bin/fastjet-config' \
       'eMELA = /opt/emela/bin/eMELA-config' \
-      'nb_core_delphes = 1' \
       'auto_update = 0' \
       'automatic_html_opening = False' \
       >> /opt/madgraph/input/mg5_configuration.txt
