@@ -10,7 +10,7 @@ RUN apt-get update && \
       'ninja-build=1.12.1-1*' && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=startown/lhapdf:6.5.6@sha256:fa5f95c1bc478f819c3ed727fca9256981ab17cb0c963caf8e0a5ece975aae9f /opt/lhapdf /opt/lhapdf
+COPY --from=lhapdf /opt/lhapdf /opt/lhapdf
 ENV PATH=/opt/lhapdf/bin:${PATH}
 RUN echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
