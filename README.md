@@ -1,5 +1,7 @@
 # MadGraph
 
+[![Docker Hub](https://img.shields.io/docker/v/startown/madgraph?sort=semver&label=docker%20hub&logo=docker&logoColor=white&style=flat-square)](https://hub.docker.com/r/startown/madgraph) [![Image size](https://img.shields.io/docker/image-size/startown/madgraph/3.8.1?label=size&style=flat-square)](https://hub.docker.com/r/startown/madgraph/tags) [![License](https://img.shields.io/github/license/startown-ai/madgraph?style=flat-square)](LICENSE)
+
 A containerized MadGraph5_aMC@NLO with Pythia and Delphes.
 
 ## Installation
