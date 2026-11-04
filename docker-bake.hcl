@@ -64,5 +64,6 @@ target "madgraph" {
     root    = "target:root"
   }
   tags   = ["startown/madgraph:3.8.1"]
-  attest = ["type=provenance,mode=max", "type=sbom"]
+  # mode=max embeds the package builds, which Docker Scout fails to parse
+  attest = ["type=provenance,mode=min", "type=sbom"]
 }
