@@ -1,4 +1,4 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04 AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -41,7 +41,7 @@ RUN mkdir -p /opt/madgraph && \
       'automatic_html_opening = False' \
       >> /opt/madgraph/input/mg5_configuration.txt
 
-FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c9e5c1bb42ed6afec796be71b04 AS runtime
+FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS runtime
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
