@@ -62,7 +62,6 @@ target "madgraph" {
   contexts = {
     delphes = "target:delphes"
     emela   = "target:emela"
-    expat   = "target:expat"
     fastjet = "target:fastjet"
     hepmc   = "target:hepmc"
     lhapdf  = "target:lhapdf"
