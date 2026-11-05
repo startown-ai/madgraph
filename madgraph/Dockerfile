@@ -7,6 +7,7 @@ RUN apt-get update && \
 
 ADD https://assets.startown.ai/packages/madgraph/3.8.1.tar.gz /tmp/madgraph.tar.gz
 COPY seeds.patch cores.patch quiet-warnings.patch delphes-stream.patch /tmp/
+COPY fast-lhe-split.patch /tmp/
 
 RUN mkdir -p /opt/madgraph && \
     tar -xzf /tmp/madgraph.tar.gz -C /opt/madgraph --strip-components=1 --exclude='._*' --warning=no-unknown-keyword && \
@@ -14,6 +15,7 @@ RUN mkdir -p /opt/madgraph && \
     patch -d /opt/madgraph -p1 < /tmp/cores.patch && \
     patch -d /opt/madgraph -p1 < /tmp/quiet-warnings.patch && \
     patch -d /opt/madgraph -p1 < /tmp/delphes-stream.patch && \
+    patch -d /opt/madgraph -p1 < /tmp/fast-lhe-split.patch && \
     sed -i 's/DelphesHepMC2/DelphesHepMC3/g' \
       /opt/madgraph/madgraph/interface/madevent_interface.py \
       /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
