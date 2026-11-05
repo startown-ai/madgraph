@@ -64,6 +64,7 @@ RUN apt-get update && \
 
 COPY --from=delphes /opt/delphes /opt/delphes
 COPY --from=emela /opt/emela /opt/emela
+COPY --from=expat /opt/expat /opt/expat
 COPY --from=fastjet /opt/fastjet /opt/fastjet
 COPY --from=hepmc /opt/hepmc /opt/hepmc
 COPY --from=lhapdf /opt/lhapdf /opt/lhapdf
@@ -81,7 +82,7 @@ ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/
     ROOT_INCLUDE_PATH=/opt/delphes/include
 RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
     rm /tmp/pdfset.tar.gz && \
-    for p in hepmc lhapdf fastjet emela pythia root delphes; do \
+    for p in expat hepmc lhapdf fastjet emela pythia root delphes; do \
       echo /opt/$p/lib > /etc/ld.so.conf.d/$p.conf; \
     done && \
     ldconfig && \
@@ -110,6 +111,12 @@ RUN cd /tmp/shower && \
 FROM runtime
 
 COPY --from=shower /tmp/shower/main164delphes /opt/pythia/share/Pythia8/examples/main164delphes
+
+# expat 2.10.0 from /opt/expat replaces Debian's libexpat1 2.9.0 (CVE-2026-117610,
+# CVE-2026-118370) until Debian 13 ships the fix. This comes last: apt refuses to
+# install anything once libexpat1 is gone.
+RUN dpkg --purge --force-depends libexpat1 && \
+    ldconfig
 
 WORKDIR /data
 CMD ["bash"]
