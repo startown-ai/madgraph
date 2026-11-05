@@ -45,9 +45,11 @@ FROM dhi.io/debian-base:trixie-dev@sha256:af61a3296b0c92f16969f11ce8c2a93722e84c
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+      apt=3.0.4+dhi0 \
       bc=1.07.1-4+deb13u0+dhi0 \
       g++=4:14.2.0-1+deb13u0+dhi0 \
       gfortran=4:14.2.0-1+deb13u0+dhi0 \
+      libapt-pkg7.0=3.0.4+dhi0 \
       libfreetype6=2.13.3+dfsg-1+deb13u1+dhi1 \
       libpython3.13=3.13.5-2+deb13u5 \
       make=4.4.1-2+deb13u0+dhi1 \
@@ -57,7 +59,8 @@ RUN apt-get update && \
       python3=3.13.5-1 \
       python3-numpy=1:2.2.4+ds-1 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm /var/lib/dpkg/status.d/apt /var/lib/dpkg/status.d/libapt-pkg7.0
 
 COPY --from=delphes /opt/delphes /opt/delphes
 COPY --from=emela /opt/emela /opt/emela
