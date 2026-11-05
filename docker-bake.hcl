@@ -6,11 +6,6 @@ target "_common" {
   platforms = ["linux/amd64", "linux/arm64"]
 }
 
-target "expat" {
-  inherits = ["_common"]
-  context  = "expat"
-}
-
 target "hepmc" {
   inherits = ["_common"]
   context  = "hepmc"
