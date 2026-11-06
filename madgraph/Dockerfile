@@ -54,8 +54,11 @@ RUN apt-get update && \
       libxpm4=1:3.5.17-1+deb13u1+dhi1 \
       libxxhash0=0.8.3-2+deb13u0+dhi1 \
       make=4.4.1-2+deb13u0+dhi1 \
+      meson=1.7.0-1 \
+      ninja-build=1.12.1-1* \
       procps=2:4.0.4-9+deb13u0+dhi0 \
       python3=3.13.5-1 \
+      python3-dev=3.13.5-1 \
       python3-numpy=1:2.2.4+ds-1 \
       python3-six=1.17.0-1 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
