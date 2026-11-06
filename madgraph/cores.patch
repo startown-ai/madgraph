@@ -1,0 +1,215 @@
+--- a/madgraph/various/misc.py
++++ b/madgraph/various/misc.py
+@@ -304,6 +304,40 @@
+ #===============================================================================
+ # find a executable
+ #===============================================================================
++def cpu_count():
++    """Return the number of CPUs this process may use. Unlike
++    multiprocessing.cpu_count(), it honours the CPU affinity (e.g. docker
++    --cpuset-cpus) and the cgroup CPU quota of a container (e.g. docker --cpus,
++    Kubernetes CPU limits), where the former reports all the host's CPUs."""
++
++    import math
++    import multiprocessing
++    try:
++        count = len(os.sched_getaffinity(0))
++    except (AttributeError, OSError):
++        count = multiprocessing.cpu_count()
++    quota = None
++    try:
++        # cgroup v2: "<quota> <period>", or "max <period>" without a limit
++        with open('/sys/fs/cgroup/cpu.max') as fsock:
++            value, period = fsock.read().split()[:2]
++        if value != 'max':
++            quota = int(value) / int(period)
++    except (OSError, ValueError):
++        try:
++            # cgroup v1: a quota of -1 means no limit
++            with open('/sys/fs/cgroup/cpu/cpu.cfs_quota_us') as fsock:
++                value = int(fsock.read())
++            with open('/sys/fs/cgroup/cpu/cpu.cfs_period_us') as fsock:
++                period = int(fsock.read())
++            if value > 0:
++                quota = value / period
++        except (OSError, ValueError):
++            pass
++    if quota:
++        count = min(count, int(math.ceil(quota)))
++    return max(1, count)
++
+ def which(program):
+     def is_exe(fpath):
+         return os.path.exists(fpath) and os.access(\
+--- a/madgraph/interface/common_run_interface.py
++++ b/madgraph/interface/common_run_interface.py
+@@ -3827,7 +3827,7 @@
+         elif args[0] == 'nb_core':
+             if args[1] == 'None':
+                 import multiprocessing
+-                self.nb_core = multiprocessing.cpu_count()
++                self.nb_core = misc.cpu_count()
+                 self.options['nb_core'] = self.nb_core
+                 return
+             if not args[1].isdigit():
+@@ -3974,7 +3974,7 @@
+         value = self.options.get('nb_core', None)
+         if value in (None, 'None', ''):
+             import multiprocessing
+-            return multiprocessing.cpu_count()
++            return misc.cpu_count()
+         return max(int(value), 1)
+ 
+     @contextlib.contextmanager
+@@ -4012,11 +4012,8 @@
+           - event_norm is 'average', which guarantees that the per-split HepMC
+             event weights are absolute and therefore combinable (the same
+             restriction already enforced for the Pythia8 splitting itself);
+-          - nb_core_delphes has been explicitly set. Parallel Delphes is opt-in:
+-            when nb_core_delphes is left unset Delphes runs on a single core
+-            (the standard single pass on the merged HepMC file), which is the
+-            default. nb_core_delphes then also sets the concurrency of the
+-            per-split Delphes jobs.
++        Parallel Delphes is the default. Its concurrency is nb_core_delphes
++        when set, otherwise nb_core (see resolve_nb_core).
+         """
+ 
+         if not self.options.get('delphes_path'):
+@@ -4027,8 +4024,6 @@
+             return False
+         if self.run_card['event_norm'] != 'average':
+             return False
+-        if self.get_nb_core_override('delphes') is None:
+-            return False
+         return True
+ 
+     def configure_run_mode(self, run_mode):
+@@ -4040,7 +4035,7 @@
+         if run_mode == 2:
+             if not self.options['nb_core']:
+                 import multiprocessing
+-                self.options['nb_core'] = multiprocessing.cpu_count()
++                self.options['nb_core'] = misc.cpu_count()
+             nb_core = self.options['nb_core']
+         elif run_mode == 0:
+             nb_core = 1
+--- a/madgraph/interface/madevent_interface.py
++++ b/madgraph/interface/madevent_interface.py
+@@ -1822,7 +1822,7 @@
+         
+         if line.endswith('nb_core=') and not text:
+             import multiprocessing
+-            max = multiprocessing.cpu_count()
++            max = misc.cpu_count()
+             return [str(i) for i in range(2,max+1)]
+             
+         return  self.list_completion(text, self._run_options, line)
+@@ -1838,7 +1838,7 @@
+         
+         if line.endswith('nb_core=') and not text:
+             import multiprocessing
+-            max = multiprocessing.cpu_count()
++            max = misc.cpu_count()
+             return [str(i) for i in range(2,max+1)]
+         if line.endswith('laststep=') and not text:
+             return ['parton','pythia','pgs','delphes']
+@@ -1874,7 +1874,7 @@
+         
+         if line.endswith('nb_core=') and not text:
+             import multiprocessing
+-            max = multiprocessing.cpu_count()
++            max = misc.cpu_count()
+             return [str(i) for i in range(2,max+1)]
+         
+         opts = self._run_options + self._calculate_decay_options
+@@ -1909,7 +1909,7 @@
+         
+         if line.endswith('nb_core=') and not text:
+             import multiprocessing
+-            max = multiprocessing.cpu_count()
++            max = misc.cpu_count()
+             return [str(i) for i in range(2,max+1)]
+         opts = self._run_options + self._generate_options
+         return  self.list_completion(text, opts, line)
+--- a/madgraph/interface/amcatnlo_run_interface.py
++++ b/madgraph/interface/amcatnlo_run_interface.py
+@@ -3214,7 +3214,7 @@
+                     try:
+                         self.nb_core = int(self.options['nb_core'])
+                     except TypeError:
+-                        self.nb_core = multiprocessing.cpu_count()
++                        self.nb_core = misc.cpu_count()
+                 logger.info('Using %d cores' % self.nb_core)
+             except ImportError:
+                 self.nb_core = 1
+@@ -5688,7 +5688,7 @@
+                 try:
+                     self.nb_core = int(self.options['nb_core'])
+                 except TypeError:
+-                    self.nb_core = multiprocessing.cpu_count()
++                    self.nb_core = misc.cpu_count()
+         except ImportError: 
+             self.nb_core = 1
+ 
+--- a/madgraph/interface/madgraph_interface.py
++++ b/madgraph/interface/madgraph_interface.py
+@@ -9281,7 +9281,7 @@
+         """
+         if args[0] in ['None', None, '0', 0]:
+             import multiprocessing
+-            self.options['nb_core'] = multiprocessing.cpu_count()
++            self.options['nb_core'] = misc.cpu_count()
+         else:
+             self.options['nb_core'] = int(args[0])
+ 
+--- a/madgraph/interface/reweight_interface.py
++++ b/madgraph/interface/reweight_interface.py
+@@ -2291,7 +2291,7 @@
+                 try:
+                     nb_core = int(self.options['nb_core'])
+                 except (TypeError, KeyError):
+-                    nb_core = multiprocessing.cpu_count()
++                    nb_core = misc.cpu_count()
+             except ImportError: 
+                 nb_core = 1
+ 
+--- a/madgraph/interface/extended_cmd.py
++++ b/madgraph/interface/extended_cmd.py
+@@ -1661,7 +1661,7 @@
+         """ """
+         import multiprocessing
+         if not self.options['nb_core'] or self.options['nb_core'] == 'None':
+-            self.options['nb_core'] = multiprocessing.cpu_count()
++            self.options['nb_core'] = misc.cpu_count()
+         return misc.compile(nb_core=self.options['nb_core'], *args, **opts)
+ 
+     def avoid_history_duplicate(self, line, no_break=[]):
+--- a/madgraph/interface/launch_ext_program.py
++++ b/madgraph/interface/launch_ext_program.py
+@@ -469,7 +469,7 @@
+         nb_node = 1
+         if mode == "2":
+             import multiprocessing
+-            max_node = multiprocessing.cpu_count()
++            max_node = misc.cpu_count()
+             if max_node == 1:
+                 logger.warning('Only one core is detected on your computer! Pass in single machine')
+                 self.cluster = 0
+@@ -563,7 +563,7 @@
+         nb_node = 1
+         if mode == "2":
+             import multiprocessing
+-            max_node = multiprocessing.cpu_count()
++            max_node = misc.cpu_count()
+             if max_node == 1:
+                 logger.warning('Only one core is detected on your computer! Pass in single machine')
+                 self.cluster = 0
+@@ -661,7 +661,7 @@
+         nb_node = 1
+         if mode == "2":
+             import multiprocessing
+-            max_node = multiprocessing.cpu_count()
++            max_node = misc.cpu_count()
+             if max_node == 1:
+                 logger.warning('Only one core is detected on your computer! Pass in single machine')
+                 self.cluster = 0
