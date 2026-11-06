@@ -17,8 +17,11 @@ ADD https://assets.startown.ai/packages/mg5amc-py8-interface/1.3.tar.gz /tmp/mg5
 RUN mkdir -p /opt/madgraph/HEPTools/MG5aMC_PY8_interface && \
     tar -xzf /tmp/madgraph.tar.gz -C /opt/madgraph --strip-components=1 --exclude='._*' --warning=no-unknown-keyword && \
     tar -xzf /tmp/mg5amc-py8-interface.tar.gz -C /opt/madgraph/HEPTools/MG5aMC_PY8_interface && \
+    cp -a /opt/pythia /tmp/pythia && \
+    sed -i 's/^CXX_COMMON=.*/& -DHEPMC2HACK -DHEPMC2/' /tmp/pythia/share/Pythia8/examples/Makefile.inc && \
     cd /opt/madgraph/HEPTools/MG5aMC_PY8_interface && \
-    python3 compile.py /opt/pythia /opt/madgraph && \
+    python3 compile.py /tmp/pythia /opt/madgraph && \
+    rm -rf /tmp/pythia && \
     printf '%s\n' \
       'pythia8_path = /opt/pythia' \
       'mg5amc_py8_interface_path = /opt/madgraph/HEPTools/MG5aMC_PY8_interface' \
