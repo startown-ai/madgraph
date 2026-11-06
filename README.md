@@ -44,6 +44,7 @@ set iseed 1
 add pythia8_card Random:setSeed = on
 add pythia8_card Random:seed = 1
 add delphes_card --line_position=0 set RandomSeed 1
+set HEPMCoutput:file hepmc.gz
 done
 ```
 
@@ -55,6 +56,8 @@ The results land in `pp2tt/Events/run_01/`:
 | `unweighted_events.lhe.gz`      | parton-level events                |
 | `tag_1_pythia8_events.hepmc.gz` | particle-level events from Pythia  |
 | `tag_1_delphes_events.root`     | detector-level events from Delphes |
+
+Without `set HEPMCoutput:file hepmc.gz`, this image removes the HepMC file once Delphes has read it (`autoremove`), unlike MadGraph's own default.
 
 ## License
 
