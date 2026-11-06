@@ -1,0 +1,31 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -27,7 +27,7 @@
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+ 
+ # Declare ROOT dependency
+-find_package(ROOT REQUIRED COMPONENTS EG Eve Gui GuiHtml)
++find_package(ROOT REQUIRED COMPONENTS EG)
+ set(CMAKE_CXX_STANDARD ${ROOT_CXX_STANDARD})
+ 
+ # Declare Pythia8 dependancy
+@@ -53,7 +53,6 @@
+ 
+ add_subdirectory(classes)
+ add_subdirectory(converters)
+-add_subdirectory(display)
+ add_subdirectory(examples)
+ add_subdirectory(external)
+ add_subdirectory(modules)
+@@ -77,10 +76,4 @@
+   target_link_libraries(Delphes PUBLIC ${PYTHIA8_LIBRARIES} ${CMAKE_DL_LIBS})
+ endif()
+ 
+-add_library(DelphesDisplay SHARED
+-  $<TARGET_OBJECTS:display>
+-)
+-
+-target_link_libraries(DelphesDisplay PUBLIC Delphes ROOT::Geom ROOT::Graf3d ROOT::RGL ROOT::Eve ROOT::GuiHtml)
+-
+-install(TARGETS Delphes DelphesDisplay DESTINATION lib)
++install(TARGETS Delphes DESTINATION lib)
