@@ -1,9 +1,16 @@
 FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS build
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      patch=2.8-2+deb13u0+dhi3 && \
+    rm -rf /var/lib/apt/lists/*
+
 ADD https://assets.startown.ai/packages/madgraph/3.8.1.tar.gz /tmp/madgraph.tar.gz
+COPY quiet-warnings.patch /tmp/quiet-warnings.patch
 
 RUN mkdir -p /opt/madgraph && \
     tar -xzf /tmp/madgraph.tar.gz -C /opt/madgraph --strip-components=1 --exclude='._*' --warning=no-unknown-keyword && \
+    patch -d /opt/madgraph -p1 < /tmp/quiet-warnings.patch && \
     sed -i 's/DelphesHepMC2/DelphesHepMC3/g' \
       /opt/madgraph/madgraph/interface/madevent_interface.py \
       /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
