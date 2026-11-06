@@ -1,6 +1,6 @@
 # MadGraph
 
-![Docker Hub](https://img.shields.io/docker/v/startown/madgraph?sort=date&label=docker%20hub&logo=docker&logoColor=white&style=flat-square) ![Image size](https://img.shields.io/docker/image-size/startown/madgraph/3.8.1-3?label=size&style=flat-square) ![License](https://img.shields.io/github/license/startown-ai/madgraph?style=flat-square)
+![Docker Hub](https://img.shields.io/docker/v/startown/madgraph?sort=date&label=docker%20hub&logo=docker&logoColor=white&style=flat-square) ![Image size](https://img.shields.io/docker/image-size/startown/madgraph/3.8.1-4?label=size&style=flat-square) ![License](https://img.shields.io/github/license/startown-ai/madgraph?style=flat-square)
 
 MadGraph5_aMC@NLO with Pythia and Delphes.
 
@@ -9,7 +9,7 @@ MadGraph5_aMC@NLO with Pythia and Delphes.
 Pull the image:
 
 ```bash
-docker pull startown/madgraph:3.8.1-3
+docker pull startown/madgraph:3.8.1-4
 ```
 
 ## Usage
@@ -17,13 +17,13 @@ docker pull startown/madgraph:3.8.1-3
 Start MadGraph interactively:
 
 ```bash
-docker run -it --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-3 mg5_aMC
+docker run -it --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-4 mg5_aMC
 ```
 
 Or run a script:
 
 ```bash
-docker run --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-3 mg5_aMC commands.mg5
+docker run --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-4 mg5_aMC commands.mg5
 ```
 
 For example, this `commands.mg5` generates 1,000 top-quark pairs with parton shower and detector simulation. The fixed core count and random seed make it reproducible:
