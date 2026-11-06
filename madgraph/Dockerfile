@@ -59,6 +59,7 @@ RUN apt-get update && \
       make=4.4.1-2+deb13u0+dhi1 \
       meson=1.7.0-1 \
       ninja-build=1.12.1-1* \
+      pigz=2.8-1* \
       procps=2:4.0.4-9+deb13u0+dhi0 \
       python3=3.13.5-1 \
       python3-dev=3.13.5-1 \
@@ -85,6 +86,8 @@ ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/fastjet/bin:/op
     ROOT_INCLUDE_PATH=/opt/delphes/include
 RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
     rm /tmp/pdfset.tar.gz && \
+    mkdir -p /usr/local/bin && \
+    ln -s /usr/bin/pigz /usr/local/bin/gzip && \
     for p in hepmc lhapdf fastjet emela pythia root delphes; do \
       echo /opt/$p/lib > /etc/ld.so.conf.d/$p.conf; \
     done && \
