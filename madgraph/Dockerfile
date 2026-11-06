@@ -1,30 +1,14 @@
 FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS build
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      g++=4:14.2.0-1+deb13u0+dhi0 \
-      make=4.4.1-2+deb13u0+dhi1 \
-      python3=3.13.5-1 \
-      zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
-    rm -rf /var/lib/apt/lists/*
+ADD https://assets.startown.ai/packages/madgraph/3.8.1.tar.gz /tmp/madgraph.tar.gz
 
-COPY --from=hepmc /opt/hepmc /opt/hepmc
-COPY --from=pythia /opt/pythia /opt/pythia
-
-ADD https://assets.startown.ai/packages/madgraph/3.5.17.tar.gz /tmp/madgraph.tar.gz
-ADD https://assets.startown.ai/packages/mg5amc-py8-interface/1.3.tar.gz /tmp/mg5amc-py8-interface.tar.gz
-
-RUN mkdir -p /opt/madgraph/HEPTools/MG5aMC_PY8_interface && \
+RUN mkdir -p /opt/madgraph && \
     tar -xzf /tmp/madgraph.tar.gz -C /opt/madgraph --strip-components=1 --exclude='._*' --warning=no-unknown-keyword && \
-    tar -xzf /tmp/mg5amc-py8-interface.tar.gz -C /opt/madgraph/HEPTools/MG5aMC_PY8_interface && \
-    cp -a /opt/pythia /tmp/pythia && \
-    sed -i 's/^CXX_COMMON=.*/& -DHEPMC2HACK -DHEPMC2/' /tmp/pythia/share/Pythia8/examples/Makefile.inc && \
-    cd /opt/madgraph/HEPTools/MG5aMC_PY8_interface && \
-    python3 compile.py /tmp/pythia /opt/madgraph && \
-    rm -rf /tmp/pythia && \
+    sed -i 's/DelphesHepMC2/DelphesHepMC3/g' \
+      /opt/madgraph/madgraph/interface/madevent_interface.py \
+      /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
     printf '%s\n' \
       'pythia8_path = /opt/pythia' \
-      'mg5amc_py8_interface_path = /opt/madgraph/HEPTools/MG5aMC_PY8_interface' \
       'delphes_path = /opt/delphes/bin' \
       'lhapdf_py3 = /opt/lhapdf/bin/lhapdf-config' \
       'fastjet = /opt/fastjet/bin/fastjet-config' \
@@ -64,7 +48,6 @@ RUN apt-get update && \
       python3=3.13.5-1 \
       python3-dev=3.13.5-1 \
       python3-numpy=1:2.2.4+ds-1 \
-      python3-six=1.17.0-1 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
@@ -79,7 +62,7 @@ COPY --from=build /opt/madgraph /opt/madgraph
 
 ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
 
-ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:${PATH} \
+ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:${PATH} \
     DELPHES_HOME=/opt/delphes \
     LD_LIBRARY_PATH=/opt/delphes/lib \
     LIBRARY_PATH=/opt/delphes/lib \
