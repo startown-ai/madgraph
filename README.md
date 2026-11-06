@@ -26,7 +26,7 @@ Or run a script:
 docker run --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-3 mg5_aMC commands.mg5
 ```
 
-For example, this `commands.mg5` generates 1,000 top-quark pairs with parton shower and detector simulation. The fixed core count and random seeds make it reproducible:
+For example, this `commands.mg5` generates 1,000 top-quark pairs with parton shower and detector simulation. The fixed core count and random seed make it reproducible:
 
 ```
 set nb_core 4
@@ -41,9 +41,6 @@ done
 
 set nevents 1000
 set iseed 1
-add pythia8_card Random:setSeed = on
-add pythia8_card Random:seed = 1
-add delphes_card --line_position=0 set RandomSeed 1
 set HEPMCoutput:file hepmc.gz
 done
 ```
