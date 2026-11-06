@@ -20,11 +20,12 @@ RUN mkdir /src && \
     tar -xzf /tmp/pythia.tar.gz -C /src --strip-components=1 && \
     cd /src && \
     ./configure --prefix=/opt/pythia \
-      --with-hepmc2=/opt/hepmc \
+      --with-hepmc3=/opt/hepmc \
       --with-lhapdf6=/opt/lhapdf \
       --with-gzip && \
     make -j$(nproc) && \
     make install && \
+    make -C /opt/pythia/share/Pythia8/examples main164 && \
     install -D -m 644 -t /opt/pythia/share/licenses/pythia /src/COPYING && \
     rm -rf /src
 
