@@ -54,7 +54,7 @@ The results land in `pp2tt/Events/run_01/`:
 | `tag_1_pythia8_events.hepmc.gz` | particle-level events from Pythia  |
 | `tag_1_delphes_events.root`     | detector-level events from Delphes |
 
-Without `set HEPMCoutput:file hepmc.gz`, this image removes the HepMC file once Delphes has read it (`autoremove`), unlike MadGraph's own default.
+This image defaults to `HEPMCoutput:file autoremove`, unlike MadGraph's `hepmc.gz`. In MadGraph, this setting deletes the HepMC file at the end of the run; with our patches, it runs Delphes inside each Pythia job instead, so no HepMC is written.
 
 ## License
 
