@@ -3,31 +3,23 @@ group "default" {
 }
 
 target "fastjet" {
-  platforms  = ["linux/amd64", "linux/arm64"]
-  context    = "fastjet"
-  cache-from = ["type=registry,ref=startown/madgraph-cache:fastjet"]
-  cache-to   = ["type=registry,ref=startown/madgraph-cache:fastjet,mode=max"]
+  platforms = ["linux/amd64", "linux/arm64"]
+  context   = "fastjet"
 }
 
 target "hepmc" {
-  platforms  = ["linux/amd64", "linux/arm64"]
-  context    = "hepmc"
-  cache-from = ["type=registry,ref=startown/madgraph-cache:hepmc"]
-  cache-to   = ["type=registry,ref=startown/madgraph-cache:hepmc,mode=max"]
+  platforms = ["linux/amd64", "linux/arm64"]
+  context   = "hepmc"
 }
 
 target "lhapdf" {
-  platforms  = ["linux/amd64", "linux/arm64"]
-  context    = "lhapdf"
-  cache-from = ["type=registry,ref=startown/madgraph-cache:lhapdf"]
-  cache-to   = ["type=registry,ref=startown/madgraph-cache:lhapdf,mode=max"]
+  platforms = ["linux/amd64", "linux/arm64"]
+  context   = "lhapdf"
 }
 
 target "root" {
-  platforms  = ["linux/amd64", "linux/arm64"]
-  context    = "root"
-  cache-from = ["type=registry,ref=startown/madgraph-cache:root"]
-  cache-to   = ["type=registry,ref=startown/madgraph-cache:root,mode=max"]
+  platforms = ["linux/amd64", "linux/arm64"]
+  context   = "root"
 }
 
 target "delphes" {
@@ -36,8 +28,6 @@ target "delphes" {
   contexts = {
     root = "target:root"
   }
-  cache-from = ["type=registry,ref=startown/madgraph-cache:delphes"]
-  cache-to   = ["type=registry,ref=startown/madgraph-cache:delphes,mode=max"]
 }
 
 target "emela" {
@@ -46,8 +36,6 @@ target "emela" {
   contexts = {
     lhapdf = "target:lhapdf"
   }
-  cache-from = ["type=registry,ref=startown/madgraph-cache:emela"]
-  cache-to   = ["type=registry,ref=startown/madgraph-cache:emela,mode=max"]
 }
 
 target "pythia" {
@@ -57,8 +45,6 @@ target "pythia" {
     hepmc  = "target:hepmc"
     lhapdf = "target:lhapdf"
   }
-  cache-from = ["type=registry,ref=startown/madgraph-cache:pythia"]
-  cache-to   = ["type=registry,ref=startown/madgraph-cache:pythia,mode=max"]
 }
 
 target "madgraph" {
@@ -73,8 +59,6 @@ target "madgraph" {
     pythia  = "target:pythia"
     root    = "target:root"
   }
-  cache-from = ["type=registry,ref=startown/madgraph-cache:madgraph"]
-  cache-to   = ["type=registry,ref=startown/madgraph-cache:madgraph,mode=max"]
-  tags       = ["startown/madgraph:3.8.1-2"]
-  attest     = ["type=provenance,mode=min", "type=sbom"]
+  tags   = ["startown/madgraph:3.8.1-2"]
+  attest = ["type=provenance,mode=min", "type=sbom"]
 }
