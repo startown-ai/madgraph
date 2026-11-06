@@ -75,6 +75,6 @@ target "madgraph" {
   }
   cache-from = ["type=registry,ref=startown/madgraph-cache:madgraph"]
   cache-to   = ["type=registry,ref=startown/madgraph-cache:madgraph,mode=max"]
-  tags       = ["startown/madgraph:3.5.17-1"]
+  tags       = ["startown/madgraph:3.5.17-2"]
   attest     = ["type=provenance,mode=min", "type=sbom"]
 }
