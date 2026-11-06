@@ -16,14 +16,17 @@ RUN apt-get update && \
       make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1* \
       nlohmann-json3-dev=3.11.3-2.1 \
+      patch=2.8-2+deb13u0+dhi3 \
       python3=3.13.5-1 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
 ADD https://assets.startown.ai/packages/root/6.36.14.tar.gz /tmp/root.tar.gz
+COPY eg-no-graphics.patch /tmp/eg-no-graphics.patch
 
 RUN mkdir /src && \
     tar -xzf /tmp/root.tar.gz -C /src --strip-components=1 && \
+    patch -d /src -p1 < /tmp/eg-no-graphics.patch && \
     cmake -S /src -B /build -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/opt/root \

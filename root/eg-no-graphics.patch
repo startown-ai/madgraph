@@ -1,0 +1,405 @@
+--- a/montecarlo/eg/CMakeLists.txt
++++ b/montecarlo/eg/CMakeLists.txt
+@@ -32,9 +32,6 @@
+     src/TPrimary.cxx
+     src/TVirtualMCDecayer.cxx
+   DEPENDENCIES
+-    Gpad
+-    Graf
+-    Graf3d
+     MathCore
+     Physics
+ )
+--- a/montecarlo/eg/inc/TPrimary.h
++++ b/montecarlo/eg/inc/TPrimary.h
+@@ -24,7 +24,6 @@
+ #include "TNamed.h"
+ #include "TAttLine.h"
+ #include "TAtt3D.h"
+-#include "X3DBuffer.h"
+ 
+ class TAttParticle;
+ 
+--- a/montecarlo/eg/src/TGenerator.cxx
++++ b/montecarlo/eg/src/TGenerator.cxx
+@@ -144,9 +144,6 @@
+ #include "TObjArray.h"
+ #include "Hepevt.h"
+ #include "TVirtualPad.h"
+-#include "TView.h"
+-#include "TText.h"
+-#include "TPaveText.h"
+ #include "TClonesArray.h"
+ #include "strlcpy.h"
+ #include "snprintf.h"
+@@ -348,146 +345,8 @@
+ ///  Insert one event in the pad list
+ ///
+ 
+-void TGenerator::Draw(Option_t *option)
+-{
+-   // Create a default canvas if a canvas does not exist
+-   if (!gPad) {
+-      gROOT->MakeDefCanvas();
+-      if (gPad->GetVirtCanvas())
+-         gPad->GetVirtCanvas()->SetFillColor(13);
+-   }
+-
+-   static Float_t rbox = 1000;
+-   Float_t rmin[3],rmax[3];
+-   TView *view = gPad->GetView();
+-   if (!strstr(option,"same")) {
+-      if (view) { view->GetRange(rmin,rmax); rbox = rmax[2];}
+-      gPad->Clear();
+-   }
+-
+-   AppendPad(option);
+-
+-   view = gPad->GetView();
+-   //    compute 3D view
+-   if (view) {
+-      view->GetRange(rmin,rmax);
+-      rbox = rmax[2];
+-   } else {
+-      view = TView::CreateView(1,0,0);
+-      if (view) view->SetRange(-rbox,-rbox,-rbox, rbox,rbox,rbox );
+-   }
+-   const Int_t kColorProton    = 4;
+-   const Int_t kColorNeutron   = 5;
+-   const Int_t kColorAntiProton= 3;
+-   const Int_t kColorPionPlus  = 6;
+-   const Int_t kColorPionMinus = 2;
+-   const Int_t kColorKaons     = 7;
+-   const Int_t kColorElectrons = 0;
+-   const Int_t kColorGamma     = 18;
+-
+-   Int_t nProtons    = 0;
+-   Int_t nNeutrons   = 0;
+-   Int_t nAntiProtons= 0;
+-   Int_t nPionPlus   = 0;
+-   Int_t nPionMinus  = 0;
+-   Int_t nKaons      = 0;
+-   Int_t nElectrons  = 0;
+-   Int_t nGammas     = 0;
+-
+-   Int_t ntracks = fParticles->GetEntriesFast();
+-   Int_t i,lwidth,color,lstyle;
+-   TParticlePDG *ap;
+-   TParticle *p;
+-   const char *name;
+-   Double_t etot,vx,vy,vz;
+-   Int_t ninvol = 0;
+-   for (i=0;i<ntracks;i++) {
+-      p = (TParticle*)fParticles->UncheckedAt(i);
+-      if(!p) continue;
+-      ap = (TParticlePDG*)p->GetPDG();
+-      vx = p->Vx();
+-      vy = p->Vy();
+-      vz = p->Vz();
+-      if  (vx*vx+vy*vy+vz*vz > rbox*rbox) continue;
+-      Float_t pt = p->Pt();
+-      if (pt < fPtCut) continue;
+-      etot = p->Energy();
+-      if (etot > 0.1) lwidth = Int_t(6*TMath::Log10(etot));
+-      else lwidth = 1;
+-      if (lwidth < 1) lwidth = 1;
+-      lstyle = 1;
+-      color = 0;
+-      name = ap->GetName();
+-      if (!strcmp(name,"n"))     { if (!fShowNeutrons) continue;
+-                                   color = kColorNeutron;    nNeutrons++;}
+-      if (!strcmp(name,"p"))     { color = kColorProton;     nProtons++;}
+-      if (!strcmp(name,"p bar")) { color = kColorAntiProton; nAntiProtons++;}
+-      if (!strcmp(name,"pi+"))   { color = kColorPionPlus;   nPionPlus++;}
+-      if (!strcmp(name,"pi-"))   { color = kColorPionMinus;  nPionMinus++;}
+-      if (!strcmp(name,"e+"))    { color = kColorElectrons;  nElectrons++;}
+-      if (!strcmp(name,"e-"))    { color = kColorElectrons;  nElectrons++;}
+-      if (!strcmp(name,"gamma")) { color = kColorGamma;      nGammas++; lstyle = 3; }
+-      if ( strstr(name,"K"))     { color = kColorKaons;      nKaons++;}
+-      p->SetLineColor(color);
+-      p->SetLineStyle(lstyle);
+-      p->SetLineWidth(lwidth);
+-      p->AppendPad();
+-      ninvol++;
+-   }
+-
+-   // event title
+-   TPaveText *pt = new TPaveText(-0.94,0.85,-0.25,0.98,"br");
+-   pt->AddText((char*)GetName());
+-   pt->AddText((char*)GetTitle());
+-   pt->SetFillColor(42);
+-   pt->Draw();
+-
+-   // Annotate color codes
+-   Int_t tcolor = 5;
+-   if (gPad->GetFillColor() == 10) tcolor = 4;
+-   TText *text = new TText(-0.95,-0.47,"Particles");
+-   text->SetTextAlign(12);
+-   text->SetTextSize(0.025);
+-   text->SetTextColor(tcolor);
+-   text->Draw();
+-   text->SetTextColor(kColorGamma);      text->DrawText(-0.95,-0.52,"(on screen)");
+-   text->SetTextColor(kColorGamma);      text->DrawText(-0.95,-0.57,"Gamma");
+-   text->SetTextColor(kColorProton);     text->DrawText(-0.95,-0.62,"Proton");
+-   text->SetTextColor(kColorNeutron);    text->DrawText(-0.95,-0.67,"Neutron");
+-   text->SetTextColor(kColorAntiProton); text->DrawText(-0.95,-0.72,"AntiProton");
+-   text->SetTextColor(kColorPionPlus);   text->DrawText(-0.95,-0.77,"Pion +");
+-   text->SetTextColor(kColorPionMinus);  text->DrawText(-0.95,-0.82,"Pion -");
+-   text->SetTextColor(kColorKaons);      text->DrawText(-0.95,-0.87,"Kaons");
+-   text->SetTextColor(kColorElectrons);  text->DrawText(-0.95,-0.92,"Electrons,etc.");
+-
+-   text->SetTextColor(tcolor);
+-   text->SetTextAlign(32);
+-   char tcount[32];
+-   snprintf(tcount,12,"%d",ntracks);      text->DrawText(-0.55,-0.47,tcount);
+-   snprintf(tcount,12,"%d",ninvol);       text->DrawText(-0.55,-0.52,tcount);
+-   snprintf(tcount,12,"%d",nGammas);      text->DrawText(-0.55,-0.57,tcount);
+-   snprintf(tcount,12,"%d",nProtons);     text->DrawText(-0.55,-0.62,tcount);
+-   snprintf(tcount,12,"%d",nNeutrons);    text->DrawText(-0.55,-0.67,tcount);
+-   snprintf(tcount,12,"%d",nAntiProtons); text->DrawText(-0.55,-0.72,tcount);
+-   snprintf(tcount,12,"%d",nPionPlus);    text->DrawText(-0.55,-0.77,tcount);
+-   snprintf(tcount,12,"%d",nPionMinus);   text->DrawText(-0.55,-0.82,tcount);
+-   snprintf(tcount,12,"%d",nKaons);       text->DrawText(-0.55,-0.87,tcount);
+-   snprintf(tcount,12,"%d",nElectrons);   text->DrawText(-0.55,-0.92,tcount);
+-
+-   text->SetTextAlign(12);
+-   if (nPionPlus+nPionMinus) {
+-      snprintf(tcount,31,"Protons/Pions= %4f",Float_t(nProtons)/Float_t(nPionPlus+nPionMinus));
+-   } else {
+-      strlcpy(tcount,"Protons/Pions= inf",31);
+-   }
+-   text->DrawText(-0.45,-0.92,tcount);
+-
+-   if (nPionPlus+nPionMinus) {
+-      snprintf(tcount,31,"Kaons/Pions= %4f",Float_t(nKaons)/Float_t(nPionPlus+nPionMinus));
+-   } else {
+-      strlcpy(tcount,"Kaons/Pions= inf",31);
+-   }
+-   text->DrawText(0.30,-0.92,tcount);
++void TGenerator::Draw(Option_t *)
++{
+ }
+ 
+ 
+@@ -495,12 +354,8 @@
+ /// Execute action corresponding to one event
+ ///
+ 
+-void TGenerator::ExecuteEvent(Int_t event, Int_t px, Int_t py)
+-{
+-   if (gPad->GetView()) {
+-      gPad->GetView()->ExecuteRotateView(event, px, py);
+-      return;
+-   }
++void TGenerator::ExecuteEvent(Int_t, Int_t, Int_t)
++{
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+@@ -559,14 +414,8 @@
+ ///  Set lower and upper values of the view range
+ ///
+ 
+-void TGenerator::SetViewRange(Float_t xmin, Float_t ymin, Float_t zmin, Float_t xmax, Float_t ymax, Float_t zmax)
+-{
+-   TView *view = gPad->GetView();
+-   if (!view) return;
+-   view->SetRange(xmin,ymin,zmin,xmax,ymax,zmax);
+-
+-   Draw();
+-   gPad->Update();
++void TGenerator::SetViewRange(Float_t, Float_t, Float_t, Float_t, Float_t, Float_t)
++{
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+--- a/montecarlo/eg/src/TParticle.cxx
++++ b/montecarlo/eg/src/TParticle.cxx
+@@ -47,13 +47,10 @@
+ #include "TParticle.h"
+ 
+ #include "TBuffer.h"
+-#include "TView.h"
+ #include "TVirtualPad.h"
+-#include "TPolyLine3D.h"
+ #include "TParticlePDG.h"
+ #include "TDatabasePDG.h"
+ #include "TClass.h"
+-#include "X3DBuffer.h"
+ 
+ ClassImp(TParticle);
+ 
+@@ -212,33 +209,9 @@
+ /// The distance is computed in pixels units.
+ ///ß
+ 
+-Int_t TParticle::DistancetoPrimitive(Int_t px, Int_t py)
+-{
+-   const Int_t big = 9999;
+-   Float_t xv[3], xe[3], xndc[3];
+-   Float_t rmin[3], rmax[3];
+-   TView *view = gPad->GetView();
+-   if(!view) return big;
+-
+-   // compute first and last point in pad coordinates
+-   Float_t pmom = this->P();
+-   if (pmom == 0) return big;
+-   view->GetRange(rmin,rmax);
+-   Float_t rbox = rmax[2];
+-   xv[0] = fVx;
+-   xv[1] = fVy;
+-   xv[2] = fVz;
+-   xe[0] = xv[0]+rbox*fPx/pmom;
+-   xe[1] = xv[1]+rbox*fPy/pmom;
+-   xe[2] = xv[2]+rbox*fPz/pmom;
+-   view->WCtoNDC(xv, xndc);
+-   Float_t x1 = xndc[0];
+-   Float_t y1 = xndc[1];
+-   view->WCtoNDC(xe, xndc);
+-   Float_t x2 = xndc[0];
+-   Float_t y2 = xndc[1];
+-
+-   return DistancetoLine(px,py,x1,y1,x2,y2);
++Int_t TParticle::DistancetoPrimitive(Int_t, Int_t)
++{
++   return 9999;
+ }
+ 
+ 
+@@ -308,28 +281,8 @@
+ ///  Paint a primary track
+ ///
+ 
+-void TParticle::Paint(Option_t *option)
+-{
+-   Float_t rmin[3], rmax[3];
+-   static TPolyLine3D *pline = 0;
+-   if (!pline) {
+-      pline = new TPolyLine3D(2);
+-   }
+-   Float_t pmom = this->P();
+-   if (pmom == 0) return;
+-   TView *view = gPad->GetView();
+-   if (!view) return;
+-   view->GetRange(rmin,rmax);
+-   Float_t rbox = rmax[2];
+-   pline->SetPoint(0,Vx(), Vy(), Vz());
+-   Float_t xend = Vx()+rbox*Px()/pmom;
+-   Float_t yend = Vy()+rbox*Py()/pmom;
+-   Float_t zend = Vz()+rbox*Pz()/pmom;
+-   pline->SetPoint(1, xend, yend, zend);
+-   pline->SetLineColor(GetLineColor());
+-   pline->SetLineStyle(GetLineStyle());
+-   pline->SetLineWidth(GetLineWidth());
+-   pline->Paint(option);
++void TParticle::Paint(Option_t *)
++{
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+@@ -388,13 +341,6 @@
+ 
+ void TParticle::Sizeof3D() const
+ {
+-   Float_t pmom = this->P();
+-   if (pmom == 0) return;
+-   Int_t npoints = 2;
+-   gSize3D.numPoints += npoints;
+-   gSize3D.numSegs   += (npoints-1);
+-   gSize3D.numPolys  += 0;
+-
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+--- a/montecarlo/eg/src/TPrimary.cxx
++++ b/montecarlo/eg/src/TPrimary.cxx
+@@ -22,10 +22,8 @@
+ #include "TString.h"
+ #include "TAttParticle.h"
+ #include "TPrimary.h"
+-#include "TView.h"
+ #include "TMath.h"
+ #include "TVirtualPad.h"
+-#include "TPolyLine3D.h"
+ #include "snprintf.h"
+ 
+ ClassImp(TPrimary);
+@@ -100,33 +98,9 @@
+ /// The distance is computed in pixels units.
+ ///
+ 
+-Int_t TPrimary::DistancetoPrimitive(Int_t px, Int_t py)
++Int_t TPrimary::DistancetoPrimitive(Int_t, Int_t)
+ {
+-   const Int_t big = 9999;
+-   Float_t xv[3], xe[3], xndc[3];
+-   Float_t rmin[3], rmax[3];
+-   TView *view = gPad->GetView();
+-   if(!view) return big;
+-
+-   // compute first and last point in pad coordinates
+-   Float_t pmom = TMath::Sqrt(fPx*fPx+fPy*fPy+fPz*fPz);
+-   if (pmom == 0) return big;
+-   view->GetRange(rmin,rmax);
+-   Float_t rbox = rmax[2];
+-   xv[0] = fVx;
+-   xv[1] = fVy;
+-   xv[2] = fVz;
+-   xe[0] = fVx+rbox*fPx/pmom;
+-   xe[1] = fVy+rbox*fPy/pmom;
+-   xe[2] = fVz+rbox*fPz/pmom;
+-   view->WCtoNDC(xv, xndc);
+-   Float_t x1 = xndc[0];
+-   Float_t y1 = xndc[1];
+-   view->WCtoNDC(xe, xndc);
+-   Float_t x2 = xndc[0];
+-   Float_t y2 = xndc[1];
+-
+-   return DistancetoLine(px,py,x1,y1,x2,y2);
++   return 9999;
+ }
+ 
+ 
+@@ -177,28 +151,8 @@
+ ///  Paint a primary track
+ ///
+ 
+-void TPrimary::Paint(Option_t *option)
++void TPrimary::Paint(Option_t *)
+ {
+-   Float_t rmin[3], rmax[3];
+-   static TPolyLine3D *pline = 0;
+-   if (!pline) {
+-      pline = new TPolyLine3D(2);
+-   }
+-   Float_t pmom = TMath::Sqrt(fPx*fPx+fPy*fPy+fPz*fPz);
+-   if (pmom == 0) return;
+-   TView *view = gPad->GetView();
+-   if (!view) return;
+-   view->GetRange(rmin,rmax);
+-   Float_t rbox = rmax[2];
+-   pline->SetPoint(0,fVx, fVy, fVz);
+-   Float_t xend = fVx+rbox*fPx/pmom;
+-   Float_t yend = fVy+rbox*fPy/pmom;
+-   Float_t zend = fVz+rbox*fPz/pmom;
+-   pline->SetPoint(1, xend, yend, zend);
+-   pline->SetLineColor(GetLineColor());
+-   pline->SetLineStyle(GetLineStyle());
+-   pline->SetLineWidth(GetLineWidth());
+-   pline->Paint(option);
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+@@ -224,12 +178,5 @@
+ 
+ void TPrimary::Sizeof3D() const
+ {
+-   Float_t pmom = TMath::Sqrt(fPx*fPx+fPy*fPy+fPz*fPz);
+-   if (pmom == 0) return;
+-   Int_t npoints = 2;
+-   gSize3D.numPoints += npoints;
+-   gSize3D.numSegs   += (npoints-1);
+-   gSize3D.numPolys  += 0;
+-
+ }
+ 
