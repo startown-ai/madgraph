@@ -10,6 +10,7 @@ COPY quiet-warnings.patch \
      seeds.patch \
      cores.patch \
      delphes-stream.patch \
+     fast-lhe-split.patch \
      /tmp/
 
 RUN mkdir -p /opt/madgraph && \
@@ -18,6 +19,7 @@ RUN mkdir -p /opt/madgraph && \
     patch -d /opt/madgraph -p1 < /tmp/seeds.patch && \
     patch -d /opt/madgraph -p1 < /tmp/cores.patch && \
     patch -d /opt/madgraph -p1 < /tmp/delphes-stream.patch && \
+    patch -d /opt/madgraph -p1 < /tmp/fast-lhe-split.patch && \
     sed -i 's/DelphesHepMC2/DelphesHepMC3/g' \
       /opt/madgraph/madgraph/interface/madevent_interface.py \
       /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
