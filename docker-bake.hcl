@@ -59,6 +59,6 @@ target "madgraph" {
     pythia  = "target:pythia"
     root    = "target:root"
   }
-  tags   = ["startown/madgraph:3.8.1-2"]
+  tags   = ["startown/madgraph:3.8.1-3"]
   attest = ["type=provenance,mode=min", "type=sbom"]
 }
