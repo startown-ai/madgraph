@@ -60,14 +60,14 @@ The results land in `pp2tt/Events/run_01/`:
 
 This repository is licensed under the [Apache License 2.0](LICENSE), while the packages it builds keep their own licenses:
 
-| Package                          | Version | License            |
-| -------------------------------- | ------- | ------------------ |
-| FastJet                          | 3.5.3   | GPL-2.0-or-later   |
-| fjcontrib                        | 1.105   | GPL-2.0-or-later   |
-| HepMC<br>+ `named-weights.patch` | 2.06.11 | GPL-2.0-or-later   |
-| LHAPDF                           | 6.5.6   | GPL-3.0            |
-| ROOT                             | 6.36.14 | LGPL-2.1-or-later  |
-| Delphes                          | 3.5.1   | GPL-3.0-or-later   |
-| eMELA                            | 1.0.1   | MIT                |
-| Pythia                           | 8.317   | GPL-2.0-or-later   |
-| MadGraph5_aMC@NLO                | 3.5.17  | NCSA-style license |
+| Package           | Version | License            |
+| ----------------- | ------- | ------------------ |
+| FastJet           | 3.5.3   | GPL-2.0-or-later   |
+| fjcontrib         | 1.105   | GPL-2.0-or-later   |
+| HepMC             | 3.3.1   | LGPL-3.0-or-later  |
+| LHAPDF            | 6.5.6   | GPL-3.0            |
+| ROOT              | 6.36.14 | LGPL-2.1-or-later  |
+| Delphes           | 3.5.1   | GPL-3.0-or-later   |
+| eMELA             | 1.0.1   | MIT                |
+| Pythia            | 8.317   | GPL-2.0-or-later   |
+| MadGraph5_aMC@NLO | 3.8.1   | NCSA-style license |
