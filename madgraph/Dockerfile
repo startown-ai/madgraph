@@ -12,6 +12,7 @@ COPY quiet-warnings.patch \
      delphes-stream.patch \
      fast-lhe-split.patch \
      hadd-no-j.patch \
+     delphes-inprocess.patch \
      /tmp/
 
 RUN mkdir -p /opt/madgraph && \
@@ -22,6 +23,7 @@ RUN mkdir -p /opt/madgraph && \
     patch -d /opt/madgraph -p1 < /tmp/delphes-stream.patch && \
     patch -d /opt/madgraph -p1 < /tmp/fast-lhe-split.patch && \
     patch -d /opt/madgraph -p1 < /tmp/hadd-no-j.patch && \
+    patch -d /opt/madgraph -p1 < /tmp/delphes-inprocess.patch && \
     sed -i 's/DelphesHepMC2/DelphesHepMC3/g' \
       /opt/madgraph/madgraph/interface/madevent_interface.py \
       /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
@@ -39,7 +41,7 @@ RUN mkdir -p /opt/madgraph && \
       'automatic_html_opening = False' \
       >> /opt/madgraph/input/mg5_configuration.txt
 
-FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20
+FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS runtime
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -85,3 +87,25 @@ RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
 
 CMD ["bash"]
 
+FROM runtime AS shower
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      patch=2.8-2+deb13u0+dhi3 && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY main164delphes.patch DelphesPythia8Event.h /tmp/shower/
+
+RUN cd /tmp/shower && \
+    cp /opt/pythia/share/Pythia8/examples/main164.cc . && \
+    patch -p1 -o main164delphes.cc < main164delphes.patch && \
+    g++ main164delphes.cc -o main164delphes -O2 -std=c++17 -DGZIP -DHEPMC3 \
+      -I. -I/opt/pythia/include -I/opt/hepmc/include -I/opt/delphes/include $(root-config --cflags) \
+      -L/opt/pythia/lib -Wl,-rpath,/opt/pythia/lib -lpythia8 \
+      -L/opt/hepmc/lib -Wl,-rpath,/opt/hepmc/lib -lHepMC3 \
+      -L/opt/delphes/lib -Wl,-rpath,/opt/delphes/lib -lDelphes \
+      $(root-config --libs) -lEG -ldl -lz
+
+FROM runtime
+
+COPY --from=shower /tmp/shower/main164delphes /opt/pythia/share/Pythia8/examples/main164delphes
