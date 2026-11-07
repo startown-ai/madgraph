@@ -4,6 +4,18 @@
 
 [MadGraph5_aMC@NLO](https://github.com/mg5amcnlo/mg5amcnlo) with [Pythia](https://pythia.org) and [Delphes](https://github.com/delphes/delphes).
 
+![Stage times for 10,000 top-quark pairs: 233 s on 3.5.17-1, 47 s on 3.8.1-7](docs/benchmark.svg)
+
+_Generating 10,000 top-quark pairs with shower and detector simulation on 4 cores._
+
+## Highlights
+
+- Pythia, Delphes, LHAPDF, FastJet, eMELA, and ROOT, ready to use from MadGraph.
+- 5x faster: Delphes runs inside each Pythia job, and every stage uses all cores.
+- Reproducible: one `iseed` seeds MadEvent, Pythia, and Delphes.
+- Built on Docker Hardened Images, with no known vulnerabilities.
+- Runs natively on `linux/amd64` and `linux/arm64`, including Apple silicon.
+
 ## Installation
 
 Pull the image:
