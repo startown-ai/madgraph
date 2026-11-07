@@ -24,11 +24,12 @@ RUN echo /opt/root/lib > /etc/ld.so.conf.d/root.conf && \
     ldconfig
 
 ADD https://assets.startown.ai/packages/delphes/3.5.1.tar.gz /tmp/delphes.tar.gz
-COPY no-display.patch /tmp/no-display.patch
+COPY no-display.patch no-graphics.patch /tmp/
 
 RUN mkdir /src && \
     tar -xzf /tmp/delphes.tar.gz -C /src --strip-components=1 && \
     patch -d /src -p1 < /tmp/no-display.patch && \
+    patch -d /src -p1 < /tmp/no-graphics.patch && \
     cmake -S /src -B /build -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/opt/delphes && \
