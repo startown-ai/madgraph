@@ -48,15 +48,15 @@ RUN apt-get update && \
       bc=1.07.1-4+deb13u0+dhi0 \
       g++=4:14.2.0-1+deb13u0+dhi0 \
       gfortran=4:14.2.0-1+deb13u0+dhi0 \
+      libexpat1=2.9.0-1~deb13u1+dhi1 \
+      libffi8=3.4.8-2+deb13u0+dhi2 \
       libfreetype6=2.13.3+dfsg-1+deb13u1+dhi1 \
+      libncursesw6=6.5+20250216-2+deb13u0+dhi5 \
+      libreadline8t64=8.2-6+deb13u0+dhi2 \
       make=4.4.1-2+deb13u0+dhi1 \
-      meson=1.7.0-1 \
       ninja-build=1.12.1-1* \
       pigz=2.8-1* \
       procps=2:4.0.4-9+deb13u0+dhi0 \
-      python3=3.13.5-1 \
-      python3-dev=3.13.5-1 \
-      python3-numpy=1:2.2.4+ds-1 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
@@ -67,12 +67,25 @@ COPY --from=fastjet /opt/fastjet /opt/fastjet
 COPY --from=hepmc /opt/hepmc /opt/hepmc
 COPY --from=lhapdf /opt/lhapdf /opt/lhapdf
 COPY --from=pythia /opt/pythia /opt/pythia
+COPY --from=python /opt/python /opt/python
 COPY --from=root /opt/root /opt/root
 COPY --from=build /opt/madgraph /opt/madgraph
 
+COPY requirements.txt /tmp/requirements.txt
+RUN pip=$(ls /opt/python/lib/python3.13/ensurepip/_bundled/pip-*.whl) && \
+    /opt/python/bin/python3 $pip/pip install \
+      --no-cache-dir \
+      --no-deps \
+      --only-binary=:all: \
+      --require-hashes \
+      --root-user-action=ignore \
+      --disable-pip-version-check \
+      -r /tmp/requirements.txt && \
+    rm /tmp/requirements.txt
+
 ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
 
-ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:/opt/binutils/bin:${PATH} \
+ENV PATH=/opt/python/bin:/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:/opt/binutils/bin:${PATH} \
     DELPHES_HOME=/opt/delphes \
     LD_LIBRARY_PATH=/opt/delphes/lib \
     LIBRARY_PATH=/opt/delphes/lib \
@@ -80,11 +93,11 @@ ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/
     ROOT_INCLUDE_PATH=/opt/delphes/include
 RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
     rm /tmp/pdfset.tar.gz && \
-    for p in hepmc lhapdf fastjet emela pythia root delphes; do \
+    for p in python hepmc lhapdf fastjet emela pythia root delphes; do \
       echo /opt/$p/lib > /etc/ld.so.conf.d/$p.conf; \
     done && \
     ldconfig && \
-    echo /opt/lhapdf/lib/python3.13/dist-packages > /usr/lib/python3/dist-packages/lhapdf.pth
+    echo /opt/lhapdf/lib/python3.13/dist-packages > /opt/python/lib/python3.13/site-packages/lhapdf.pth
 
 CMD ["bash"]
 

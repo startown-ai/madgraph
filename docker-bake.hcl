@@ -22,6 +22,11 @@ target "lhapdf" {
   context   = "lhapdf"
 }
 
+target "python" {
+  platforms = ["linux/amd64", "linux/arm64"]
+  context   = "python"
+}
+
 target "root" {
   platforms = ["linux/amd64", "linux/arm64"]
   context   = "root"
@@ -63,6 +68,7 @@ target "madgraph" {
     hepmc    = "target:hepmc"
     lhapdf   = "target:lhapdf"
     pythia   = "target:pythia"
+    python   = "target:python"
     root     = "target:root"
   }
   tags   = ["startown/madgraph:3.8.1-5"]
