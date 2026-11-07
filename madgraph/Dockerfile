@@ -132,3 +132,8 @@ RUN pkgs="libfreetype6 libpng16-16t64" && \
     dpkg --purge $pkgs && \
     for p in $pkgs; do rm -f /var/lib/dpkg/status.d/$p; done && \
     ldconfig
+
+RUN pkgs="apt libapt-pkg7.0 gpgv libgcrypt20 libgpg-error0 libseccomp2 debian-archive-keyring" && \
+    dpkg --purge $pkgs && \
+    for p in $pkgs; do rm -f /var/lib/dpkg/status.d/$p; done && \
+    rm -rf /var/lib/apt /var/cache/apt
