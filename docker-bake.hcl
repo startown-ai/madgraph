@@ -2,6 +2,11 @@ group "default" {
   targets = ["madgraph"]
 }
 
+target "binutils" {
+  platforms = ["linux/amd64", "linux/arm64"]
+  context   = "binutils"
+}
+
 target "fastjet" {
   platforms = ["linux/amd64", "linux/arm64"]
   context   = "fastjet"
@@ -51,13 +56,14 @@ target "madgraph" {
   platforms = ["linux/amd64", "linux/arm64"]
   context   = "madgraph"
   contexts = {
-    delphes = "target:delphes"
-    emela   = "target:emela"
-    fastjet = "target:fastjet"
-    hepmc   = "target:hepmc"
-    lhapdf  = "target:lhapdf"
-    pythia  = "target:pythia"
-    root    = "target:root"
+    binutils = "target:binutils"
+    delphes  = "target:delphes"
+    emela    = "target:emela"
+    fastjet  = "target:fastjet"
+    hepmc    = "target:hepmc"
+    lhapdf   = "target:lhapdf"
+    pythia   = "target:pythia"
+    root     = "target:root"
   }
   tags   = ["startown/madgraph:3.8.1-5"]
   attest = ["type=provenance,mode=min", "type=sbom"]

@@ -60,6 +60,7 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
     rm -rf /var/lib/apt/lists/*
 
+COPY --from=binutils /opt/binutils /opt/binutils
 COPY --from=delphes /opt/delphes /opt/delphes
 COPY --from=emela /opt/emela /opt/emela
 COPY --from=fastjet /opt/fastjet /opt/fastjet
@@ -71,7 +72,7 @@ COPY --from=build /opt/madgraph /opt/madgraph
 
 ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
 
-ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:${PATH} \
+ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:/opt/binutils/bin:${PATH} \
     DELPHES_HOME=/opt/delphes \
     LD_LIBRARY_PATH=/opt/delphes/lib \
     LIBRARY_PATH=/opt/delphes/lib \
@@ -109,3 +110,7 @@ RUN cd /tmp/shower && \
 FROM runtime
 
 COPY --from=shower /tmp/shower/main164delphes /opt/pythia/share/Pythia8/examples/main164delphes
+
+RUN pkgs="binutils binutils-common binutils-$(gcc -dumpmachine | tr _ -) libbinutils libctf0 libctf-nobfd0 libgprofng0 libsframe1 libjansson4" && \
+    dpkg --purge --force-depends $pkgs && \
+    for p in $pkgs; do rm -f /var/lib/dpkg/status.d/$p; done
