@@ -127,3 +127,8 @@ COPY --from=shower /tmp/shower/main164delphes /opt/pythia/share/Pythia8/examples
 RUN pkgs="binutils binutils-common binutils-$(gcc -dumpmachine | tr _ -) libbinutils libctf0 libctf-nobfd0 libgprofng0 libsframe1 libjansson4" && \
     dpkg --purge --force-depends $pkgs && \
     for p in $pkgs; do rm -f /var/lib/dpkg/status.d/$p; done
+
+RUN pkgs="libfreetype6 libpng16-16t64" && \
+    dpkg --purge $pkgs && \
+    for p in $pkgs; do rm -f /var/lib/dpkg/status.d/$p; done && \
+    ldconfig
