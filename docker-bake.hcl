@@ -71,6 +71,6 @@ target "madgraph" {
     python   = "target:python"
     root     = "target:root"
   }
-  tags   = ["startown/madgraph:3.8.1-5"]
+  tags   = ["startown/madgraph:3.8.1-6"]
   attest = ["type=provenance,mode=min", "type=sbom"]
 }
