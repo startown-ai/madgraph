@@ -55,6 +55,7 @@ RUN apt-get update && \
       libreadline8t64=8.2-6+deb13u0+dhi2 \
       make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1* \
+      perl=5.40.1-6+deb13u1+dhi3 \
       pigz=2.8-1* \
       procps=2:4.0.4-9+deb13u0+dhi0 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
