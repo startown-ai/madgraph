@@ -1,38 +1,28 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       cmake=3.31.6-2 \
       g++=4:14.2.0-1+deb13u0+dhi0 \
       make=4.4.1-2+deb13u0+dhi1 \
-      ninja-build=1.12.1-1* && \
-    rm -rf /var/lib/apt/lists/*
+      ninja-build=1.12.1-1*
 
 ADD https://assets.startown.ai/packages/fastjet/3.5.3.tar.gz /tmp/fastjet.tar.gz
-ADD https://assets.startown.ai/packages/fjcontrib/1.105.tar.gz /tmp/fjcontrib.tar.gz
 
-RUN mkdir -p /src/fastjet && \
-    tar -xzf /tmp/fastjet.tar.gz -C /src/fastjet --strip-components=1 && \
-    cmake -S /src/fastjet -B /build/fastjet -G Ninja \
+RUN mkdir /src && \
+    tar -xzf /tmp/fastjet.tar.gz -C /src --strip-components=1 && \
+    cmake -S /src -B /build -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/opt/fastjet \
-      -DFASTJET_ENABLE_ALLCXXPLUGINS=ON && \
-    cmake --build /build/fastjet && \
-    cmake --install /build/fastjet && \
-    install -D -m 644 -t /opt/fastjet/share/licenses/fastjet /src/fastjet/COPYING && \
-    rm -rf /src/fastjet /build/fastjet
+      -DFASTJET_BUILD_EXAMPLES=OFF \
+      -DFASTJET_ENABLE_ALLCXXPLUGINS=ON \
+      -DFASTJET_ENABLE_DEBUG=OFF \
+      -DSISCONE_BUILD_EXAMPLES=OFF \
+      -DSISCONE_ENABLE_DEBUG=OFF && \
+    cmake --build /build && \
+    cmake --install /build
 
-RUN mkdir -p /src/fjcontrib && \
-    tar -xzf /tmp/fjcontrib.tar.gz -C /src/fjcontrib --strip-components=1 && \
-    cd /src/fjcontrib && \
-    ./configure --fastjet-config=/opt/fastjet/bin/fastjet-config CXXFLAGS="-O3 -fPIC" && \
-    make -j$(nproc) && \
-    make install && \
-    make fragile-shared && \
-    make fragile-shared-install && \
-    find . -name COPYING -not -path './scripts/*' \
-      -exec install -D -m 644 {} /opt/fastjet/share/licenses/fjcontrib/{} \; && \
-    rm -rf /src/fjcontrib
+RUN install -Dm644 -t /opt/fastjet/share/licenses/fastjet /src/COPYING
 
 FROM scratch
 
