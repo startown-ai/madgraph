@@ -1,4 +1,4 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -7,8 +7,7 @@ RUN apt-get update && \
       gfortran=4:14.2.0-1+deb13u0+dhi0 \
       libboost-dev=1.83.0.2* \
       make=4.4.1-2+deb13u0+dhi1 \
-      ninja-build=1.12.1-1* && \
-    rm -rf /var/lib/apt/lists/*
+      ninja-build=1.12.1-1*
 
 COPY --from=lhapdf /opt/lhapdf /opt/lhapdf
 ENV PATH=/opt/lhapdf/bin:${PATH}
@@ -24,9 +23,9 @@ RUN mkdir /src && \
       -DCMAKE_INSTALL_PREFIX=/opt/emela \
       -DWITH_LHAPDF=ON && \
     cmake --build /build && \
-    cmake --install /build && \
-    install -D -m 644 -t /opt/emela/share/licenses/emela /src/LICENSE && \
-    rm -rf /src /build
+    cmake --install /build
+
+RUN install -Dm644 -t /opt/emela/share/licenses/emela /src/LICENSE
 
 FROM scratch
 
