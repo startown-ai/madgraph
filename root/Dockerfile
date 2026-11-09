@@ -1,4 +1,4 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -17,9 +17,8 @@ RUN apt-get update && \
       ninja-build=1.12.1-1* \
       nlohmann-json3-dev=3.11.3-2.1 \
       patch=2.8-2+deb13u0+dhi3 \
-      python3=3.13.5-1 \
-      zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
-    rm -rf /var/lib/apt/lists/*
+      python-3.13=3.13.18-6 \
+      zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0
 
 ADD https://assets.startown.ai/packages/root/6.36.14.tar.gz /tmp/root.tar.gz
 COPY eg-no-graphics.patch /tmp/eg-no-graphics.patch
@@ -36,9 +35,12 @@ RUN mkdir /src && \
       -DLLVM_DIR=/usr/lib/llvm-18/lib/cmake/llvm \
       -DLLVM_INCLUDE_TESTS=OFF && \
     cmake --build /build && \
-    cmake --install /build && \
-    install -D -m 644 -t /opt/root/share/licenses/root /src/LICENSE && \
-    rm -rf /src /build
+    cmake --install /build
+
+RUN install -Dm644 -t /opt/root/share/licenses/root /src/LICENSE && \
+    rm -r /opt/root/fonts \
+      /opt/root/README/ReleaseNotes \
+      /opt/root/tutorials
 
 FROM scratch
 
