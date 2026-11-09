@@ -40,6 +40,11 @@ RUN mkdir -p /opt/madgraph && \
       'automatic_html_opening = False' \
       >> /opt/madgraph/input/mg5_configuration.txt
 
+ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
+
+RUN mkdir -p /opt/pdfsets && \
+    tar -xzf /tmp/pdfset.tar.gz -C /opt/pdfsets
+
 FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c AS runtime
 
 RUN apt-get update && \
@@ -66,9 +71,10 @@ COPY --from=docker.io/startown/lhapdf:6.5.6-1@sha256:7f31495cb858a90951f4d06ff3d
 COPY --from=docker.io/startown/pythia:8.317-1@sha256:5bcd39de9c558407c856d598ba4bfdd09c4d34c232388ff167b64df673477d95 /opt/pythia /opt/pythia
 COPY --from=docker.io/startown/root:6.36.14-1@sha256:95e00b7d3d196d4f3de275022d5718844f86bb03413741e25dee76e85c5ce746 /opt/root /opt/root
 COPY --from=build /opt/madgraph /opt/madgraph
+COPY --from=build /opt/pdfsets/ /opt/lhapdf/share/LHAPDF/
 
-COPY requirements.txt /tmp/requirements.txt
-RUN pip=$(ls /usr/share/python-wheels/pip-*.whl) && \
+RUN --mount=type=bind,source=requirements.txt,target=/tmp/requirements.txt \
+    pip=$(ls /usr/share/python-wheels/pip-*.whl) && \
     python3 "$pip/pip" install \
       --no-cache-dir \
       --no-deps \
@@ -76,10 +82,7 @@ RUN pip=$(ls /usr/share/python-wheels/pip-*.whl) && \
       --require-hashes \
       --root-user-action=ignore \
       --disable-pip-version-check \
-      -r /tmp/requirements.txt && \
-    rm /tmp/requirements.txt
-
-ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
+      -r /tmp/requirements.txt
 
 ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:${PATH} \
     DELPHES_HOME=/opt/delphes \
@@ -87,9 +90,7 @@ ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/
     LIBRARY_PATH=/opt/delphes/lib \
     PIGZ=-1 \
     ROOT_INCLUDE_PATH=/opt/delphes/include
-RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF && \
-    rm /tmp/pdfset.tar.gz && \
-    for p in hepmc lhapdf fastjet emela pythia root delphes; do \
+RUN for p in hepmc lhapdf fastjet emela pythia root delphes; do \
       echo /opt/$p/lib > /etc/ld.so.conf.d/$p.conf; \
     done && \
     ldconfig && \
