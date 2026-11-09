@@ -1,4 +1,4 @@
-FROM dhi.io/debian-base:trixie-dev@sha256:61025cea33d5910165ced8b33edd3f6b6bfe161e129174887936a1b9a1442b20 AS build
+FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c AS build
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -14,9 +14,8 @@ RUN apt-get update && \
       ninja-build=1.12.1-1* \
       nlohmann-json3-dev=3.11.3-2.1 \
       patch=2.8-2+deb13u0+dhi3 \
-      python3=3.13.5-1 \
-      zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u0+dhi4 && \
-    rm -rf /var/lib/apt/lists/*
+      python-3.13=3.13.18-6 \
+      zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0
 
 COPY --from=root /opt/root /opt/root
 ENV PATH=/opt/root/bin:${PATH}
@@ -36,10 +35,10 @@ RUN mkdir /src && \
     cmake --build /build && \
     cmake --install /build && \
     ln -s . /opt/delphes/include/external && \
-    find /build -name '*.rootmap' -exec cat {} + | \
-      sed 's/^\[ lib.*Dict\.so \]$/[ libDelphes.so ]/' > /opt/delphes/lib/libDelphes.rootmap && \
-    install -D -m 644 -t /opt/delphes/share/licenses/delphes /src/COPYING /src/LICENSE && \
-    rm -rf /src /build
+    find /build -name '*.rootmap' \
+      -exec sed 's/^\[ lib.*Dict\.so \]$/[ libDelphes.so ]/' {} + > /opt/delphes/lib/libDelphes.rootmap
+
+RUN install -Dm644 -t /opt/delphes/share/licenses/delphes /src/COPYING /src/LICENSE
 
 FROM scratch
 
