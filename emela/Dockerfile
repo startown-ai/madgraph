@@ -9,7 +9,7 @@ RUN apt-get update && \
       make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1*
 
-COPY --from=lhapdf /opt/lhapdf /opt/lhapdf
+COPY --from=docker.io/startown/lhapdf:6.5.6-1@sha256:7f31495cb858a90951f4d06ff3d1cf952ec031c5345c9a548008ed6549eb2c9b /opt/lhapdf /opt/lhapdf
 ENV PATH=/opt/lhapdf/bin:${PATH}
 RUN echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
