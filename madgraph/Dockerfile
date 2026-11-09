@@ -58,13 +58,13 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=delphes /opt/delphes /opt/delphes
-COPY --from=emela /opt/emela /opt/emela
-COPY --from=fastjet /opt/fastjet /opt/fastjet
-COPY --from=hepmc /opt/hepmc /opt/hepmc
-COPY --from=lhapdf /opt/lhapdf /opt/lhapdf
-COPY --from=pythia /opt/pythia /opt/pythia
-COPY --from=root /opt/root /opt/root
+COPY --from=docker.io/startown/delphes:3.5.1-1@sha256:ef9473facad498c84128643287e266a09bc12138f70d52036e349b8dd95d0ee7 /opt/delphes /opt/delphes
+COPY --from=docker.io/startown/emela:1.0.1-1@sha256:99f30390a06b53e36613fedb3984a4e820e487e0530a97bc4a9b27150b3e46d1 /opt/emela /opt/emela
+COPY --from=docker.io/startown/fastjet:3.5.3-1@sha256:70f538596ab6919760e1fbff9a0513b1b1f218d5550f96dcec8a62c7d7591b23 /opt/fastjet /opt/fastjet
+COPY --from=docker.io/startown/hepmc:3.3.1-1@sha256:a7196e9d9031051d7d1dfd177fb4b1aad8ba8a7864d43f4bec186c3c682d0f3e /opt/hepmc /opt/hepmc
+COPY --from=docker.io/startown/lhapdf:6.5.6-1@sha256:7f31495cb858a90951f4d06ff3d1cf952ec031c5345c9a548008ed6549eb2c9b /opt/lhapdf /opt/lhapdf
+COPY --from=docker.io/startown/pythia:8.317-1@sha256:5bcd39de9c558407c856d598ba4bfdd09c4d34c232388ff167b64df673477d95 /opt/pythia /opt/pythia
+COPY --from=docker.io/startown/root:6.36.14-1@sha256:95e00b7d3d196d4f3de275022d5718844f86bb03413741e25dee76e85c5ce746 /opt/root /opt/root
 COPY --from=build /opt/madgraph /opt/madgraph
 
 COPY requirements.txt /tmp/requirements.txt
