@@ -17,7 +17,7 @@ RUN apt-get update && \
       python-3.13=3.13.18-6 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0
 
-COPY --from=root /opt/root /opt/root
+COPY --from=docker.io/startown/root:6.36.14-1@sha256:95e00b7d3d196d4f3de275022d5718844f86bb03413741e25dee76e85c5ce746 /opt/root /opt/root
 ENV PATH=/opt/root/bin:${PATH}
 RUN echo /opt/root/lib > /etc/ld.so.conf.d/root.conf && \
     ldconfig
