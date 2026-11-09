@@ -7,8 +7,8 @@ RUN apt-get update && \
       rsync=3.5.0+ds1-0+deb13u1+dhi1 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0
 
-COPY --from=hepmc /opt/hepmc /opt/hepmc
-COPY --from=lhapdf /opt/lhapdf /opt/lhapdf
+COPY --from=docker.io/startown/hepmc:3.3.1-1@sha256:a7196e9d9031051d7d1dfd177fb4b1aad8ba8a7864d43f4bec186c3c682d0f3e /opt/hepmc /opt/hepmc
+COPY --from=docker.io/startown/lhapdf:6.5.6-1@sha256:7f31495cb858a90951f4d06ff3d1cf952ec031c5345c9a548008ed6549eb2c9b /opt/lhapdf /opt/lhapdf
 RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
