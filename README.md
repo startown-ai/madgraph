@@ -11,7 +11,7 @@
 
 [MadGraph5_aMC@NLO](https://github.com/mg5amcnlo/mg5amcnlo) with [Pythia](https://pythia.org) and [Delphes](https://github.com/delphes/delphes).
 
-![Stage times for 10,000 top-quark pairs: 233 s on 3.5.17-1, 47 s on 3.8.1-7](docs/benchmark.svg)
+![Stage times for 10,000 top-quark pairs: 233 s on 3.5.17-1, 46 s on 3.8.1-8](docs/benchmark.svg)
 
 _Generating 10,000 top-quark pairs with shower and detector simulation on 4 cores._
 
