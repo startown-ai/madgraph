@@ -50,6 +50,6 @@ target "pythia" {
 target "madgraph" {
   platforms = ["linux/amd64", "linux/arm64"]
   context   = "madgraph"
-  tags      = ["startown/madgraph:3.8.1-7"]
+  tags      = ["startown/madgraph:3.8.1-8"]
   attest    = ["type=provenance,mode=min", "type=sbom"]
 }
