@@ -64,5 +64,9 @@ ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/emela/bin:/opt/fastjet/bin:/opt
     PIGZ=-1 \
     ROOT_INCLUDE_PATH=/opt/delphes/include
 RUN printf '/opt/%s/lib\n' delphes emela fastjet hepmc lhapdf pythia root > /etc/ld.so.conf.d/opt.conf && ldconfig
+RUN set -- apt libapt-pkg7.0 gpgv libgcrypt20 libgpg-error0 libseccomp2 debian-archive-keyring && \
+    dpkg --purge "$@" && \
+    for p in "$@"; do rm -f "/var/lib/dpkg/status.d/$p"; done && \
+    rm -rf /var/lib/apt /var/cache/apt
 
 CMD ["bash"]
