@@ -10,7 +10,6 @@ RUN apt-get update && \
       libpcre2-dev=10.46-1~deb13u3+dhi0 \
       libxxhash-dev=0.8.3-2+deb13u0+dhi1 \
       libzstd-dev=1.5.7+dfsg-1+deb13u0+dhi3 \
-      make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1* \
       nlohmann-json3-dev=3.11.3-2.1 \
       patch=2.8-2+deb13u0+dhi3 \

@@ -4,7 +4,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       cmake=3.31.6-2 \
       g++=4:14.2.0-1+deb13u0+dhi0 \
-      make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1*
 
 ADD --checksum=sha256:08240160b0f28dc3293aa4d61ce65e2d67cd597acf6faca439f2e46625f7e793 https://assets.startown.ai/packages/hepmc/3.3.1.tar.gz /tmp/hepmc.tar.gz
