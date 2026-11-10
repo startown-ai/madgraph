@@ -43,13 +43,13 @@ RUN apt-get update && \
       procps=2:4.0.4-9+deb13u0+dhi0 \
       python-3.13=3.13.18-7 \
       python-3.13-dev=3.13.18-7 \
-      python3-pip=26.3-0 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0 && \
     rm -rf /var/lib/apt/lists/*
-RUN printf '%s\n' \
+RUN pip=$(ls /usr/share/python-wheels/pip-*.whl) && \
+    printf '%s\n' \
       'meson==1.7.0 --hash=sha256:ae3f12953045f3c7c60e27f2af1ad862f14dee125b4ed9bcb8a842a5080dbf85' \
       'numpy==2.2.4 --hash=sha256:6f527d8fdb0286fd2fd97a2a96c6be17ba4232da346931d967a0630050dfd298 --hash=sha256:bce43e386c16898b91e162e5baaad90c4b06f9dcbe36282490032cec98dc8ae7' | \
-    pip install --no-cache-dir --require-hashes -r /dev/stdin
+    python3 "$pip/pip" install --no-cache-dir --require-hashes -r /dev/stdin
 
 COPY --from=docker.io/startown/delphes:3.5.1-1@sha256:ef9473facad498c84128643287e266a09bc12138f70d52036e349b8dd95d0ee7 /opt/delphes /opt/delphes
 COPY --from=docker.io/startown/emela:1.0.1-1@sha256:99f30390a06b53e36613fedb3984a4e820e487e0530a97bc4a9b27150b3e46d1 /opt/emela /opt/emela
