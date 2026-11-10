@@ -18,11 +18,10 @@ RUN apt-get update && \
 
 COPY --from=docker.io/startown/root:6.36.14-1@sha256:95e00b7d3d196d4f3de275022d5718844f86bb03413741e25dee76e85c5ce746 /opt/root /opt/root
 ENV PATH=/opt/root/bin:${PATH}
-RUN echo /opt/root/lib > /etc/ld.so.conf.d/root.conf && \
-    ldconfig
+RUN printf '/opt/%s/lib\n' root > /etc/ld.so.conf.d/opt.conf && ldconfig
 
 ADD --checksum=sha256:a7cbf34fb682050b85306c3e520517fd36725089329234b34338208fe8ad4b30 https://assets.startown.ai/packages/delphes/3.5.1.tar.gz /tmp/delphes.tar.gz
-COPY no-display.patch no-graphics.patch /tmp/
+COPY *.patch /tmp/
 
 RUN mkdir /src && \
     tar -xzf /tmp/delphes.tar.gz -C /src --strip-components=1 && \
@@ -32,11 +31,9 @@ RUN mkdir /src && \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/opt/delphes && \
     cmake --build /build && \
-    cmake --install /build && \
-    ln -s . /opt/delphes/include/external && \
-    find /build -name '*.rootmap' \
-      -exec sed 's/^\[ lib.*Dict\.so \]$/[ libDelphes.so ]/' {} + > /opt/delphes/lib/libDelphes.rootmap
-
+    cmake --install /build
+RUN ln -s . /opt/delphes/include/external && \
+    sed 's/lib.*Dict\.so/libDelphes.so/' /build/*/*.rootmap /build/external/*/*.rootmap > /opt/delphes/lib/libDelphes.rootmap
 RUN install -Dm644 -t /opt/delphes/share/licenses/delphes /src/COPYING /src/LICENSE
 
 FROM scratch

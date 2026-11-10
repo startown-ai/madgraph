@@ -20,7 +20,6 @@ RUN mkdir /src && \
       -DSISCONE_ENABLE_DEBUG=OFF && \
     cmake --build /build && \
     cmake --install /build
-
 RUN install -Dm644 -t /opt/fastjet/share/licenses/fastjet /src/COPYING
 
 FROM scratch

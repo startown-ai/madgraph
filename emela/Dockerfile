@@ -10,8 +10,7 @@ RUN apt-get update && \
 
 COPY --from=docker.io/startown/lhapdf:6.5.6-1@sha256:7f31495cb858a90951f4d06ff3d1cf952ec031c5345c9a548008ed6549eb2c9b /opt/lhapdf /opt/lhapdf
 ENV PATH=/opt/lhapdf/bin:${PATH}
-RUN echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
-    ldconfig
+RUN printf '/opt/%s/lib\n' lhapdf > /etc/ld.so.conf.d/opt.conf && ldconfig
 
 ADD --checksum=sha256:4495aaf754fb9da22d222f2a58761262beb012a907d6d2ec1d9b637c4f4743d2 https://assets.startown.ai/packages/emela/1.0.1.tar.gz /tmp/emela.tar.gz
 
@@ -23,7 +22,6 @@ RUN mkdir /src && \
       -DWITH_LHAPDF=ON && \
     cmake --build /build && \
     cmake --install /build
-
 RUN install -Dm644 -t /opt/emela/share/licenses/emela /src/LICENSE
 
 FROM scratch

@@ -20,7 +20,7 @@ RUN apt-get update && \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0
 
 ADD --checksum=sha256:d45af0b98c121a1f03ad7f6069ef660da758d7eea519e24ad788768d58805284 https://assets.startown.ai/packages/root/6.36.14.tar.gz /tmp/root.tar.gz
-COPY eg-no-graphics.patch /tmp/eg-no-graphics.patch
+COPY *.patch /tmp/
 
 RUN mkdir /src && \
     tar -xzf /tmp/root.tar.gz -C /src --strip-components=1 && \
@@ -35,9 +35,8 @@ RUN mkdir /src && \
       -DLLVM_INCLUDE_TESTS=OFF && \
     cmake --build /build && \
     cmake --install /build
-
-RUN install -Dm644 -t /opt/root/share/licenses/root /src/LICENSE && \
-    rm -r /opt/root/fonts \
+RUN install -Dm644 -t /opt/root/share/licenses/root /src/LICENSE
+RUN rm -r /opt/root/fonts \
       /opt/root/README/ReleaseNotes \
       /opt/root/tutorials
 

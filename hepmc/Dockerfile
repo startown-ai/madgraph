@@ -21,7 +21,6 @@ RUN mkdir /src && \
       -DHEPMC3_INSTALL_EXAMPLES=OFF && \
     cmake --build /build && \
     cmake --install /build
-
 RUN install -Dm644 -t /opt/hepmc/share/licenses/hepmc /src/COPYING /src/LICENCE
 
 FROM scratch
