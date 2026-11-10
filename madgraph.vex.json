@@ -3,8 +3,8 @@
   "@id": "https://github.com/startown-ai/madgraph/blob/main/madgraph.vex.json",
   "author": "Paxon Lee <paxonlee@startown.ai>",
   "role": "Document Creator",
-  "version": 1,
-  "timestamp": "2026-11-09T10:10:33Z",
+  "version": 2,
+  "timestamp": "2026-11-10T13:42:43Z",
   "statements": [
     {
       "@id": "urn:uuid:c682ea08-8c25-5a03-99f8-93015a7f193c",
@@ -4011,6 +4011,4014 @@
       ],
       "status": "not_affected",
       "timestamp": "2026-11-09T10:10:33Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "Python's pyexpat module (in libpython-3.13-minimal) is built with CPython 3.13.18's bundled expat 2.9.0 and registers its own unknown-encoding handler, so this converter is reachable with a document that declares such an encoding. MadGraph parses only XML it wrote itself during the run (Pythia's DJR output, its results summary and histogram files)."
+    },
+    {
+      "@id": "urn:uuid:2dda550c-7ccb-5c90-babc-1413e10c88ae",
+      "vulnerability": {
+        "name": "CVE-2005-2541"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/tar@1.35%2Bdfsg-3.1%2Bdeb13u0%2Bdhi3"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "Everything in the image already runs as root, so a setuid or setgid file extracted by tar grants nothing new. GNU tar only unpacks archives MadGraph wrote itself during a run; MadGraph's model, tool and PDF-set downloads go through wget, which the image doesn't include, and LHAPDF's own downloader uses Python's tarfile."
+    },
+    {
+      "@id": "urn:uuid:aa7d1466-a51b-5883-988d-117fea928b51",
+      "vulnerability": {
+        "name": "CVE-2010-0928"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libssl3t64@3.5.7-1~deb13u3%2Bdhi0"
+            },
+            {
+              "@id": "pkg:deb/debian/openssl-provider-legacy@3.5.7-1~deb13u3%2Bdhi0"
+            },
+            {
+              "@id": "pkg:deb/debian/openssl@3.5.7-1~deb13u3%2Bdhi0"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The attack needs physical fault injection on the CPU (modified supply voltage), which OpenSSL's security policy places outside its threat model."
+    },
+    {
+      "@id": "urn:uuid:3633b150-aea9-5425-9ae0-f3770f830df0",
+      "vulnerability": {
+        "name": "CVE-2010-4756"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libc-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc-dev-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6-dev@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6@2.41-12%2Bdeb13u4%2Bdhi1"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The image runs no network services and no program in it passes input from elsewhere to this code. The glob() resource use needs an attacker-chosen pattern, such as an FTP server passing remote STAT arguments to glob()."
+    },
+    {
+      "@id": "urn:uuid:cb394192-b983-5ad1-b13b-a29ec9c064af",
+      "vulnerability": {
+        "name": "CVE-2011-4116"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libperl5.40@5.40.1-6%2Bdeb13u1%2Bdhi3"
+            },
+            {
+              "@id": "pkg:deb/debian/perl-base@5.40.1-6%2Bdeb13u1%2Bdhi3"
+            },
+            {
+              "@id": "pkg:deb/debian/perl-modules-5.40@5.40.1-6%2Bdeb13u1%2Bdhi3"
+            },
+            {
+              "@id": "pkg:deb/debian/perl@5.40.1-6%2Bdeb13u1%2Bdhi3"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "File::Temp calls _is_safe only with safe_level MEDIUM or HIGH, and no Perl code in the image sets safe_level (checked /opt, including MadGraph's merge scripts)."
+    },
+    {
+      "@id": "urn:uuid:e8a5cca0-b830-5b39-8ed1-213806418d22",
+      "vulnerability": {
+        "name": "CVE-2013-4392"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libsystemd0@257.13-1~deb13u1%2Bdhi2"
+            },
+            {
+              "@id": "pkg:deb/debian/libudev1@257.13-1~deb13u1%2Bdhi2"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The symlink race is in systemd-tmpfiles, which the image doesn't include; libsystemd0 and libudev1 are libraries only."
+    },
+    {
+      "@id": "urn:uuid:a20b37a5-14c2-5c6f-9b6c-aee36606b151",
+      "vulnerability": {
+        "name": "CVE-2017-13716"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The memory exhaustion is in the ARM/HP template demangler (arm_pt, demangle_arm_hp_template, per the backtrace in sourceware bug 22009). libiberty's old-style demangler in cplus-dem.c (GNU v2, Lucid, ARM, HP and EDG schemes) was removed for GCC 9 in 2018 and from binutils since 2.32. The image's c++filt offers only none, auto, gnu-v3, java, gnat, dlang and rust, and rejects -s gnu, lucid, arm, hp and edg as unknown styles."
+    },
+    {
+      "@id": "urn:uuid:499ff10d-d4e2-545e-bde2-745c7efdf788",
+      "vulnerability": {
+        "name": "CVE-2017-18018"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/coreutils@9.7-3%2Bdhi4"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The race needs root to run chown or chgrp with -R -L on a tree another user can write to. The image has no other users and nothing in it runs chown or chgrp -R -L."
+    },
+    {
+      "@id": "urn:uuid:3b2e77ce-27c6-5715-b81c-d0f204c09213",
+      "vulnerability": {
+        "name": "CVE-2018-20673"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The overflow is in demangle_template, part of the old-style demangler. libiberty's old-style demangler in cplus-dem.c (GNU v2, Lucid, ARM, HP and EDG schemes) was removed for GCC 9 in 2018 and from binutils since 2.32. The image's c++filt offers only none, auto, gnu-v3, java, gnat, dlang and rust, and rejects -s gnu, lucid, arm, hp and edg as unknown styles. Siddhesh Poyarekar (GCC bug 88783) found it fixed from 2.32 on."
+    },
+    {
+      "@id": "urn:uuid:048582f9-5396-58b9-af62-39328695579f",
+      "vulnerability": {
+        "name": "CVE-2018-20712"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The over-read in d_expression_1 needs a crafted mangled name. Nick Clifton (binutils) reports the testcases no longer fail from 2.35 on (GCC bug 88629). In this image demangling happens only in ld's diagnostics, on symbols gcc and gfortran have just compiled from MadGraph's generated code, and in ROOT's crash handler, which can run addr2line and c++filt on the crashing process's own libraries (the image has no gdb). Neither sees mangled names from elsewhere."
+    },
+    {
+      "@id": "urn:uuid:31b0d4c2-cf9c-5406-921e-36c142254295",
+      "vulnerability": {
+        "name": "CVE-2018-20796"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libc-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc-dev-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6-dev@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6@2.41-12%2Bdeb13u4%2Bdhi1"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The image runs no network services and no program in it passes input from elsewhere to this code. The regex recursion needs an attacker-chosen regular expression; glibc doesn't treat crafted patterns as a security boundary."
+    },
+    {
+      "@id": "urn:uuid:6e317c9f-39cc-5e6f-9434-b8136fc76c35",
+      "vulnerability": {
+        "name": "CVE-2018-9996"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The recursion is in demangle_template_value_parm, demangle_integral_value and demangle_expression, all part of the old-style demangler. libiberty's old-style demangler in cplus-dem.c (GNU v2, Lucid, ARM, HP and EDG schemes) was removed for GCC 9 in 2018 and from binutils since 2.32. The image's c++filt offers only none, auto, gnu-v3, java, gnat, dlang and rust, and rejects -s gnu, lucid, arm, hp and edg as unknown styles."
+    },
+    {
+      "@id": "urn:uuid:62d6a1db-ab26-59ab-b549-d60f1b29c551",
+      "vulnerability": {
+        "name": "CVE-2019-1010022"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libc-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc-dev-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6-dev@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6@2.41-12%2Bdeb13u4%2Bdhi1"
+            }
+          ]
+        }
+      ],
+      "status": "affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "action_statement": "A weakness in glibc's stack protector for threads, useful only together with a separate stack buffer overflow in a program. Upstream treats it as a non-security bug and no fix exists; nothing to do on its own."
+    },
+    {
+      "@id": "urn:uuid:f33ac3c6-64a4-568f-9974-ced051dbc6a7",
+      "vulnerability": {
+        "name": "CVE-2019-1010023"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libc-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc-dev-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6-dev@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6@2.41-12%2Bdeb13u4%2Bdhi1"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "ldd can run code from the file it inspects, as its manual warns. Nothing in the image runs ldd; don't run it on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:951807df-fc33-5279-bae0-976bfc2a9967",
+      "vulnerability": {
+        "name": "CVE-2019-1010024"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libc-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc-dev-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6-dev@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6@2.41-12%2Bdeb13u4%2Bdhi1"
+            }
+          ]
+        }
+      ],
+      "status": "affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "action_statement": "A weakness in address space layout randomization, useful only together with a separate memory-corruption bug in a program. Upstream treats it as a non-security bug and no fix exists; nothing to do on its own."
+    },
+    {
+      "@id": "urn:uuid:36fc950c-4bd0-59ef-bdbd-1b23e27ad5e4",
+      "vulnerability": {
+        "name": "CVE-2019-1010025"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libc-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc-dev-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6-dev@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6@2.41-12%2Bdeb13u4%2Bdhi1"
+            }
+          ]
+        }
+      ],
+      "status": "affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "action_statement": "A weakness in address space layout randomization for thread heaps, useful only together with a separate memory-corruption bug in a program. Upstream treats it as a non-security bug and no fix exists; nothing to do on its own."
+    },
+    {
+      "@id": "urn:uuid:b0ed6d3e-65cd-5e20-ba9e-4a2cfa30aff1",
+      "vulnerability": {
+        "name": "CVE-2019-9192"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libc-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc-dev-bin@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6-dev@2.41-12%2Bdeb13u4%2Bdhi1"
+            },
+            {
+              "@id": "pkg:deb/debian/libc6@2.41-12%2Bdeb13u4%2Bdhi1"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The image runs no network services and no program in it passes input from elsewhere to this code. The regex recursion needs an attacker-chosen regular expression; glibc doesn't treat crafted patterns as a security boundary."
+    },
+    {
+      "@id": "urn:uuid:130c4cbb-791a-5bbd-81e4-77e2332948e9",
+      "vulnerability": {
+        "name": "CVE-2020-36325"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libjansson4@2.14-2%2Bdeb13u0%2Bdhi1"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "libjansson's only user in the image is ld.bfd, which parses JSON only from its --package-metadata option. Nothing in the image passes that option, and gcc and gfortran don't add it to their link lines."
+    },
+    {
+      "@id": "urn:uuid:91edd580-d278-5434-8d14-17b30c323df2",
+      "vulnerability": {
+        "name": "CVE-2021-32256"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The stack overflow came from unbounded recursion in demangle_type. The image's rust-demangle has a recursion limit: c++filt demangles a v0 name with 50 nested references and returns one with 200,000 unchanged, without crashing, on both platforms."
+    },
+    {
+      "@id": "urn:uuid:ae9db845-9b00-5fcd-8de8-134f67f04ca9",
+      "vulnerability": {
+        "name": "CVE-2021-45346"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libsqlite3-0@3.46.1-7%2Bdeb13u2%2Bdhi3"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The leak needs a crafted database file. libsqlite3's users are liblastlog2 (lslogins), whose database /var/lib/lastlog doesn't exist, and Python's sqlite3 module, which nothing in the image imports; there is no sqlite3 shell."
+    },
+    {
+      "@id": "urn:uuid:ceaac827-71e8-5b5f-af84-3d4e57d71173",
+      "vulnerability": {
+        "name": "CVE-2022-0563"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libblkid1@2.41.5-0%2Bdeb13u1%2Bdhi3"
+            },
+            {
+              "@id": "pkg:deb/debian/liblastlog2-2@2.41.5-0%2Bdeb13u1%2Bdhi3"
+            },
+            {
+              "@id": "pkg:deb/debian/libmount1@2.41.5-0%2Bdeb13u1%2Bdhi3"
+            },
+            {
+              "@id": "pkg:deb/debian/libsmartcols1@2.41.5-0%2Bdeb13u1%2Bdhi3"
+            },
+            {
+              "@id": "pkg:deb/debian/libuuid1@2.41.5-0%2Bdeb13u1%2Bdhi3"
+            },
+            {
+              "@id": "pkg:deb/debian/util-linux@2.41.5-0%2Bdeb13u1%2Bdhi3"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The flaw is in util-linux's chfn and chsh built with readline; the image has neither chfn nor chsh."
+    },
+    {
+      "@id": "urn:uuid:81bde734-2993-51f3-b592-9e7581c92fca",
+      "vulnerability": {
+        "name": "CVE-2023-31437"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libsystemd0@257.13-1~deb13u1%2Bdhi2"
+            },
+            {
+              "@id": "pkg:deb/debian/libudev1@257.13-1~deb13u1%2Bdhi2"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The image has no systemd-journald, no journalctl and no journal files. libsystemd0 is loaded only by login tools (who, w, users, pinky, lslogins, agetty) and PAM modules, none of which reads or verifies sealed journals, and nothing in the image runs them."
+    },
+    {
+      "@id": "urn:uuid:ac88e792-38f0-5d39-b523-503647297a94",
+      "vulnerability": {
+        "name": "CVE-2023-31438"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libsystemd0@257.13-1~deb13u1%2Bdhi2"
+            },
+            {
+              "@id": "pkg:deb/debian/libudev1@257.13-1~deb13u1%2Bdhi2"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The image has no systemd-journald, no journalctl and no journal files. libsystemd0 is loaded only by login tools (who, w, users, pinky, lslogins, agetty) and PAM modules, none of which reads or verifies sealed journals, and nothing in the image runs them."
+    },
+    {
+      "@id": "urn:uuid:d2db1036-5e9f-5a43-a66a-d6c8df1e719d",
+      "vulnerability": {
+        "name": "CVE-2023-31439"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libsystemd0@257.13-1~deb13u1%2Bdhi2"
+            },
+            {
+              "@id": "pkg:deb/debian/libudev1@257.13-1~deb13u1%2Bdhi2"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The image has no systemd-journald, no journalctl and no journal files. libsystemd0 is loaded only by login tools (who, w, users, pinky, lslogins, agetty) and PAM modules, none of which reads or verifies sealed journals, and nothing in the image runs them."
+    },
+    {
+      "@id": "urn:uuid:b8fb11d2-62a7-5ad5-af72-cc290cf13d5f",
+      "vulnerability": {
+        "name": "CVE-2025-11081"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The out-of-bounds read is in objdump's DWARF section dump, on a crafted file. objdump's only caller in the image is Python's ctypes.util.find_library, which runs objdump -p -j .dynamic on system libraries, and no code in /opt calls find_library. objdump -p -j .dynamic doesn't run the DWARF display. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:eb4ad5f1-9b3a-5589-8b2d-f5d84abf7041",
+      "vulnerability": {
+        "name": "CVE-2025-11082"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:cbe91770-67cc-5829-9729-bbeb895d1a63",
+      "vulnerability": {
+        "name": "CVE-2025-11083"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:e2a7195a-7857-56bd-947a-fcaf7b841c34",
+      "vulnerability": {
+        "name": "CVE-2025-11412"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:084534b2-f61f-5282-ab75-c16f3d019b8d",
+      "vulnerability": {
+        "name": "CVE-2025-11413"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The out-of-bounds read (sourceware PR 33452) needs a crafted object linked with --gc-sections -w. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:2b053270-f6c5-53fb-b565-f8d26abbccb3",
+      "vulnerability": {
+        "name": "CVE-2025-11414"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The out-of-bounds read (sourceware PR 33450) needs a crafted object linked with --gc-sections -w. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:ef8f6684-940a-5114-af11-572af2eaff58",
+      "vulnerability": {
+        "name": "CVE-2025-1147"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:a59b16e3-7af5-5762-873d-a7ad83145f00",
+      "vulnerability": {
+        "name": "CVE-2025-1148"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The leak in link_order_scan (ldelfgen.c) was found by fuzzing ld -w with a crafted file (sourceware PR 32576). ld exits at the end of every link, so leaked memory returns to the system within seconds, and here it links only objects compiled in the container from MadGraph's generated code. Alan Modra (binutils) fixed these leaks for 2.45 and kept them off the 2.44 branch to avoid destabilising ld."
+    },
+    {
+      "@id": "urn:uuid:4ec3219a-31c4-50cd-b5fe-ca6cf125799e",
+      "vulnerability": {
+        "name": "CVE-2025-1149"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The leak in xstrdup (libiberty xmalloc.c) was found by fuzzing ld -w with a crafted file (sourceware PR 32576). ld exits at the end of every link, so leaked memory returns to the system within seconds, and here it links only objects compiled in the container from MadGraph's generated code. Alan Modra (binutils) fixed these leaks for 2.45 and kept them off the 2.44 branch to avoid destabilising ld."
+    },
+    {
+      "@id": "urn:uuid:37db541f-27ee-5075-9505-b6993e2834b1",
+      "vulnerability": {
+        "name": "CVE-2025-11494"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:978ca5e5-46af-5e91-885e-75029c40eac7",
+      "vulnerability": {
+        "name": "CVE-2025-11495"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The overflow (sourceware PR 33502) needs a crafted object linked with --gc-sections; the x86-64 backend is built only into the amd64 image. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:540d9136-f32c-5ade-bcb3-031cd6b8b794",
+      "vulnerability": {
+        "name": "CVE-2025-1150"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The leak in bfd_malloc (libbfd.c) was found by fuzzing ld -w with a crafted file (sourceware PR 32576). ld exits at the end of every link, so leaked memory returns to the system within seconds, and here it links only objects compiled in the container from MadGraph's generated code. Alan Modra (binutils) fixed these leaks for 2.45 and kept them off the 2.44 branch to avoid destabilising ld."
+    },
+    {
+      "@id": "urn:uuid:d016d038-d530-5439-8ca1-9293217fb99c",
+      "vulnerability": {
+        "name": "CVE-2025-1151"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The leak in xmemdup (libiberty xmemdup.c) was found by fuzzing ld -w with a crafted file (sourceware PR 32576). ld exits at the end of every link, so leaked memory returns to the system within seconds, and here it links only objects compiled in the container from MadGraph's generated code. Alan Modra (binutils) fixed these leaks for 2.45 and kept them off the 2.44 branch to avoid destabilising ld."
+    },
+    {
+      "@id": "urn:uuid:74bf56b7-8c1c-5e3f-b7a6-b0751b6b910d",
+      "vulnerability": {
+        "name": "CVE-2025-1152"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The leak in xstrdup (libiberty xstrdup.c) was found by fuzzing ld -w with a crafted file (sourceware PR 32576). ld exits at the end of every link, so leaked memory returns to the system within seconds, and here it links only objects compiled in the container from MadGraph's generated code. Alan Modra (binutils) fixed these leaks for 2.45 and kept them off the 2.44 branch to avoid destabilising ld."
+    },
+    {
+      "@id": "urn:uuid:8fc90bfe-661d-5ed1-bff9-c9832e22b01a",
+      "vulnerability": {
+        "name": "CVE-2025-1153"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The crash (sourceware PR 32603) needs ld's own -w option together with an output file ld can't write. MadGraph never passes -w to ld: its makefiles use gfortran -w, which gcc doesn't forward to the linker, and their only -Wl, options are -rpath, -soname, -m and --whole-archive."
+    },
+    {
+      "@id": "urn:uuid:c14c8d4d-576f-599c-979d-664a936daced",
+      "vulnerability": {
+        "name": "CVE-2025-1176"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:ec166c98-d412-5f8d-a19c-b28206ee0624",
+      "vulnerability": {
+        "name": "CVE-2025-1178"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:4cc576b6-9255-5998-b424-b588592d8e30",
+      "vulnerability": {
+        "name": "CVE-2025-1180"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The crash (sourceware PR 32642) needs a crafted object linked with --gc-sections --gc-keep-exported. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:93f896f1-178e-50b1-9be7-0fd35e3abda8",
+      "vulnerability": {
+        "name": "CVE-2025-1181"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:0aa5a205-abc1-5064-a947-db495647bceb",
+      "vulnerability": {
+        "name": "CVE-2025-1182"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:5804b2e3-4c08-5e18-8b4a-d7d213e73d06",
+      "vulnerability": {
+        "name": "CVE-2025-11839"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:5e52addc-2993-5e1e-ba81-c59a0b3b4f62",
+      "vulnerability": {
+        "name": "CVE-2025-11840"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:a81bef1d-30e7-557d-95b8-4909cab7d9fc",
+      "vulnerability": {
+        "name": "CVE-2025-3198"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:dac8bc4b-6016-5cf7-9ada-c6b304a08ee6",
+      "vulnerability": {
+        "name": "CVE-2025-45582"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/tar@1.35%2Bdfsg-3.1%2Bdeb13u0%2Bdhi3"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The attack needs a program that extracts several attacker-supplied archives into the same directory. In this image GNU tar only unpacks archives MadGraph wrote itself during a run (RunMaterial, split and gridpack tarballs). MadGraph's model, tool and PDF-set downloads go through wget, which the image doesn't include, so they fail before tar runs, and LHAPDF's downloader extracts with Python's tarfile and its data filter."
+    },
+    {
+      "@id": "urn:uuid:242a04ce-4e9e-5dab-a7f8-5d3c35e922dd",
+      "vulnerability": {
+        "name": "CVE-2025-5244"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:48ed48b8-9edc-573d-af65-5aafcfb57d63",
+      "vulnerability": {
+        "name": "CVE-2025-5245"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:49ff2f0a-877a-5404-9da6-cfd9cae0f52b",
+      "vulnerability": {
+        "name": "CVE-2025-5278"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/coreutils@9.7-3%2Bdhi4"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The image runs no network services and no program in it passes input from elsewhere to this code. The under-read needs crafted sort key arguments in the traditional +POS format, and nothing in the image runs sort that way."
+    },
+    {
+      "@id": "urn:uuid:61a94527-8022-5c35-9cf7-1bd504f40b73",
+      "vulnerability": {
+        "name": "CVE-2025-66861"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The crash in d_unqualified_name needs a crafted mangled name in a crafted PE file; Debian's security tracker calls these CVEs most certainly bogus, as they were filed against binutils 2.26. In this image demangling happens only in ld's diagnostics, on symbols gcc and gfortran have just compiled from MadGraph's generated code, and in ROOT's crash handler, which can run addr2line and c++filt on the crashing process's own libraries (the image has no gdb). Neither sees mangled names from elsewhere."
+    },
+    {
+      "@id": "urn:uuid:cec6ab9b-b5d7-5305-a7d0-a3f57ee72901",
+      "vulnerability": {
+        "name": "CVE-2025-66862"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The overflow is in gnu_special, part of the old-style demangler; the CVE was filed against binutils 2.26. libiberty's old-style demangler in cplus-dem.c (GNU v2, Lucid, ARM, HP and EDG schemes) was removed for GCC 9 in 2018 and from binutils since 2.32. The image's c++filt offers only none, auto, gnu-v3, java, gnat, dlang and rust, and rejects -s gnu, lucid, arm, hp and edg as unknown styles."
+    },
+    {
+      "@id": "urn:uuid:8fcd17c1-b3a0-5a7e-a407-8f0f109147d4",
+      "vulnerability": {
+        "name": "CVE-2025-66863"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The crash in d_discriminator needs a crafted mangled name in a crafted PE file; Debian's security tracker calls these CVEs most certainly bogus, as they were filed against binutils 2.26. In this image demangling happens only in ld's diagnostics, on symbols gcc and gfortran have just compiled from MadGraph's generated code, and in ROOT's crash handler, which can run addr2line and c++filt on the crashing process's own libraries (the image has no gdb). Neither sees mangled names from elsewhere."
+    },
+    {
+      "@id": "urn:uuid:87f40efa-622b-50e0-86aa-a59ec1e0d031",
+      "vulnerability": {
+        "name": "CVE-2025-66864"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The crash in d_print_comp_inner needs a crafted mangled name in a crafted PE file; Debian's security tracker calls these CVEs most certainly bogus, as they were filed against binutils 2.26. In this image demangling happens only in ld's diagnostics, on symbols gcc and gfortran have just compiled from MadGraph's generated code, and in ROOT's crash handler, which can run addr2line and c++filt on the crashing process's own libraries (the image has no gdb). Neither sees mangled names from elsewhere."
+    },
+    {
+      "@id": "urn:uuid:9e48bea9-6c02-5b29-a06f-7debe94da68f",
+      "vulnerability": {
+        "name": "CVE-2025-66865"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The crash in d_print_comp_inner needs a crafted mangled name in a crafted PE file; Debian's security tracker calls these CVEs most certainly bogus, as they were filed against binutils 2.26. In this image demangling happens only in ld's diagnostics, on symbols gcc and gfortran have just compiled from MadGraph's generated code, and in ROOT's crash handler, which can run addr2line and c++filt on the crashing process's own libraries (the image has no gdb). Neither sees mangled names from elsewhere."
+    },
+    {
+      "@id": "urn:uuid:cb617479-0d7d-50bf-8771-8e2f47b47f45",
+      "vulnerability": {
+        "name": "CVE-2025-66866"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The crash in d_abi_tags needs a crafted mangled name in a crafted PE file; Debian's security tracker calls these CVEs most certainly bogus, as they were filed against binutils 2.26. In this image demangling happens only in ld's diagnostics, on symbols gcc and gfortran have just compiled from MadGraph's generated code, and in ROOT's crash handler, which can run addr2line and c++filt on the crashing process's own libraries (the image has no gdb). Neither sees mangled names from elsewhere."
+    },
+    {
+      "@id": "urn:uuid:04ca1b2a-cb63-5ac6-a363-b8cd7e0c0fba",
+      "vulnerability": {
+        "name": "CVE-2025-69644"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The endless loop is in objdump's display of DWARF location lists, on a crafted file. objdump's only caller in the image is Python's ctypes.util.find_library, which runs objdump -p -j .dynamic on system libraries, and no code in /opt calls find_library. objdump -p -j .dynamic doesn't run the DWARF display. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:1b6b697b-19f8-5867-9e41-f525de8ffa97",
+      "vulnerability": {
+        "name": "CVE-2025-69645"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The abort is in objdump's display of DWARF compilation units, on a crafted file. objdump's only caller in the image is Python's ctypes.util.find_library, which runs objdump -p -j .dynamic on system libraries, and no code in /opt calls find_library. objdump -p -j .dynamic doesn't run the DWARF display. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:b6220ed7-8115-56e8-8011-0e2dad294a4c",
+      "vulnerability": {
+        "name": "CVE-2025-69646"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The endless loop is in objdump's display of DWARF range lists, on a crafted file. objdump's only caller in the image is Python's ctypes.util.find_library, which runs objdump -p -j .dynamic on system libraries, and no code in /opt calls find_library. objdump -p -j .dynamic doesn't run the DWARF display. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:0edf3f60-af66-5f65-ad02-6e19535c62a1",
+      "vulnerability": {
+        "name": "CVE-2025-69647"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The endless loop is in readelf's display of DWARF location lists (--debug-dump), on a crafted file. readelf's only caller in the image is meson's symbolextractor, which runs readelf -d on shared libraries meson has just built (f2py builds). readelf -d doesn't run the DWARF display. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:3437d896-42d1-518b-9cc3-6504a0473246",
+      "vulnerability": {
+        "name": "CVE-2025-69648"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The endless loop is in readelf's display of DWARF range lists (--debug-dump), on a crafted file. readelf's only caller in the image is meson's symbolextractor, which runs readelf -d on shared libraries meson has just built (f2py builds). readelf -d doesn't run the DWARF display. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:ef65d203-903c-5e08-bfa8-3a6c7cc92559",
+      "vulnerability": {
+        "name": "CVE-2025-69649"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The null dereference is in readelf's relocation display (-r, -a), on a crafted file. readelf's only caller in the image is meson's symbolextractor, which runs readelf -d on shared libraries meson has just built (f2py builds). readelf -d doesn't run the relocation display. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:399a1a44-61de-5c97-8f5c-8233a39dc64e",
+      "vulnerability": {
+        "name": "CVE-2025-69650"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The double free is in readelf's GOT contents display (process_got_section_contents and its all_relocations array), added after 2.44. The image's readelf 2.44 has neither the code nor an option for it; the CVE record itself notes a dispute that only pre-release code was affected."
+    },
+    {
+      "@id": "urn:uuid:fd18322c-3c8a-5c93-a2fe-d43489b39ea8",
+      "vulnerability": {
+        "name": "CVE-2025-69651"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The invalid free is in readelf's GOT contents display (process_got_section_contents and its all_relocations array), added after 2.44. The image's readelf 2.44 has neither the code nor an option for it; the CVE record itself notes a dispute that only pre-release code was affected."
+    },
+    {
+      "@id": "urn:uuid:cfaa2d2d-0fbb-5da4-945d-27578ef920c9",
+      "vulnerability": {
+        "name": "CVE-2025-69652"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The abort is in readelf's DWARF display (-w abbrev), on a crafted file. readelf's only caller in the image is meson's symbolextractor, which runs readelf -d on shared libraries meson has just built (f2py builds). readelf -d doesn't run the DWARF display. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:7785c206-5b9c-5613-a1e2-5f2b5457c6be",
+      "vulnerability": {
+        "name": "CVE-2025-70873"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libsqlite3-0@3.46.1-7%2Bdeb13u2%2Bdhi3"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The bug is in SQLite's zipfile extension, which Debian's libsqlite3 isn't built with (the library has no zipfile code)."
+    },
+    {
+      "@id": "urn:uuid:c28fa1cd-0832-5b0d-9689-532e774ee193",
+      "vulnerability": {
+        "name": "CVE-2025-7545"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:4290012e-1c46-58ea-8913-32152b00effc",
+      "vulnerability": {
+        "name": "CVE-2025-7546"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:2123777b-93e5-5345-83d3-8eb45d4f7f8f",
+      "vulnerability": {
+        "name": "CVE-2025-8225"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:c60d50a1-0d74-5982-a497-c83316ddc234",
+      "vulnerability": {
+        "name": "CVE-2026-103995"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-dev@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-minimal@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-stdlib@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13-dev@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13-minimal@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13@3.13.18-7"
+            }
+          ]
+        }
+      ],
+      "status": "affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "action_statement": "http.client accepts a Content-Length with underscores or a sign (\"1_0\", \"+10\"), so a malicious server can desynchronise responses. In this image Python's HTTP client runs when MadGraph fetches its online model list or a URL given at a card prompt, when its update command is run (automatic checks are off), and when LHAPDF downloads a missing PDF set, all but the card URL from plain-HTTP servers. Provide models and PDF sets locally, for example in the mounted working directory, instead of letting MadGraph or LHAPDF download them."
+    },
+    {
+      "@id": "urn:uuid:b34afc66-ae25-5c03-9907-36216b84b35b",
+      "vulnerability": {
+        "name": "CVE-2026-115456"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/cpp-14-aarch64-linux-gnu@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/cpp-14-x86-64-linux-gnu@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/cpp-14@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/g%2B%2B-14-aarch64-linux-gnu@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/g%2B%2B-14-x86-64-linux-gnu@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/g%2B%2B-14@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/gcc-14-aarch64-linux-gnu@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/gcc-14-base@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/gcc-14-x86-64-linux-gnu@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/gcc-14@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/gfortran-14-aarch64-linux-gnu@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/gfortran-14-x86-64-linux-gnu@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/gfortran-14@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libasan8@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libatomic1@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libcc1-0@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libgcc-14-dev@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libgcc-s1@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libgfortran-14-dev@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libgfortran5@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libgomp1@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libhwasan0@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libitm1@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/liblsan0@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libquadmath0@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libstdc%2B%2B-14-dev@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libstdc%2B%2B6@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libtsan2@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            },
+            {
+              "@id": "pkg:deb/debian/libubsan1@14.2.0-19%2Bdeb13u0%2Bdhi6"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The read is in libstdc++'s std::from_chars. No program or shared library in the image imports from_chars (checked the dynamic symbols of everything under /opt, /usr/lib and /usr/bin), and MadGraph's generated code doesn't use it."
+    },
+    {
+      "@id": "urn:uuid:b9999337-dfa0-5850-8b43-77dfaa7d84cb",
+      "vulnerability": {
+        "name": "CVE-2026-116566"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-dev@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-minimal@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-stdlib@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13-dev@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13-minimal@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13@3.13.18-7"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "DHI's python-3.13 3.13.18-7 carries the upstream fix (CPython PR 160899): socket.getaddrinfo() rejects null characters in both host and port, checked in this image."
+    },
+    {
+      "@id": "urn:uuid:3ca21516-8799-59c1-9be3-8d2462400d6a",
+      "vulnerability": {
+        "name": "CVE-2026-117610"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libexpat1-dev@2.9.0-1~deb13u1%2Bdhi2"
+            },
+            {
+              "@id": "pkg:deb/debian/libexpat1@2.9.0-1~deb13u1%2Bdhi2"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "libexpat1 2.9.0-1~deb13u1+dhi2 carries upstream libexpat PR #1444 (DHI's changelog: \"Backport upstream fix for CVE-2026-117610\"). Nothing in the image links libexpat.so.1: libexpat1 is installed only as a dependency of libexpat1-dev, which python-3.13-dev pulls in, and Python's pyexpat module carries its own copy of expat (see the separate statement for libpython-3.13-minimal)."
+    },
+    {
+      "@id": "urn:uuid:2b60982b-d26f-5893-a317-2932b8be00ac",
+      "vulnerability": {
+        "name": "CVE-2026-118370"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libexpat1-dev@2.9.0-1~deb13u1%2Bdhi2"
+            },
+            {
+              "@id": "pkg:deb/debian/libexpat1@2.9.0-1~deb13u1%2Bdhi2"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "libexpat1 2.9.0-1~deb13u1+dhi2 carries upstream libexpat PR #1450 (DHI's changelog: \"Backport upstream fix for CVE-2026-118370\"). Nothing in the image links libexpat.so.1: libexpat1 is installed only as a dependency of libexpat1-dev, which python-3.13-dev pulls in, and Python's pyexpat module carries its own copy of expat (see the separate statement for libpython-3.13-minimal)."
+    },
+    {
+      "@id": "urn:uuid:096451b6-860e-58e2-a591-e0707727ca3a",
+      "vulnerability": {
+        "name": "CVE-2026-124317"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libexpat1-dev@2.9.0-1~deb13u1%2Bdhi2"
+            },
+            {
+              "@id": "pkg:deb/debian/libexpat1@2.9.0-1~deb13u1%2Bdhi2"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "libexpat1 2.9.0-1~deb13u1+dhi2 carries the upstream fix (DHI's changelog: \"Backport upstream fix for CVE-2026-124317\"). Nothing in the image links libexpat.so.1: libexpat1 is installed only as a dependency of libexpat1-dev, which python-3.13-dev pulls in, and Python's pyexpat module carries its own copy of expat (see the separate statement for libpython-3.13-minimal)."
+    },
+    {
+      "@id": "urn:uuid:823ca074-4795-5b4f-9fdf-e942e87447fb",
+      "vulnerability": {
+        "name": "CVE-2026-15003"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The bug is in BFD's XCOFF (AIX) support, which this build of binutils doesn't include on either platform: objdump and ld list no XCOFF target, and libbfd-2.44-system.so exports none of the bfd_xcoff_* functions. DHI's changelog for 2.44-3+deb13u0+dhi10 also lists its fix."
+    },
+    {
+      "@id": "urn:uuid:4d3080a3-17d2-52a1-882d-a07e8c07c5ee",
+      "vulnerability": {
+        "name": "CVE-2026-18220"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The out-of-bounds write is in BFD's DLX backend, which binutils includes only when configured for it (typically --enable-targets=all). This build has no DLX target on either platform. DHI's changelog for 2.44-3+deb13u0+dhi10 also lists its fix."
+    },
+    {
+      "@id": "urn:uuid:ad46f47a-2ec3-595d-9148-fcfdeb121e4c",
+      "vulnerability": {
+        "name": "CVE-2026-19548"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The use-after-free needs a crafted object or archive that the LTO plugin claims. gcc loads the plugin for every link, but it claims only LTO objects, and MadGraph compiles nothing with -flto. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:16f652d3-3503-55b8-a97f-620e63a427a7",
+      "vulnerability": {
+        "name": "CVE-2026-19582"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The CVE record is rejected, so no confirmed bug stands behind it; Scout still lists it. PE support is built in (pe(i)-x86-64, pe(i)-aarch64-little), but nothing in the image reads PE files: MadGraph compiles and links ELF only, and nothing runs binutils' tools on files from elsewhere."
+    },
+    {
+      "@id": "urn:uuid:ba2f16eb-efe7-5b5a-b0ab-8288e39e6869",
+      "vulnerability": {
+        "name": "CVE-2026-19672"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-dev@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-minimal@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-stdlib@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/libpython-3.13@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13-dev@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13-minimal@3.13.18-7"
+            },
+            {
+              "@id": "pkg:deb/debian/python-3.13@3.13.18-7"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The fix (gh-155999, backported to 3.13 as CPython PR #156042) is part of CPython 3.13.18: tag v3.13.18 contains it and its release notes list it. The image's /usr/lib/python3.13/tarfile.py is byte-identical to upstream 3.13.18."
+    },
+    {
+      "@id": "urn:uuid:a4444ca6-588c-5064-a499-563219386886",
+      "vulnerability": {
+        "name": "CVE-2026-3441"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The bug is in BFD's XCOFF (AIX) support, which this build of binutils doesn't include on either platform: objdump and ld list no XCOFF target, and libbfd-2.44-system.so exports none of the bfd_xcoff_* functions."
+    },
+    {
+      "@id": "urn:uuid:23682ff5-9170-5a11-af03-a3a5e5b69db7",
+      "vulnerability": {
+        "name": "CVE-2026-3442"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The bug is in BFD's XCOFF (AIX) support, which this build of binutils doesn't include on either platform: objdump and ld list no XCOFF target, and libbfd-2.44-system.so exports none of the bfd_xcoff_* functions."
+    },
+    {
+      "@id": "urn:uuid:b9ae4b01-941f-5e1c-956c-37ad7f6dafd4",
+      "vulnerability": {
+        "name": "CVE-2026-4647"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The bug is in BFD's XCOFF (AIX) support, which this build of binutils doesn't include on either platform: objdump and ld list no XCOFF target, and libbfd-2.44-system.so exports none of the bfd_xcoff_* functions."
+    },
+    {
+      "@id": "urn:uuid:114ae5fc-39bc-5432-8536-62427d8d3da2",
+      "vulnerability": {
+        "name": "CVE-2026-53910"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/diffutils@1%3A3.10-4%2Bdeb13u0%2Bdhi2"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The image runs no network services and no program in it passes input from elsewhere to this code. The overflow needs diff3 run on crafted input, and nothing in the image runs diff3."
+    },
+    {
+      "@id": "urn:uuid:cfc342f4-c4a7-5c1b-aaff-79047bada558",
+      "vulnerability": {
+        "name": "CVE-2026-56391"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/coreutils@9.7-3%2Bdhi4"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The image runs no network services and no program in it passes input from elsewhere to this code. The read needs uniq -w with crafted multibyte input, and nothing in the image runs uniq -w."
+    },
+    {
+      "@id": "urn:uuid:5b6b4a2b-6c23-5b74-8d7b-f5c070ffd143",
+      "vulnerability": {
+        "name": "CVE-2026-56392"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/coreutils@9.7-3%2Bdhi4"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The image runs no network services and no program in it passes input from elsewhere to this code. The overflow needs unexpand with a huge -t tab stop, and nothing in the image runs unexpand."
+    },
+    {
+      "@id": "urn:uuid:0a69cbf1-a7b4-550b-b0d6-2904abc97f66",
+      "vulnerability": {
+        "name": "CVE-2026-6844"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The memory exhaustion and null dereference in readelf need a crafted ELF file. readelf's only caller in the image is meson's symbolextractor, which runs readelf -d on shared libraries meson has just built (f2py builds). Nothing in the image runs readelf on files from elsewhere. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:ec041651-ba01-56f2-a72e-8485a1205c57",
+      "vulnerability": {
+        "name": "CVE-2026-6845"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The resource exhaustion in readelf needs a crafted ELF file. readelf's only caller in the image is meson's symbolextractor, which runs readelf -d on shared libraries meson has just built (f2py builds). Nothing in the image runs readelf on files from elsewhere. Don't run binutils' display tools on files you don't trust."
+    },
+    {
+      "@id": "urn:uuid:8a0ec83a-1f35-5add-9627-708b9e3ec06e",
+      "vulnerability": {
+        "name": "CVE-2026-6846"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The bug is in BFD's XCOFF (AIX) support, which this build of binutils doesn't include on either platform: objdump and ld list no XCOFF target, and libbfd-2.44-system.so exports none of the bfd_xcoff_* functions."
+    },
+    {
+      "@id": "urn:uuid:797508f6-2320-5cb5-9703-3c9aebfe85a4",
+      "vulnerability": {
+        "name": "CVE-2026-90801"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The overflow (sourceware PR 34442) needs a malformed ELF object linked with --gc-sections -w. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:cbc8f402-3593-5a03-ab23-c121fb489927",
+      "vulnerability": {
+        "name": "CVE-2026-90802"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The null write (sourceware PR 34443) needs a malformed ELF object linked with --gc-sections -w; the x86-64 relocation code it runs through is built only into the amd64 image. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:20f8e9a2-7abc-5c73-bc6d-07a4795ca6e8",
+      "vulnerability": {
+        "name": "CVE-2026-90803"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:a3e2a301-6c5f-5cbe-b6ba-f06b554f5afe",
+      "vulnerability": {
+        "name": "CVE-2026-90804"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The overflow (sourceware PR 34445) needs an object with a malformed .eh_frame section. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:1bf3a105-57f9-5e59-b4e0-294cd256b769",
+      "vulnerability": {
+        "name": "CVE-2026-90828"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The null dereference (sourceware PR 34450) needs a malformed object in a relocatable link (ld -r). In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:ed2846e5-acb3-556b-9995-a92fe27adf52",
+      "vulnerability": {
+        "name": "CVE-2026-90829"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The null dereference (sourceware PR 34451) needs a malformed SHT_GROUP section in a relocatable link (ld -r). In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:7a0f0293-9907-59ac-82a2-b27948a39212",
+      "vulnerability": {
+        "name": "CVE-2026-90830"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The crash (sourceware PR 34452) needs a malformed mergeable section in a --shared -z now link. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:d2050c7a-816d-53d3-b5fd-13c914c6c05f",
+      "vulnerability": {
+        "name": "CVE-2026-90831"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The crash (sourceware PR 34454) needs a malformed versioned symbol in a --version-exports-section --shared link. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:6fafbb26-cd76-5fb9-b000-a83cdf420848",
+      "vulnerability": {
+        "name": "CVE-2026-91779"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The null dereference (sourceware PR 34446) needs a malformed .eh_frame section in a relocatable link (ld -r). In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:fe39eedf-7971-5e3e-a643-e0dff796ad1a",
+      "vulnerability": {
+        "name": "CVE-2026-91780"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "The null dereference (sourceware PR 34447) needs an object with malformed symbol or version tables. In this image ld only links objects that gcc and gfortran compile in the container from MadGraph's generated code, plus libraries the image ships, and MadGraph runs the linked programs right afterwards, so anyone who could put a crafted object in front of ld already controls code that runs."
+    },
+    {
+      "@id": "urn:uuid:0b53fe0c-0cbb-542a-bb59-9405300dc080",
+      "vulnerability": {
+        "name": "CVE-2026-91781"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:f17c58ac-b964-57eb-a7ff-dfe159e82c9e",
+      "vulnerability": {
+        "name": "CVE-2026-91782"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/binutils-aarch64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-common@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils-x86-64-linux-gnu@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/binutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libbinutils@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf-nobfd0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libctf0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libgprofng0@2.44-3%2Bdeb13u0%2Bdhi10"
+            },
+            {
+              "@id": "pkg:deb/debian/libsframe1@2.44-3%2Bdeb13u0%2Bdhi10"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "inline_mitigations_already_exist",
+      "impact_statement": "The image's binutils 2.44-3+deb13u0+dhi10 carries the upstream fix: DHI's changelog entry for that version (/usr/share/doc/binutils/changelog.Debian.gz, 2026-11-02) lists this CVE among the upstream patches applied, on both platforms. This rests on DHI's changelog; Scout matches by version and doesn't see the backport."
+    },
+    {
+      "@id": "urn:uuid:9e9ede28-1cb2-5fc8-b9e6-7531fe641cec",
+      "vulnerability": {
+        "name": "CVE-2026-117610"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-minimal@3.13.18-7"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "Python's pyexpat module (in libpython-3.13-minimal) doesn't use the image's libexpat1: it is built with CPython 3.13.18's bundled expat 2.9.0, which lacks this fix. The flaw is in the first parse of an external entity subparser, reachable only through ExternalEntityParserCreate; nothing in the image creates external entity parsers or enables external entity resolution. MadGraph parses only XML it wrote itself during the run (Pythia's DJR output, its results summary and histogram files)."
+    },
+    {
+      "@id": "urn:uuid:fd998d26-becb-5336-82c7-844a43408637",
+      "vulnerability": {
+        "name": "CVE-2026-118370"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-minimal@3.13.18-7"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
+      "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "impact_statement": "Python's pyexpat module (in libpython-3.13-minimal) doesn't use the image's libexpat1: it is built with CPython 3.13.18's bundled expat 2.9.0, which lacks this fix. The overflow needs a start tag with more than 2^31 attributes or namespace prefixes. MadGraph parses only XML it wrote itself during the run (Pythia's DJR output, its results summary and histogram files)."
+    },
+    {
+      "@id": "urn:uuid:ace5d264-c3cf-5e25-9d57-9f6426f81f73",
+      "vulnerability": {
+        "name": "CVE-2026-124317"
+      },
+      "products": [
+        {
+          "@id": "pkg:docker/startown/madgraph@3.8.1-9",
+          "subcomponents": [
+            {
+              "@id": "pkg:deb/debian/libpython-3.13-minimal@3.13.18-7"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "timestamp": "2026-11-10T13:42:43Z",
       "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "impact_statement": "Python's pyexpat module (in libpython-3.13-minimal) is built with CPython 3.13.18's bundled expat 2.9.0 and registers its own unknown-encoding handler, so this converter is reachable with a document that declares such an encoding. MadGraph parses only XML it wrote itself during the run (Pythia's DJR output, its results summary and histogram files)."
     }
