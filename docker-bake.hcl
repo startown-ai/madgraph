@@ -15,7 +15,7 @@ target "hepmc" {
 target "lhapdf" {
   platforms = ["linux/amd64", "linux/arm64"]
   context   = "lhapdf"
-  tags      = ["startown/lhapdf:6.5.6-1"]
+  tags      = ["startown/lhapdf:6.5.6-2"]
   attest    = ["type=provenance,mode=max", "type=sbom"]
 }
 
