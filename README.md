@@ -4,9 +4,9 @@
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/docker/v/startown/madgraph?sort=date&label=docker%20hub&logo=docker&logoColor=white&style=flat-square" alt="Docker Hub">
-  <img src="https://img.shields.io/docker/image-size/startown/madgraph/3.8.1-8?label=size&style=flat-square" alt="Image size">
-  <img src="https://img.shields.io/github/license/startown-ai/madgraph?style=flat-square" alt="License">
+  <a href="https://hub.docker.com/r/startown/madgraph"><img src="https://img.shields.io/docker/v/startown/madgraph?sort=date&label=docker%20hub&logo=docker&logoColor=white&style=flat-square" alt="Docker Hub"></a>
+  <a href="https://hub.docker.com/r/startown/madgraph/tags"><img src="https://img.shields.io/docker/image-size/startown/madgraph/3.8.1-8?label=size&style=flat-square" alt="Image size"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/startown-ai/madgraph?style=flat-square" alt="License"></a>
 </p>
 
 [MadGraph5_aMC@NLO](https://github.com/mg5amcnlo/mg5amcnlo) with [Pythia](https://pythia.org) and [Delphes](https://github.com/delphes/delphes).
