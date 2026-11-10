@@ -13,7 +13,7 @@ RUN apt-get update && \
       ninja-build=1.12.1-1* \
       nlohmann-json3-dev=3.11.3-2.1 \
       patch=2.8-2+deb13u0+dhi3 \
-      python-3.13=3.13.18-6 \
+      python-3.13=3.13.18-7 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0
 
 COPY --from=docker.io/startown/root:6.36.14-1@sha256:95e00b7d3d196d4f3de275022d5718844f86bb03413741e25dee76e85c5ce746 /opt/root /opt/root

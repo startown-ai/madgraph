@@ -16,7 +16,7 @@ RUN apt-get update && \
       ninja-build=1.12.1-1* \
       nlohmann-json3-dev=3.11.3-2.1 \
       patch=2.8-2+deb13u0+dhi3 \
-      python-3.13=3.13.18-6 \
+      python-3.13=3.13.18-7 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0
 
 ADD --checksum=sha256:d45af0b98c121a1f03ad7f6069ef660da758d7eea519e24ad788768d58805284 https://assets.startown.ai/packages/root/6.36.14.tar.gz /tmp/root.tar.gz
