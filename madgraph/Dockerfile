@@ -30,6 +30,7 @@ RUN mkdir /opt/madgraph && \
 RUN rm /opt/madgraph/madgraph/interface/madevent_interface.py.orig
 
 FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       bc=1.07.1-4+deb13u0+dhi0 \
@@ -42,8 +43,13 @@ RUN apt-get update && \
       procps=2:4.0.4-9+deb13u0+dhi0 \
       python-3.13=3.13.18-7 \
       python-3.13-dev=3.13.18-7 \
+      python3-pip=26.3-0 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0 && \
     rm -rf /var/lib/apt/lists/*
+RUN printf '%s\n' \
+      'meson==1.7.0 --hash=sha256:ae3f12953045f3c7c60e27f2af1ad862f14dee125b4ed9bcb8a842a5080dbf85' \
+      'numpy==2.2.4 --hash=sha256:6f527d8fdb0286fd2fd97a2a96c6be17ba4232da346931d967a0630050dfd298 --hash=sha256:bce43e386c16898b91e162e5baaad90c4b06f9dcbe36282490032cec98dc8ae7' | \
+    pip install --no-cache-dir --require-hashes -r /dev/stdin
 
 COPY --from=docker.io/startown/delphes:3.5.1-1@sha256:ef9473facad498c84128643287e266a09bc12138f70d52036e349b8dd95d0ee7 /opt/delphes /opt/delphes
 COPY --from=docker.io/startown/emela:1.0.1-1@sha256:99f30390a06b53e36613fedb3984a4e820e487e0530a97bc4a9b27150b3e46d1 /opt/emela /opt/emela
@@ -53,31 +59,10 @@ COPY --from=docker.io/startown/lhapdf:6.5.6-2@sha256:e428a4334e637e794682d3f7511
 COPY --from=docker.io/startown/pythia:8.317-2@sha256:d2066d95f0eab29469b64bcd45c4cfcb8f6586ff88feafcfd7bb5f98449b5ef9 /opt/pythia /opt/pythia
 COPY --from=docker.io/startown/root:6.36.14-1@sha256:95e00b7d3d196d4f3de275022d5718844f86bb03413741e25dee76e85c5ce746 /opt/root /opt/root
 COPY --from=build /opt/madgraph /opt/madgraph
-RUN --mount=type=bind,source=requirements.txt,target=/tmp/requirements.txt \
-    pip=$(ls /usr/share/python-wheels/pip-*.whl) && \
-    python3 "$pip/pip" install \
-      --no-cache-dir \
-      --no-deps \
-      --only-binary=:all: \
-      --require-hashes \
-      --root-user-action=ignore \
-      --disable-pip-version-check \
-      -r /tmp/requirements.txt
-
-ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/pythia/bin:/opt/hepmc/bin:/opt/fastjet/bin:/opt/emela/bin:/opt/lhapdf/bin:/opt/root/bin:${PATH} \
-    DELPHES_HOME=/opt/delphes \
+ENV PATH=/opt/madgraph/bin:/opt/delphes/bin:/opt/emela/bin:/opt/fastjet/bin:/opt/hepmc/bin:/opt/lhapdf/bin:/opt/pythia/bin:/opt/root/bin:${PATH} \
     LD_LIBRARY_PATH=/opt/delphes/lib \
-    LIBRARY_PATH=/opt/delphes/lib \
     PIGZ=-1 \
     ROOT_INCLUDE_PATH=/opt/delphes/include
-RUN for p in hepmc lhapdf fastjet emela pythia root delphes; do \
-      echo /opt/$p/lib > /etc/ld.so.conf.d/$p.conf; \
-    done && \
-    ldconfig && \
-    echo /opt/lhapdf/lib/python3.13/site-packages > /usr/lib/python3.13/site-packages/lhapdf.pth
+RUN printf '/opt/%s/lib\n' delphes emela fastjet hepmc lhapdf pythia root > /etc/ld.so.conf.d/opt.conf && ldconfig
 
 CMD ["bash"]
-RUN set -- apt libapt-pkg7.0 gpgv libgcrypt20 libgpg-error0 libseccomp2 debian-archive-keyring && \
-    dpkg --purge "$@" && \
-    for p in "$@"; do rm -f "/var/lib/dpkg/status.d/$p"; done && \
-    rm -rf /var/lib/apt /var/cache/apt
