@@ -1,0 +1,11 @@
+--- a/wrappers/python/build.py.in
++++ b/wrappers/python/build.py.in
+@@ -37,6 +37,8 @@
+ ## Python compile/link args
+ pyargs = "-I" + sysconfig.get_config_var("INCLUDEPY")
+ libpys = [os.path.join(sysconfig.get_config_var(ld), sysconfig.get_config_var("LDLIBRARY")) for ld in ["LIBPL", "LIBDIR"]]
++if sysconfig.get_config_var("MULTIARCH"):
++    libpys.append(os.path.join(sysconfig.get_config_var("LIBDIR"), sysconfig.get_config_var("MULTIARCH"), sysconfig.get_config_var("LDLIBRARY")))
+ libpys.extend( glob(os.path.join(sysconfig.get_config_var("LIBPL"), "libpython*.*")) )
+ libpys.extend( glob(os.path.join(sysconfig.get_config_var("LIBDIR"), "libpython*.*")) )
+ libpy = None
