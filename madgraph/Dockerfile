@@ -27,21 +27,14 @@ RUN mkdir /opt/madgraph && \
       'auto_update = 0' \
       'automatic_html_opening = False' \
       >> /opt/madgraph/input/mg5_configuration.txt
-
-ADD --checksum=sha256:60d3c1df1c31e5840f91f4217163ae30a256b9291a5adc894882e86607ef5d63 https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
-
-RUN mkdir -p /opt/pdfsets && \
-    tar -xzf /tmp/pdfset.tar.gz -C /opt/pdfsets
-
-FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c AS runtime
 RUN rm /opt/madgraph/madgraph/interface/madevent_interface.py.orig
 
+FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       bc=1.07.1-4+deb13u0+dhi0 \
       g++=4:14.2.0-1+deb13u0+dhi0 \
       gfortran=4:14.2.0-1+deb13u0+dhi0 \
-      libfreetype6=2.13.3+dfsg-1+deb13u1+dhi1 \
       make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1* \
       perl=5.40.1-6+deb13u1+dhi3 \
@@ -56,12 +49,10 @@ COPY --from=docker.io/startown/delphes:3.5.1-1@sha256:ef9473facad498c84128643287
 COPY --from=docker.io/startown/emela:1.0.1-1@sha256:99f30390a06b53e36613fedb3984a4e820e487e0530a97bc4a9b27150b3e46d1 /opt/emela /opt/emela
 COPY --from=docker.io/startown/fastjet:3.5.3-1@sha256:70f538596ab6919760e1fbff9a0513b1b1f218d5550f96dcec8a62c7d7591b23 /opt/fastjet /opt/fastjet
 COPY --from=docker.io/startown/hepmc:3.3.1-1@sha256:a7196e9d9031051d7d1dfd177fb4b1aad8ba8a7864d43f4bec186c3c682d0f3e /opt/hepmc /opt/hepmc
-COPY --from=docker.io/startown/lhapdf:6.5.6-1@sha256:7f31495cb858a90951f4d06ff3d1cf952ec031c5345c9a548008ed6549eb2c9b /opt/lhapdf /opt/lhapdf
-COPY --from=docker.io/startown/pythia:8.317-1@sha256:5bcd39de9c558407c856d598ba4bfdd09c4d34c232388ff167b64df673477d95 /opt/pythia /opt/pythia
+COPY --from=docker.io/startown/lhapdf:6.5.6-2@sha256:e428a4334e637e794682d3f7511ceff1fcbb269a002e3237eaa7981000c99e2c /opt/lhapdf /opt/lhapdf
+COPY --from=docker.io/startown/pythia:8.317-2@sha256:d2066d95f0eab29469b64bcd45c4cfcb8f6586ff88feafcfd7bb5f98449b5ef9 /opt/pythia /opt/pythia
 COPY --from=docker.io/startown/root:6.36.14-1@sha256:95e00b7d3d196d4f3de275022d5718844f86bb03413741e25dee76e85c5ce746 /opt/root /opt/root
 COPY --from=build /opt/madgraph /opt/madgraph
-COPY --from=build /opt/pdfsets/ /opt/lhapdf/share/LHAPDF/
-
 RUN --mount=type=bind,source=requirements.txt,target=/tmp/requirements.txt \
     pip=$(ls /usr/share/python-wheels/pip-*.whl) && \
     python3 "$pip/pip" install \
@@ -86,36 +77,6 @@ RUN for p in hepmc lhapdf fastjet emela pythia root delphes; do \
     echo /opt/lhapdf/lib/python3.13/site-packages > /usr/lib/python3.13/site-packages/lhapdf.pth
 
 CMD ["bash"]
-
-FROM runtime AS shower
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      patch=2.8-2+deb13u0+dhi3
-
-COPY main164delphes.patch DelphesPythia8Event.h /tmp/shower/
-WORKDIR /tmp/shower
-
-# root-config prints several flags, which must split into separate arguments
-# hadolint ignore=SC2046
-RUN cp /opt/pythia/share/Pythia8/examples/main164.cc . && \
-    patch -p1 -o main164delphes.cc < main164delphes.patch && \
-    g++ main164delphes.cc -o main164delphes -O2 -std=c++17 -DGZIP -DHEPMC3 \
-      -I. -I/opt/pythia/include -I/opt/hepmc/include -I/opt/delphes/include $(root-config --cflags) \
-      -L/opt/pythia/lib -Wl,-rpath,/opt/pythia/lib -lpythia8 \
-      -L/opt/hepmc/lib -Wl,-rpath,/opt/hepmc/lib -lHepMC3 \
-      -L/opt/delphes/lib -Wl,-rpath,/opt/delphes/lib -lDelphes \
-      $(root-config --libs) -lEG -ldl -lz
-
-FROM runtime
-
-COPY --from=shower /tmp/shower/main164delphes /opt/pythia/share/Pythia8/examples/main164delphes
-
-RUN set -- libfreetype6 libpng16-16t64 && \
-    dpkg --purge "$@" && \
-    for p in "$@"; do rm -f "/var/lib/dpkg/status.d/$p"; done && \
-    ldconfig
-
 RUN set -- apt libapt-pkg7.0 gpgv libgcrypt20 libgpg-error0 libseccomp2 debian-archive-keyring && \
     dpkg --purge "$@" && \
     for p in "$@"; do rm -f "/var/lib/dpkg/status.d/$p"; done && \
