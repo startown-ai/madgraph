@@ -105,11 +105,11 @@ RUN apt-get update && \
       patch=2.8-2+deb13u0+dhi3
 
 COPY main164delphes.patch DelphesPythia8Event.h /tmp/shower/
+WORKDIR /tmp/shower
 
 # root-config prints several flags, which must split into separate arguments
 # hadolint ignore=SC2046
-RUN cd /tmp/shower && \
-    cp /opt/pythia/share/Pythia8/examples/main164.cc . && \
+RUN cp /opt/pythia/share/Pythia8/examples/main164.cc . && \
     patch -p1 -o main164delphes.cc < main164delphes.patch && \
     g++ main164delphes.cc -o main164delphes -O2 -std=c++17 -DGZIP -DHEPMC3 \
       -I. -I/opt/pythia/include -I/opt/hepmc/include -I/opt/delphes/include $(root-config --cflags) \

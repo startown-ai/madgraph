@@ -11,8 +11,8 @@ ADD --checksum=sha256:6b8b7e38dc26a977a24f5a321215b7054c14a4469d04134d70cb93a860
 RUN ln -s "$(gcc -dumpmachine)/libpython3.13.so" /usr/lib/libpython3.13.so
 ENV PYTHON=python3
 
-RUN mkdir /src && cd /src && \
-    tar -xzf /tmp/lhapdf.tar.gz --strip-components=1 && \
+WORKDIR /src
+RUN tar -xzf /tmp/lhapdf.tar.gz --strip-components=1 && \
     ./configure --prefix=/opt/lhapdf \
       --disable-doxygen \
       --disable-static && \
