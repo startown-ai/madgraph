@@ -6,7 +6,7 @@ RUN apt-get update && \
       make=4.4.1-2+deb13u0+dhi1 \
       python-3.13-dev=3.13.18-6
 
-ADD https://assets.startown.ai/packages/lhapdf/6.5.6.tar.gz /tmp/lhapdf.tar.gz
+ADD --checksum=sha256:6b8b7e38dc26a977a24f5a321215b7054c14a4469d04134d70cb93a860eeeea7 https://assets.startown.ai/packages/lhapdf/6.5.6.tar.gz /tmp/lhapdf.tar.gz
 
 RUN ln -s "$(gcc -dumpmachine)/libpython3.13.so" /usr/lib/libpython3.13.so
 ENV PYTHON=python3

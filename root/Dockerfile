@@ -20,7 +20,7 @@ RUN apt-get update && \
       python-3.13=3.13.18-6 \
       zlib1g-dev=1:1.3.dfsg+really1.3.1-1+deb13u1+dhi0
 
-ADD https://assets.startown.ai/packages/root/6.36.14.tar.gz /tmp/root.tar.gz
+ADD --checksum=sha256:d45af0b98c121a1f03ad7f6069ef660da758d7eea519e24ad788768d58805284 https://assets.startown.ai/packages/root/6.36.14.tar.gz /tmp/root.tar.gz
 COPY eg-no-graphics.patch /tmp/eg-no-graphics.patch
 
 RUN mkdir /src && \

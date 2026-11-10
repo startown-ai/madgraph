@@ -13,7 +13,7 @@ RUN echo /opt/hepmc/lib > /etc/ld.so.conf.d/hepmc.conf && \
     echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
 
-ADD https://assets.startown.ai/packages/pythia/8.317.tar.gz /tmp/pythia.tar.gz
+ADD --checksum=sha256:1ae551d14dac495ddfe6b344792035ebe410fe6c6004d44a335e0ece0e745adf https://assets.startown.ai/packages/pythia/8.317.tar.gz /tmp/pythia.tar.gz
 
 RUN mkdir /src && cd /src && \
     tar -xzf /tmp/pythia.tar.gz --strip-components=1 && \

@@ -7,7 +7,7 @@ RUN apt-get update && \
       make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1*
 
-ADD https://assets.startown.ai/packages/fastjet/3.5.3.tar.gz /tmp/fastjet.tar.gz
+ADD --checksum=sha256:279cce38e6ba01811b2f1913e582e50c3845acf68e97f92413ed45ac4bb8de9c https://assets.startown.ai/packages/fastjet/3.5.3.tar.gz /tmp/fastjet.tar.gz
 
 RUN mkdir /src && \
     tar -xzf /tmp/fastjet.tar.gz -C /src --strip-components=1 && \

@@ -14,7 +14,7 @@ ENV PATH=/opt/lhapdf/bin:${PATH}
 RUN echo /opt/lhapdf/lib > /etc/ld.so.conf.d/lhapdf.conf && \
     ldconfig
 
-ADD https://assets.startown.ai/packages/emela/1.0.1.tar.gz /tmp/emela.tar.gz
+ADD --checksum=sha256:4495aaf754fb9da22d222f2a58761262beb012a907d6d2ec1d9b637c4f4743d2 https://assets.startown.ai/packages/emela/1.0.1.tar.gz /tmp/emela.tar.gz
 
 RUN mkdir /src && \
     tar -xzf /tmp/emela.tar.gz -C /src --strip-components=1 && \

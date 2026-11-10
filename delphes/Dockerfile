@@ -22,7 +22,7 @@ ENV PATH=/opt/root/bin:${PATH}
 RUN echo /opt/root/lib > /etc/ld.so.conf.d/root.conf && \
     ldconfig
 
-ADD https://assets.startown.ai/packages/delphes/3.5.1.tar.gz /tmp/delphes.tar.gz
+ADD --checksum=sha256:a7cbf34fb682050b85306c3e520517fd36725089329234b34338208fe8ad4b30 https://assets.startown.ai/packages/delphes/3.5.1.tar.gz /tmp/delphes.tar.gz
 COPY no-display.patch no-graphics.patch /tmp/
 
 RUN mkdir /src && \

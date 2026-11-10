@@ -7,7 +7,7 @@ RUN apt-get update && \
       make=4.4.1-2+deb13u0+dhi1 \
       ninja-build=1.12.1-1*
 
-ADD https://assets.startown.ai/packages/hepmc/3.3.1.tar.gz /tmp/hepmc.tar.gz
+ADD --checksum=sha256:08240160b0f28dc3293aa4d61ce65e2d67cd597acf6faca439f2e46625f7e793 https://assets.startown.ai/packages/hepmc/3.3.1.tar.gz /tmp/hepmc.tar.gz
 
 RUN mkdir /src && \
     tar -xzf /tmp/hepmc.tar.gz -C /src --strip-components=1 && \

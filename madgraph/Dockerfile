@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       patch=2.8-2+deb13u0+dhi3
 
-ADD https://assets.startown.ai/packages/madgraph/3.8.1.tar.gz /tmp/madgraph.tar.gz
+ADD --checksum=sha256:281b9055af99f45217dc99378c520215f3129e65a9ab2fde6636e274aa6cd692 https://assets.startown.ai/packages/madgraph/3.8.1.tar.gz /tmp/madgraph.tar.gz
 COPY quiet-warnings.patch \
      seeds.patch \
      cores.patch \
@@ -40,7 +40,7 @@ RUN mkdir -p /opt/madgraph && \
       'automatic_html_opening = False' \
       >> /opt/madgraph/input/mg5_configuration.txt
 
-ADD https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
+ADD --checksum=sha256:60d3c1df1c31e5840f91f4217163ae30a256b9291a5adc894882e86607ef5d63 https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
 
 RUN mkdir -p /opt/pdfsets && \
     tar -xzf /tmp/pdfset.tar.gz -C /opt/pdfsets
