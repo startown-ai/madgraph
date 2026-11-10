@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://hub.docker.com/r/startown/madgraph"><img src="https://img.shields.io/docker/v/startown/madgraph?sort=date&label=docker%20hub&logo=docker&logoColor=white&style=flat-square" alt="Docker Hub"></a>
-  <a href="https://hub.docker.com/r/startown/madgraph/tags"><img src="https://img.shields.io/docker/image-size/startown/madgraph/3.8.1-8?label=size&style=flat-square" alt="Image size"></a>
+  <a href="https://hub.docker.com/r/startown/madgraph/tags"><img src="https://img.shields.io/docker/image-size/startown/madgraph/3.8.1-9?label=size&style=flat-square" alt="Image size"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/startown-ai/madgraph?style=flat-square" alt="License"></a>
 </p>
 
@@ -28,7 +28,7 @@ _Generating 10,000 top-quark pairs with shower and detector simulation on 4 core
 Pull the image:
 
 ```bash
-docker pull startown/madgraph:3.8.1-8
+docker pull startown/madgraph:3.8.1-9
 ```
 
 ## Usage
@@ -36,13 +36,13 @@ docker pull startown/madgraph:3.8.1-8
 Start MadGraph interactively:
 
 ```bash
-docker run -it --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-8 mg5_aMC
+docker run -it --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-9 mg5_aMC
 ```
 
 Or run a script:
 
 ```bash
-docker run --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-8 mg5_aMC commands.mg5
+docker run --rm -v "$PWD":/data -w /data startown/madgraph:3.8.1-9 mg5_aMC commands.mg5
 ```
 
 For example, this `commands.mg5` generates 1,000 top-quark pairs with parton shower and detector simulation. The fixed core count and random seed make it reproducible:
@@ -83,7 +83,7 @@ Scan the image with Docker Scout (needs a Docker login). Our [VEX file](madgraph
 docker scout cves \
   --vex-location https://raw.githubusercontent.com/startown-ai/madgraph/main/madgraph.vex.json \
   --vex-author '<paxonlee@startown.ai>' \
-  startown/madgraph:3.8.1-8
+  startown/madgraph:3.8.1-9
 ```
 
 ## License
