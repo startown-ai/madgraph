@@ -5,16 +5,9 @@ RUN apt-get update && \
       patch=2.8-2+deb13u0+dhi3
 
 ADD --checksum=sha256:281b9055af99f45217dc99378c520215f3129e65a9ab2fde6636e274aa6cd692 https://assets.startown.ai/packages/madgraph/3.8.1.tar.gz /tmp/madgraph.tar.gz
-COPY quiet-warnings.patch \
-     seeds.patch \
-     cores.patch \
-     delphes-stream.patch \
-     fast-lhe-split.patch \
-     hadd-no-j.patch \
-     delphes-inprocess.patch \
-     /tmp/
+COPY *.patch /tmp/
 
-RUN mkdir -p /opt/madgraph && \
+RUN mkdir /opt/madgraph && \
     tar -xzf /tmp/madgraph.tar.gz -C /opt/madgraph --strip-components=1 --exclude='._*' --warning=no-unknown-keyword && \
     patch -d /opt/madgraph -p1 < /tmp/quiet-warnings.patch && \
     patch -d /opt/madgraph -p1 < /tmp/seeds.patch && \
@@ -23,13 +16,8 @@ RUN mkdir -p /opt/madgraph && \
     patch -d /opt/madgraph -p1 < /tmp/fast-lhe-split.patch && \
     patch -d /opt/madgraph -p1 < /tmp/hadd-no-j.patch && \
     patch -d /opt/madgraph -p1 < /tmp/delphes-inprocess.patch && \
-    sed -i 's/DelphesHepMC2/DelphesHepMC3/g' \
-      /opt/madgraph/madgraph/interface/madevent_interface.py \
-      /opt/madgraph/Template/LO/bin/internal/run_delphes3 && \
-    sed -i 's/^HEPMCoutput:file *= hepmc\.gz$/HEPMCoutput:file         = autoremove/' \
-      /opt/madgraph/Template/LO/Cards/pythia8_card_default.dat && \
-    sed -i "s/add_param(\"HEPMCoutput:file\", 'hepmc\.gz')/add_param(\"HEPMCoutput:file\", 'autoremove')/" \
-      /opt/madgraph/madgraph/various/banner.py && \
+    patch -d /opt/madgraph -p1 < /tmp/delphes-hepmc3.patch && \
+    patch -d /opt/madgraph -p1 < /tmp/hepmc-autoremove.patch && \
     printf '%s\n' \
       'pythia8_path = /opt/pythia' \
       'delphes_path = /opt/delphes/bin' \
@@ -46,6 +34,7 @@ RUN mkdir -p /opt/pdfsets && \
     tar -xzf /tmp/pdfset.tar.gz -C /opt/pdfsets
 
 FROM dhi.io/debian-base:trixie-dev@sha256:94571f3dc07fbc7166f6f1cbf1fe068a7647198ee2554e6b90d59a68cc8b053c AS runtime
+RUN rm /opt/madgraph/madgraph/interface/madevent_interface.py.orig
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \

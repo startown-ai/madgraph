@@ -1,0 +1,14 @@
+--- a/madgraph/interface/madevent_interface.py
++++ b/madgraph/interface/madevent_interface.py
+@@ -5695,9 +5695,9 @@
+             logger.warning('Delphes 2 cannot read HepMC input; running the '
+                            'standard Delphes step instead.')
+             return False
+-        delphes_exe = pjoin(delphes_dir, 'DelphesHepMC2')
++        delphes_exe = pjoin(delphes_dir, 'DelphesHepMC3')
+         if not os.path.exists(delphes_exe):
+-            logger.warning('No DelphesHepMC2 executable found in %s; running '
++            logger.warning('No DelphesHepMC3 executable found in %s; running '
+                            'the standard Delphes step instead.' % delphes_dir)
+             return False
+ 

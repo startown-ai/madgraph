@@ -155,7 +155,7 @@
 +      gunzip --stdout $file | $delphesdir/DelphesSTDHEP "$card"  ${run}/${tag}_delphes_events.root      
    else
 -      gunzip --stdout $file | $delphesdir/DelphesHepMC2 ../Cards/delphes_card.dat  ${run}/${tag}_delphes_events.root      
-+      gunzip --stdout $file | $delphesdir/DelphesHepMC2 "$card"  ${run}/${tag}_delphes_events.root      
++      gunzip --stdout $file | $delphesdir/DelphesHepMC3 "$card"  ${run}/${tag}_delphes_events.root      
    fi
  else
    if [ ${file: -4} == ".hep" ]
@@ -164,7 +164,7 @@
 +      $delphesdir/DelphesSTDHEP "$card"  ${run}/${tag}_delphes_events.root $file
    else
 -      $delphesdir/DelphesHepMC2 ../Cards/delphes_card.dat  ${run}/${tag}_delphes_events.root $file      
-+      $delphesdir/DelphesHepMC2 "$card"  ${run}/${tag}_delphes_events.root $file      
++      $delphesdir/DelphesHepMC3 "$card"  ${run}/${tag}_delphes_events.root $file      
    fi
  fi
  

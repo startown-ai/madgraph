@@ -110,7 +110,7 @@
 +        HepMC files after the shower instead."""
 +
 +        delphes_dir = self.options['delphes_path']
-+        delphes_exe = pjoin(delphes_dir, 'DelphesHepMC2')
++        delphes_exe = pjoin(delphes_dir, 'DelphesHepMC3')
 +        # Only Delphes 3 can read HepMC input (Delphes 2 ships a 'data' folder).
 +        if os.path.exists(pjoin(delphes_dir, 'data')) or not os.path.exists(delphes_exe):
 +            return None

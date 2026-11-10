@@ -1,0 +1,22 @@
+--- a/Template/LO/Cards/pythia8_card_default.dat
++++ b/Template/LO/Cards/pythia8_card_default.dat
+@@ -29,7 +29,7 @@
+ !               fifo). Note that the fifo file extension *must* be '.hepmc.fifo'.
+ ! -------------------------------------------------------------------
+ !
+-HEPMCoutput:file         = hepmc.gz
++HEPMCoutput:file         = autoremove
+ !
+ ! --------------------------------------------------------------------
+ ! Parameters relevant only when performing MLM merging, which can be
+--- a/madgraph/various/banner.py
++++ b/madgraph/various/banner.py
+@@ -2044,7 +2044,7 @@
+         # Select the HepMC output. The user can prepend 'fifo:<optional_fifo_path>'
+         # to indicate that he wants to pipe the output. Or /dev/null to turn the
+         # output off.
+-        self.add_param("HEPMCoutput:file", 'hepmc.gz')
++        self.add_param("HEPMCoutput:file", 'autoremove')
+ 
+         # Hidden parameters always written out
+         # ====================================
