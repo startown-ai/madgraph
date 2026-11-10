@@ -43,7 +43,7 @@ target "emela" {
 target "pythia" {
   platforms = ["linux/amd64", "linux/arm64"]
   context   = "pythia"
-  tags      = ["startown/pythia:8.317-1"]
+  tags      = ["startown/pythia:8.317-2"]
   attest    = ["type=provenance,mode=max", "type=sbom"]
 }
 
