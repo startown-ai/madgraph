@@ -8,6 +8,7 @@ RUN apt-get update && \
       python-3.13-dev=3.13.18-7
 
 ADD --checksum=sha256:6b8b7e38dc26a977a24f5a321215b7054c14a4469d04134d70cb93a860eeeea7 https://assets.startown.ai/packages/lhapdf/6.5.6.tar.gz /tmp/lhapdf.tar.gz
+ADD --checksum=sha256:60d3c1df1c31e5840f91f4217163ae30a256b9291a5adc894882e86607ef5d63 https://assets.startown.ai/packages/lhapdf-sets/NNPDF23_lo_as_0130_qed.tar.gz /tmp/pdfset.tar.gz
 COPY *.patch /tmp/
 
 RUN mkdir /src && cd /src && \
@@ -18,6 +19,7 @@ RUN mkdir /src && cd /src && \
       --disable-static && \
     make -j"$(nproc)" && \
     make install
+RUN tar -xzf /tmp/pdfset.tar.gz -C /opt/lhapdf/share/LHAPDF
 RUN install -Dm644 -t /opt/lhapdf/share/licenses/lhapdf /src/COPYING
 
 FROM scratch
